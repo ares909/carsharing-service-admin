@@ -1,0 +1,22 @@
+.footer {
+    margin: 0;
+    padding: 0;
+    flex: 0 0 auto;
+
+    &__container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    &__text {
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 15px;
+        align-self: center;
+        margin: 0;
+    }
+    &__text_grey {
+        @include grey-text;
+    }
+}

@@ -1,0 +1,53 @@
+.main {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    height: 100%;
+    &__container {
+        padding: 32px 64px 32px;
+        display: flex;
+        flex-direction: column;
+
+        height: 100%;
+    }
+
+    &__title-container {
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 auto;
+        min-width: 560px;
+    }
+    &__title {
+        font-weight: 700;
+        font-size: 70px;
+        line-height: 66px;
+        margin: 0;
+        &_green {
+            @include green-text;
+        }
+    }
+
+    &__text {
+        @include grey-text;
+        font-weight: 300;
+        font-size: 26px;
+        line-height: 30px;
+        margin: 34px 0 60px;
+    }
+
+    &__button {
+        @include white-text;
+        @include hover-button;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 21px;
+        margin: 0;
+        max-width: 250px;
+        background: linear-gradient(90deg, #0ec261 2.61%, #039f67 112.6%);
+        border: none;
+        cursor: pointer;
+        background-blend-mode: darken;
+        border-radius: 8px;
+        padding: 15px 11px;
+    }
+}

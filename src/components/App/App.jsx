@@ -1,9 +1,10 @@
 import React from "react";
+import Router from "../../routes/Router.jsx";
 
 function App() {
     return (
-        <div className="App">
-            <h1>Hello, it&apos;s me</h1>
+        <div className="app">
+            <Router />
         </div>
     );
 }

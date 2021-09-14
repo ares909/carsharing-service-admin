@@ -15,6 +15,13 @@
 @font-face {
   font-family: "Roboto";
   font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../vendor/fonts/Roboto-Regular.ttf") format("ttf");
+}
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
   font-weight: 700;
   font-display: swap;
   src: url("../vendor/fonts/Roboto-Bold.ttf") format("ttf");
@@ -41,6 +48,10 @@ html {
  */
 body {
   margin: 0;
+}
+
+#root {
+  height: 100%;
 }
 
 /**
@@ -361,6 +372,170 @@ template {
 
 .page {
   font-family: "Roboto", sans-serif;
+  height: 100%;
+  padding: 0;
+  background-color: white;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  height: 100%;
+}
+.main__container {
+  padding: 32px 64px 32px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.main__title-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  min-width: 560px;
+}
+.main__title {
+  font-weight: 700;
+  font-size: 70px;
+  line-height: 66px;
+  margin: 0;
+}
+.main__title_green {
+  color: #0ec261;
+}
+.main__text {
+  color: #999999;
+  font-weight: 300;
+  font-size: 26px;
+  line-height: 30px;
+  margin: 34px 0 60px;
+}
+.main__button {
+  color: white;
+  transition: opacity 0.1s ease 0s;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  margin: 0;
+  max-width: 250px;
+  background: linear-gradient(90deg, #0ec261 2.61%, #039f67 112.6%);
+  border: none;
+  cursor: pointer;
+  background-blend-mode: darken;
+  border-radius: 8px;
+  padding: 15px 11px;
+}
+.main__button:hover {
+  background: linear-gradient(90deg, #0b934a 2.61%, #026e47 112.6%);
+}
+.main__button:active {
+  background: linear-gradient(90deg, #0b934a 2.61%, #026e47 112.6%);
+}
+.main__button:focus {
+  background: linear-gradient(90deg, #076432 2.61%, #013c27 112.6%);
+}
+
+.app {
+  height: 100%;
+}
+
+.sidebar {
+  background-color: #151b1f;
+  height: 100%;
+  min-width: 64px;
+  padding: 32px 0 32px;
+}
+.sidebar__container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.sidebar__button {
+  background-color: inherit;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.1s ease 0s;
+}
+.sidebar__button:hover {
+  opacity: 0.6;
+}
+.sidebar__button_green {
+  color: #0ec261;
+  transition: opacity 0.1s ease 0s;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 15px;
+}
+.sidebar__button_green:hover {
+  color: #0ec261;
+}
+.sidebar__button {
+  background-color: inherit;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.1s ease 0s;
+}
+.sidebar__button:hover {
+  color: white;
+}
+
+.header {
+  margin: 0 0 163px;
+  padding: 0;
+}
+.header__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.header__title {
+  color: #0ec261;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 35px;
+  margin: 0;
+}
+.header__location-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  min-width: 95px;
+}
+.header__location-image {
+  max-width: 15px;
+  height: 18px;
+  align-self: center;
+}
+.header__location-text {
+  color: #999999;
+  align-self: center;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 0;
+}
+
+.footer {
+  margin: 0;
+  padding: 0;
+  flex: 0 0 auto;
+}
+.footer__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.footer__text {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15px;
+  align-self: center;
+  margin: 0;
+}
+.footer__text_grey {
+  color: #999999;
 }
 
 /*# sourceMappingURL=index.css.map */

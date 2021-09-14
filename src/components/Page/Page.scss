@@ -1,3 +1,66 @@
+// @mixin large-text {
+// }
+
+// @mixin medium-text {
+// }
+
+// @mixin small-text {
+// }
+
+@mixin white-text {
+    color: white;
+}
+
+@mixin green-text {
+    color: #0ec261;
+}
+
+@mixin grey-text {
+    color: #999999;
+}
+
+@mixin hover-with-opacity {
+    transition: opacity 0.1s ease 0s;
+
+    &:hover {
+        opacity: 0.6;
+    }
+}
+
+@mixin hover-text-green {
+    transition: opacity 0.1s ease 0s;
+
+    &:hover {
+        color: #0ec261;
+    }
+}
+
+@mixin hover-text-white {
+    transition: opacity 0.1s ease 0s;
+
+    &:hover {
+        color: white;
+    }
+}
+
+@mixin hover-button {
+    transition: opacity 0.1s ease 0s;
+
+    &:hover {
+        background: linear-gradient(90deg, #0b934a 2.61%, #026e47 112.6%);
+    }
+
+    &:active {
+        background: linear-gradient(90deg, #0b934a 2.61%, #026e47 112.6%);
+    }
+    &:focus {
+        background: linear-gradient(90deg, #076432 2.61%, #013c27 112.6%);
+    }
+}
+
 .page {
     font-family: "Roboto", sans-serif;
+    height: 100%;
+    padding: 0;
+    background-color: white;
 }

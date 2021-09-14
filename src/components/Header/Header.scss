@@ -1,0 +1,38 @@
+.header {
+    margin: 0 0 163px;
+    padding: 0;
+
+    &__container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    &__title {
+        @include green-text;
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 35px;
+        margin: 0;
+    }
+
+    &__location-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        min-width: 95px;
+    }
+    &__location-image {
+        max-width: 15px;
+        height: 18px;
+        align-self: center;
+    }
+    &__location-text {
+        @include grey-text;
+        align-self: center;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        margin: 0;
+    }
+}
