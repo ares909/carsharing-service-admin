@@ -8,7 +8,7 @@ function Header() {
                 <div className="header__container">
                     <h2 className="header__title">Need for drive</h2>
                     <div className="header__location-container">
-                        <img className="header__location-image" src={locationImage} />
+                        <img className="header__location-image" src={locationImage} alt="лого" />
                         <p className="header__location-text">Ульяновск</p>
                     </div>
                 </div>

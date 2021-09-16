@@ -1,12 +1,12 @@
 import React from "react";
 import { Switch, Route, Redirect, BrowserRouter } from "react-router-dom";
-import Main from "../pages/Main/Main.jsx";
+import MainPage from "../pages/MainPage/MainPage.jsx";
 
 function Router() {
     return (
         <BrowserRouter>
             <Switch>
-                <Route exact path="/" component={Main} />
+                <Route exact path="/" component={MainPage} />
             </Switch>
         </BrowserRouter>
     );

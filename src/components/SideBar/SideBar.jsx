@@ -1,16 +1,16 @@
 import React from "react";
 import Button from "../UI/Button.jsx";
-import menuButton from "../../images/sidebar/menu_button.svg";
+import { burgerMenuButton } from "../../constants/constants";
 
-function SideBar() {
+function SideBar({ isOpened, toggle }) {
     return (
-        <div className="sidebar">
-            <div className="sidebar__container">
-                <Button className="sidebar__button">
-                    <img className="sidebar__button-image" src={menuButton} />
-                </Button>
-                <Button name="Eng" className="sidebar__button sidebar__button_green" />
-            </div>
+        <div className={`sidebar ${isOpened ? "sidebar_disabled" : ""}`}>
+            {/* <div className="sidebar__container"> */}
+            <Button toggle={toggle} className="sidebar__button">
+                <div className="sidebar__button-image">{burgerMenuButton}</div>
+            </Button>
+            <Button name="Eng" className="sidebar__button sidebar__button_green" />
+            {/* </div> */}
         </div>
     );
 }

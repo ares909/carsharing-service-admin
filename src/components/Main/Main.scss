@@ -1,15 +1,24 @@
 .main {
-    display: flex;
-    flex-direction: row;
     position: relative;
-    height: 100%;
-    &__container {
-        padding: 32px 64px 32px;
-        display: flex;
-        flex-direction: column;
-
-        height: 100%;
-    }
+    padding: 32px 64px 32px;
+    display: flex;
+    flex-direction: column;
+    // &_disabled {
+    //     &:before {
+    //         content: "";
+    //         display: block;
+    //         position: absolute;
+    //         top: 0;
+    //         bottom: 0;
+    //         left: 0;
+    //         right: 0;
+    //         z-index: 1;
+    //         background: #111518;
+    //         transition: opacity 0.1s ease 0s;
+    //         margin: 0;
+    //         padding: 0;
+    //     }
+    // }
 
     &__title-container {
         display: flex;

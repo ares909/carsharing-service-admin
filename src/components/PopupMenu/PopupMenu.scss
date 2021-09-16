@@ -1,0 +1,41 @@
+.popup-menu {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(21, 27, 31, 0.81);
+    z-index: 2;
+    display: none;
+    &_active {
+        display: flex;
+        // flex-direction: column;
+    }
+
+    &__container {
+        display: flex;
+        flex-direction: column;
+        align-self: flex-start;
+        margin: auto 0 auto 128px;
+        max-width: 560px;
+    }
+    &__cross-button {
+        width: 32px;
+        height: 32px;
+        margin-left: 16px;
+        margin-top: 32px;
+        cursor: pointer;
+        background-color: inherit;
+        border: none;
+        :hover #outer{
+            stroke: #0ec261;
+        }
+    }
+
+    &__wrapper {
+        background: #111518;
+        min-width: 752px;
+        display: flex;
+        flex-direction: column;
+    }
+}

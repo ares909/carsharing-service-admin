@@ -1,0 +1,41 @@
+.navbar {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+
+    &_horizontal {
+        flex-direction: row;
+        margin-top: 38px;
+    }
+
+    &__link {
+        @include white-text;
+        @include hover-text-green;
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 37px;
+        text-align: left;
+        align-self: flex-start;
+        margin-bottom: 10px;
+        text-decoration: none;
+        &_horizontal {
+            margin-bottom: 0px;
+            margin-right: 24px;
+            font-size: 0px;
+            line-height: 0px;
+        }
+    }
+
+    &__link-image {
+        width: 32px;
+        height: 32px;
+        :hover #outer {
+            fill: #0ec261;
+        }
+    }
+
+    :last-of-type {
+        margin-right: 0;
+        margin-bottom: 0;
+    }
+}
