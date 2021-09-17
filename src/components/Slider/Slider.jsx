@@ -7,11 +7,11 @@ import Arrow from "./Arrow/Arrow.jsx";
 import Dots from "./Dots/Dots.jsx";
 
 function Slider() {
-    const { translate, transition, getWidth, activeSlide, nextSlide, prevSlide, _slides } = useSlider(slides);
+    const { translate, transition, getWidth, activeSlide, nextSlide, prevSlide, slidesToRender } = useSlider(slides);
     return (
         <div className="slider">
-            <SliderContent translate={translate} transition={transition} width={getWidth() * _slides.length}>
-                {_slides.map((slide) => {
+            <SliderContent translate={translate} transition={transition} width={getWidth() * slidesToRender.length}>
+                {slidesToRender.map((slide) => {
                     return <SliderCard key={slide.title} content={slide} width={getWidth()} />;
                 })}
             </SliderContent>

@@ -3,7 +3,6 @@ import Button from "../../UI/Button.jsx";
 
 function SliderCard({ content, width }) {
     return (
-        // <div className="slider__card-cover">
         <div
             className="slider__card"
             style={{
@@ -20,7 +19,6 @@ function SliderCard({ content, width }) {
                 <Button className="slider__card-button" style={{ background: content.color }} name="Подробнее" />
             </div>
         </div>
-        // </div>
     );
 }
 

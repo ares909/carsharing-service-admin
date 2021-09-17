@@ -401,9 +401,15 @@ template {
     margin: 32px 32px 32px;
   }
 }
-@media screen and (min-width: 1025px) and (max-width: 1439px) {
+@media screen and (min-width: 1025px) and (max-width: 1200px) {
   .main {
-    min-width: 50%;
+    min-width: calc(100% - 410px - 64px);
+    margin: 32px 32px 32px;
+  }
+}
+@media screen and (min-width: 1201px) and (max-width: 1439px) {
+  .main {
+    min-width: calc(100% - 608px - 64px);
     margin: 32px 32px 32px;
   }
 }
@@ -699,9 +705,15 @@ template {
   overflow: hidden;
   padding: 0;
 }
-@media screen and (min-width: 1024px) and (max-width: 1439px) {
+@media screen and (min-width: 1024px) and (max-width: 1200px) {
   .slider {
     max-width: 410px;
+    margin-left: auto;
+  }
+}
+@media screen and (min-width: 1201px) and (max-width: 1439px) {
+  .slider {
+    max-width: 608px;
     margin-left: auto;
   }
 }
@@ -738,11 +750,12 @@ template {
   flex-direction: column;
   align-self: center;
   z-index: 1;
-  max-width: 495px;
+  width: 495px;
 }
 @media screen and (min-width: 1024px) and (max-width: 1439px) {
   .slider__card-container {
-    max-width: 282px;
+    width: 0;
+    min-width: 282px;
     margin: 277px auto auto;
   }
 }
@@ -762,7 +775,7 @@ template {
 }
 .slider__card-text {
   color: white;
-  margin: 8px auto 32px;
+  margin: 8px 0 32px;
   font-weight: 300;
   font-size: 24px;
   line-height: 100%;

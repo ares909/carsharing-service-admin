@@ -7,8 +7,13 @@
         margin: 32px 32px 32px;
     }
 
-    @media screen and (min-width: 1025px) and (max-width: 1439px) {
-        min-width: 50%;
+    @media screen and (min-width: 1025px) and (max-width: 1200px) {
+        min-width: calc(100% - 410px - 64px);
+        margin: 32px 32px 32px;
+    }
+
+    @media screen and (min-width: 1201px) and (max-width: 1439px) {
+        min-width: calc(100% - 608px - 64px);
         margin: 32px 32px 32px;
     }
 
@@ -20,23 +25,6 @@
         margin: 16px 0 0;
         min-width: 100%;
     }
-
-    // &_disabled {
-    //     &:before {
-    //         content: "";
-    //         display: block;
-    //         position: absolute;
-    //         top: 0;
-    //         bottom: 0;
-    //         left: 0;
-    //         right: 0;
-    //         z-index: 1;
-    //         background: #111518;
-    //         transition: opacity 0.1s ease 0s;
-    //         margin: 0;
-    //         padding: 0;
-    //     }
-    // }
 
     &__title-container {
         display: flex;

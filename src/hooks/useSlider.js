@@ -6,7 +6,12 @@ function useSlider(slides) {
         if (window.innerWidth >= 1440) {
             return 688;
         }
-        if (window.innerWidth >= 1024 && window.innerWidth <= 1439) {
+
+        if (window.innerWidth >= 1201 && window.innerWidth <= 1439) {
+            return 608;
+        }
+
+        if (window.innerWidth >= 1024 && window.innerWidth <= 1200) {
             return 410;
         }
 
@@ -21,20 +26,15 @@ function useSlider(slides) {
         translate: getWidth(),
         transition: 0.45,
         transitioning: false,
-        _slides: [lastSlide, firstSlide, secondSlide],
+        slidesToRender: [lastSlide, firstSlide, secondSlide],
     });
 
-    const { activeSlide, translate, _slides, transition, transitioning } = state;
+    const { activeSlide, translate, slidesToRender, transition, transitioning } = state;
 
-    const autoPlayRef = useRef();
     const transitionRef = useRef();
     const resizeRef = useRef();
-    // const sliderRef = useRef();
-    // const throttleRef = useRef();
 
     useEffect(() => {
-        // const slider = sliderRef.current;
-
         const smooth = (e) => {
             if (e.target.className.includes("slider__content")) {
                 transitionRef.current();
@@ -45,18 +45,10 @@ function useSlider(slides) {
             resizeRef.current();
         };
 
-        // const throttle = (e) => {
-        //     if (e.target.className.includes("SliderContent")) {
-        //         throttleRef.current();
-        //     }
-        // };
-
-        // const transitionStart = window.addEventListener("transitionstart", throttle);
         const transitionEnd = window.addEventListener("transitionend", smooth);
         const onResize = window.addEventListener("resize", resize);
 
         return () => {
-            // window.removeEventListener("transitionend", transitionStart);
             window.removeEventListener("transitionend", transitionEnd);
             window.removeEventListener("resize", onResize);
         };
@@ -65,10 +57,6 @@ function useSlider(slides) {
     useEffect(() => {
         if (transition === 0) setState({ ...state, transition: 0.45, transitioning: false });
     }, [transition]);
-
-    // const throttleArrows = () => {
-    //     setState({ ...state, transitioning: true });
-    // };
 
     const handleResize = () => {
         setState({ ...state, translate: getWidth(), transition: 0 });
@@ -103,20 +91,18 @@ function useSlider(slides) {
 
         setState({
             ...state,
-            _slides: slidesArray,
+            slidesToRender: slidesArray,
             transition: 0,
             translate: getWidth(),
         });
     };
 
     useEffect(() => {
-        autoPlayRef.current = nextSlide;
         transitionRef.current = smoothTransition;
         resizeRef.current = handleResize;
-        // throttleRef.current = throttleArrows;
     });
 
-    return { translate, transition, getWidth, activeSlide, nextSlide, prevSlide, _slides };
+    return { translate, transition, getWidth, activeSlide, nextSlide, prevSlide, slidesToRender };
 }
 
 export default useSlider;
