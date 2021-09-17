@@ -14,6 +14,7 @@ function PopupMenu({ toggle, isOpened }) {
                     <Navbar data={navButtonsVertical} />
                     <Navbar data={navButtonsHorizontal} type="horizontal" />
                 </div>
+                <Button name="Eng" className="popup-menu__button popup-menu__button_green" />
             </div>
         </section>
     );

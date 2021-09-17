@@ -12,7 +12,7 @@ function MainPage() {
             <section className="main-page">
                 <PopupMenu isOpened={isOpened} toggle={toggle} />
                 <SideBar isOpened={isOpened} toggle={toggle} />
-                <Main isOpened={isOpened} />
+                <Main isOpened={isOpened} toggle={toggle} />
                 <Slider />
             </section>
         </>

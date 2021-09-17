@@ -6,6 +6,9 @@ function useSlider(slides) {
         if (window.innerWidth >= 1440) {
             return 688;
         }
+        if (window.innerWidth >= 1024 && window.innerWidth <= 1439) {
+            return 410;
+        }
 
         return 600;
     }
