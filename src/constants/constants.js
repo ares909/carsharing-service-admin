@@ -1,6 +1,6 @@
 import React from "react";
 
-const url = "http://localhost:3000" || process.env.REACT_APP_PUBLIC_URL;
+const url = process.env.REACT_APP_PUBLIC_URL || "http://localhost:3000";
 export const slides = [
     {
         title: "Бесплатная парковка",
