@@ -20,12 +20,10 @@
 
 @mixin hover-with-opacity-white {
     transition: opacity 0.1s ease 0s;
-        
 
     &:hover {
         background: white;
         opacity: 0.8;
-        
     }
 }
 
@@ -76,6 +74,30 @@
 
     &:hover:before {
         opacity: 0.2;
+    }
+}
+
+@mixin hover-circle {
+    transition: opacity 0.1s ease 0s;
+
+    &:hover {
+        color: white;
+        border: 1px solid #eeeeee;
+        box-sizing: border-box;
+        border-radius: 50%;
+    }
+    &:focus {
+        border: 1px solid #eeeeee;
+        box-sizing: border-box;
+        border-radius: 50%;
+        color: #0ec261;
+    }
+}
+
+@mixin hover-strokes {
+    transition: opacity 0.1s ease 0s;
+    :hover #outer {
+        stroke: #0ec261;
     }
 }
 

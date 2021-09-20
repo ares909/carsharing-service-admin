@@ -1,9 +1,10 @@
 import React from "react";
+import styles from "../Slider.module.scss";
 
-function SliderContent({ translate, transition, width, children }) {
+const SliderContent = ({ translate, transition, width, children }) => {
     return (
         <div
-            className="slider__content"
+            className={styles.content}
             style={{
                 transform: `translateX(-${translate}px)`,
                 transition: `transform ease-out ${transition}s`,
@@ -13,6 +14,6 @@ function SliderContent({ translate, transition, width, children }) {
             {children}
         </div>
     );
-}
+};
 
 export default SliderContent;

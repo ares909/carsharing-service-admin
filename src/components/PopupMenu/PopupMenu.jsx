@@ -1,23 +1,31 @@
 import React from "react";
+import classNames from "classnames";
 import Navbar from "../NavBar/NavBar.jsx";
-import { navButtonsVertical, navButtonsHorizontal, crossButton } from "../../constants/constants";
+import crossButton from "./CrossButton.jsx";
 import Button from "../UI/Button.jsx";
+import { navButtonsVertical, navButtonsHorizontal } from "../NavBar/NavButtons.jsx";
+import styles from "./PopupMenu.module.scss";
 
-function PopupMenu({ toggle, isOpened }) {
+const PopupMenu = ({ toggle, isOpened }) => {
+    const className = classNames({
+        [`${styles.popupMenu}`]: true,
+        [`${styles.active}`]: isOpened,
+    });
+
     return (
-        <section className={`popup-menu ${isOpened ? "popup-menu_active" : ""}`}>
-            <div className="popup-menu__wrapper">
-                <Button toggle={toggle} className="popup-menu__cross-button">
+        <section className={className}>
+            <div className={styles.wrapper}>
+                <Button toggle={toggle} className={styles.crossButton}>
                     {crossButton}
                 </Button>
-                <div className="popup-menu__container">
+                <div className={styles.container}>
                     <Navbar data={navButtonsVertical} />
                     <Navbar data={navButtonsHorizontal} type="horizontal" />
                 </div>
-                <Button name="Eng" className="popup-menu__button popup-menu__button_green" />
+                <Button name="Eng" className={styles.buttonGreen} />
             </div>
         </section>
     );
-}
+};
 
 export default PopupMenu;

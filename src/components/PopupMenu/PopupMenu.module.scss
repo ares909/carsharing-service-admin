@@ -1,4 +1,6 @@
-.popup-menu {
+@import "../Page/Page.scss";
+.popupMenu {
+    display: none;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -6,12 +8,8 @@
     right: 0;
     background: rgba(21, 27, 31, 0.81);
     z-index: 2;
-    display: none;
-    &_active {
-        display: flex;
-    }
 
-    &__container {
+    .container {
         display: flex;
         flex-direction: column;
         align-self: flex-start;
@@ -25,16 +23,17 @@
             flex: 1 0 auto;
         }
     }
-    &__cross-button {
+    .crossButton {
         width: 32px;
         height: 32px;
         margin-left: 16px;
         margin-top: 32px;
+        margin-bottom: 1;
         cursor: pointer;
         background-color: inherit;
         border: none;
         padding: 0;
-        :hover #outer {
+        :hover path {
             stroke: #0ec261;
         }
         @media screen and (min-width: 768px) and (max-width: 1439px) {
@@ -47,42 +46,57 @@
         }
     }
 
-    &__wrapper {
+    .wrapper {
         background: #111518;
         min-width: calc(100% - 688px);
         display: flex;
         flex-direction: column;
-        @media screen and (min-width: 1024px) and (max-width: 1438px) {
+
+        @media screen and (min-width: 1024px) and (max-width: 1200px) {
             min-width: calc(100% - 410px);
+        }
+
+        @media screen and (min-width: 1201px) and (max-width: 1438px) {
+            min-width: calc(100% - 608px);
         }
         @media screen and (min-width: 320px) and (max-width: 1023px) {
             min-width: 100%;
         }
     }
 
-    &__button {
+    .button {
         background-color: inherit;
         cursor: pointer;
         border: none;
         padding: 0;
         max-width: 99%;
         display: none;
-        :hover #outer {
-            stroke: #0ec261;
-        }
-        &_green {
-            @include green-text;
-            @include hover-text-white;
-            font-weight: 700;
-            font-size: 13px;
-            line-height: 15px;
-        }
         @media screen and (min-width: 320px) and (max-width: 767px) {
             display: block;
             flex: 0 0 auto;
             align-self: flex-start;
-            margin-left: 28px;
-            margin-bottom: 28px;
+            margin-left: 12px;
+            margin-bottom: 12px;
         }
+        :hover path {
+            stroke: #0ec261;
+        }
+   
     }
+    .buttonGreen {
+        @extend .button;
+        @include green-text;
+        @include hover-circle;
+        width: 48px;
+        height: 48px;
+        font-weight: 700;
+        font-size: 13px;
+        line-height: 15px;
+    }
+ 
+}
+
+.active {
+    @extend .popupMenu;
+    display: flex;
 }

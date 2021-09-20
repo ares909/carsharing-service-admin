@@ -1,8 +1,8 @@
 import React from "react";
-import { Switch, Route, Redirect, HashRouter } from "react-router-dom";
+import { Switch, Route, HashRouter } from "react-router-dom";
 import MainPage from "../pages/MainPage/MainPage.jsx";
 
-function Router() {
+const Router = () => {
     return (
         <HashRouter>
             <Switch>
@@ -10,6 +10,6 @@ function Router() {
             </Switch>
         </HashRouter>
     );
-}
+};
 
 export default Router;

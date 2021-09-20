@@ -1,23 +1,24 @@
+@import "../Page/Page.scss";
+
 .header {
-    margin: 0 0 163px;
+    margin: 0;
     padding: 0;
-    @media screen and (min-width: 320px) and (max-width: 767px) {
-        margin: 0 16px 34px;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        margin: 0 16px 0px;
     }
-    &__container {
-        
+    .container {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        @media screen and (min-width: 320px) and (max-width: 767px) {
+        @media screen and (min-width: 0) and (max-width: 767px) {
             position: relative;
             flex-direction: column;
         }
     }
 
-    &__button {
+    .button {
         display: none;
-        @media screen and (min-width: 320px) and (max-width: 767px) {
+        @media screen and (min-width: 0) and (max-width: 767px) {
             display: block;
             position: absolute;
             top: 0px;
@@ -27,46 +28,46 @@
             border: none;
             padding: 0;
             max-width: 99%;
-            :hover #outer {
+            :hover path {
                 stroke: #0ec261;
             }
         }
     }
 
-    &__title {
+    .title {
         @include green-text;
         font-weight: 700;
         font-size: 30px;
         line-height: 35px;
         margin: 0;
-        @media screen and (min-width: 320px) and (max-width: 767px) {
+        @media screen and (min-width: 0) and (max-width: 767px) {
             align-self: flex-end;
             margin-bottom: 8px;
         }
     }
 
-    &__location-container {
+    .locationContainer {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         min-width: 95px;
-        @media screen and (min-width: 320px) and (max-width: 767px) {
+        @media screen and (min-width: 0) and (max-width: 767px) {
             align-self: flex-end;
         }
     }
-    &__location-image {
+    .locationImage {
         width: 18px;
         height: 18px;
         align-self: center;
     }
-    &__location-text {
+    .locationText {
         @include grey-text;
         align-self: center;
         font-weight: 500;
         font-size: 14px;
         line-height: 16px;
         margin: 0;
-        @media screen and (min-width: 320px) and (max-width: 767px) {
+        @media screen and (min-width: 0) and (max-width: 767px) {
             font-weight: 400;
         }
     }

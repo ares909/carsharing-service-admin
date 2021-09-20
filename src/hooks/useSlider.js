@@ -1,8 +1,8 @@
 /* eslint-disable consistent-return */
 import React, { useState, useEffect, useRef } from "react";
 
-function useSlider(slides) {
-    function getWidth() {
+const useSlider = (slides) => {
+    const getWidth = () => {
         if (window.innerWidth >= 1440) {
             return 688;
         }
@@ -16,7 +16,7 @@ function useSlider(slides) {
         }
 
         return 600;
-    }
+    };
     const firstSlide = slides[0];
     const secondSlide = slides[1];
     const lastSlide = slides[slides.length - 1];
@@ -36,7 +36,7 @@ function useSlider(slides) {
 
     useEffect(() => {
         const smooth = (e) => {
-            if (e.target.className.includes("slider__content")) {
+            if (e.target.className.includes("Slider")) {
                 transitionRef.current();
             }
         };
@@ -103,6 +103,6 @@ function useSlider(slides) {
     });
 
     return { translate, transition, getWidth, activeSlide, nextSlide, prevSlide, slidesToRender };
-}
+};
 
 export default useSlider;

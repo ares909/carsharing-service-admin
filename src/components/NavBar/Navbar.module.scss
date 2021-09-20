@@ -1,14 +1,10 @@
+@import "../Page/Page.scss";
 .navbar {
     display: flex;
     flex-direction: column;
     align-self: flex-start;
 
-    &_horizontal {
-        flex-direction: row;
-        margin-top: 38px;
-    }
-
-    &__link {
+    .link {
         @include white-text;
         @include hover-text-green;
         font-weight: 500;
@@ -18,12 +14,7 @@
         align-self: flex-start;
         margin-bottom: 15px;
         text-decoration: none;
-        &_horizontal {
-            margin-bottom: 0px;
-            margin-right: 24px;
-            font-size: 0px;
-            line-height: 0px;
-        }
+
         @media screen and (min-width: 768px) and (max-width: 1023px) {
             font-weight: 500;
             font-size: 28px;
@@ -36,10 +27,10 @@
         }
     }
 
-    &__link-image {
+    .linkImage {
         width: 32px;
         height: 32px;
-        :hover #outer {
+        :hover path {
             fill: #0ec261;
         }
     }
@@ -48,4 +39,18 @@
         margin-right: 0;
         margin-bottom: 0;
     }
+}
+
+.horizontalNavbar {
+    @extend .navbar;
+    flex-direction: row;
+    margin-top: 38px;
+}
+
+.horizontalLink {
+    @extend .link;
+    margin-bottom: 0px;
+    margin-right: 24px;
+    font-size: 0px;
+    line-height: 0px;
 }

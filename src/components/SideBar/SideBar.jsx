@@ -1,16 +1,17 @@
 import React from "react";
 import Button from "../UI/Button.jsx";
-import { burgerMenuButton } from "../../constants/constants";
+import burgerMenuButton from "./burgerMenuButton.jsx";
+import styles from "./SideBar.module.scss";
 
-function SideBar({ isOpened, toggle }) {
+const SideBar = ({ toggle }) => {
     return (
-        <div className={`sidebar ${isOpened ? "sidebar_disabled" : ""}`}>
-            <Button toggle={toggle} className="sidebar__button">
-                <div className="sidebar__button-image">{burgerMenuButton}</div>
+        <div className={styles.sidebar}>
+            <Button toggle={toggle} className={styles.button}>
+                <div className={styles.buttonImage}>{burgerMenuButton}</div>
             </Button>
-            <Button name="Eng" className="sidebar__button sidebar__button_green" />
+            <Button name="Eng" className={styles.buttonGreen} />
         </div>
     );
-}
+};
 
 export default SideBar;

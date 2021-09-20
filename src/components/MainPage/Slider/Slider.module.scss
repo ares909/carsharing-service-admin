@@ -1,8 +1,10 @@
+@import "../../Page/Page.scss";
 .slider {
     position: relative;
     height: 100%;
     overflow: hidden;
     padding: 0;
+
     @media screen and (min-width: 1024px) and (max-width: 1200px) {
         max-width: 410px;
         margin-left: auto;
@@ -12,19 +14,20 @@
         max-width: 608px;
         margin-left: auto;
     }
-    @media screen and (min-width: 320px) and (max-width: 1023px) {
+    @media screen and (min-width: 0) and (max-width: 1023px) {
         display: none;
     }
 
-    &__content {
+    .content {
         height: 100%;
         display: flex;
     }
 
-    &__card {
+    .card {
         position: relative;
         transition: opacity 350ms;
         display: flex;
+
         &:before {
             content: "";
             display: block;
@@ -40,21 +43,31 @@
         }
     }
 
-    &__card-container {
-        margin: 237px auto auto;
+    .cardContainer {
+        margin: 0 auto 120px;
         display: flex;
         flex-direction: column;
         align-self: center;
+
         z-index: 1;
         width: 495px;
-        @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        // @media screen and (min-width: 1441px) {
+
+        // }
+        @media screen and (min-width: 1024px) and (max-width: 1200px) {
             width: 0;
             min-width: 282px;
-            margin: 277px auto auto;
+            margin: 10px auto 0;
+        }
+
+        @media screen and (min-width: 1201px) and (max-width: 1439px) {
+            width: 0;
+            min-width: 400px;
+            margin: 10px auto 0;
         }
     }
 
-    &__card-title {
+    .cardTitle {
         @include white-text;
         font-weight: 500;
         font-size: 40px;
@@ -67,7 +80,7 @@
         }
     }
 
-    &__card-text {
+    .cardText {
         @include white-text;
         margin: 8px 0 32px;
         font-weight: 300;
@@ -80,7 +93,7 @@
         }
     }
 
-    &__card-button {
+    .cardButton {
         @include white-text;
         @include hover-with-opacity-white;
         font-weight: 500;
@@ -101,29 +114,30 @@
         }
     }
 
-    &__arrow {
+    .arrow {
         display: flex;
         background-color: inherit;
         border: none;
         cursor: pointer;
         height: 100%;
         padding: 0;
-
-        &_left {
-            @include hover-arrow-button;
-            position: absolute;
-            left: 0%;
-            top: 0%;
-        }
-
-        &_right {
-            @include hover-arrow-button;
-            position: absolute;
-            right: 0%;
-            top: 0%;
-        }
     }
-    &__arrow-image {
+    .arrowLeft {
+        @extend .arrow;
+        @include hover-arrow-button;
+        position: absolute;
+        left: 0%;
+        top: 0%;
+    }
+
+    .arrowRight {
+        @extend .arrow;
+        @include hover-arrow-button;
+        position: absolute;
+        right: 0%;
+        top: 0%;
+    }
+    .arrowImage {
         padding: 0 28px 0;
         align-self: center;
         @media screen and (min-width: 1024px) and (max-width: 1439px) {
@@ -131,7 +145,7 @@
         }
     }
 
-    &__dots-container {
+    .dotsContainer {
         position: absolute;
         bottom: 32px;
         display: flex;
@@ -141,7 +155,7 @@
         width: 100%;
     }
 
-    &__dot {
+    .dot {
         padding: 4px;
         margin-right: 8px;
         cursor: pointer;
@@ -150,8 +164,9 @@
         &:last-of-type {
             margin-right: 0;
         }
-        &_active {
-            background: #0ec261;
-        }
+    }
+    .dotActive {
+        @extend .dot;
+        background: #0ec261;
     }
 }

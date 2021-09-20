@@ -1,3 +1,5 @@
+@import "../Page/Page.scss";
+
 .sidebar {
     position: relative;
     background-color: #151b1f;
@@ -5,40 +7,51 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 32px 0 32px;
+    padding: 32px 0 16px;
     overflow: hidden;
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         min-width: 86px;
     }
 
-    @media screen and (min-width: 320px) and (max-width: 767px) {
+    @media screen and (min-width: 0) and (max-width: 767px) {
         display: none;
     }
 
-    &__button {
+    .button {
         background-color: inherit;
+
         cursor: pointer;
         border: none;
         padding: 0;
         max-width: 99%;
-        :hover #outer {
+        @include hover-strokes;
+        &:hover #outer {
             stroke: #0ec261;
-        }
-        &_green {
-            @include green-text;
-            @include hover-text-white;
-            font-weight: 700;
-            font-size: 13px;
-            line-height: 15px;
         }
     }
 
-    &__button-image {
+    .buttonGreen {
+        @extend .button;
+        @include hover-circle;
+        @include green-text;
+        // @include hover-text-white;
+        align-self: center;
+        width: 48px;
+        height: 48px;
+        font-weight: 700;
+        font-size: 13px;
+        line-height: 15px;
+    }
+
+    .buttonImage {
         width: 32px;
         height: 32px;
         margin: auto;
         @media screen and (min-width: 768px) and (max-width: 1023px) {
             width: 42px;
+        }
+        :hover path{
+            stroke: #0ec261;
         }
     }
 }

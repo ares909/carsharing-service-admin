@@ -1,0 +1,45 @@
+@import "../../Page/Page.scss";
+.footer {
+    margin: 0;
+    padding: 0;
+    // flex: 0 0 auto;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        padding: 16px;
+        background-color: #151b1f;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        @media screen and (min-width: 0) and (max-width: 767px) {
+            flex-direction: column;
+        }
+    }
+
+    .text {
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 15px;
+        align-self: center;
+        margin: 0;
+
+        @media screen and (min-width: 0) and (max-width: 767px) {
+            @include green-text;
+            align-self: flex-end;
+            order: 1;
+            margin-bottom: 8px;
+        }
+        
+    }
+    .textGrey {
+        @extend .text;
+        @include grey-text;
+        @media screen and (min-width: 0) and (max-width: 767px) {
+            @include white-text;
+            align-self: flex-end;
+            order: 2;
+            margin-bottom: 0px;
+        }
+    }
+}
