@@ -15,6 +15,10 @@
     align-self: flex-start;
     margin-bottom: 15px;
     text-decoration: none;
+    &:last-of-type {
+        // margin-right: 0;
+        margin-bottom: 0;
+    }
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         font-weight: 500;
@@ -26,6 +30,7 @@
         font-size: 22px;
         line-height: 26px;
     }
+
 }
 
 .linkImage {
