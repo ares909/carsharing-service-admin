@@ -12,8 +12,8 @@ const MainPage = () => {
         <>
             <section className={styles.mainPage}>
                 <PopupMenu isOpened={isOpened} toggle={toggle} />
-                <SideBar isOpened={isOpened} toggle={toggle} />
-                <Main isOpened={isOpened} toggle={toggle} />
+                <SideBar toggle={toggle} />
+                <Main toggle={toggle} />
                 <Slider />
             </section>
         </>

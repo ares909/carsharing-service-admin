@@ -3,38 +3,37 @@
     display: flex;
     flex-direction: column;
     align-self: flex-start;
+}
 
-    .link {
-        @include white-text;
-        @include hover-text-green;
+.link {
+    @include white-text;
+    @include hover-text-green;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 37px;
+    text-align: left;
+    align-self: flex-start;
+    margin-bottom: 15px;
+    text-decoration: none;
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
         font-weight: 500;
-        font-size: 32px;
-        line-height: 37px;
-        text-align: left;
-        align-self: flex-start;
-        margin-bottom: 15px;
-        text-decoration: none;
-
-        @media screen and (min-width: 768px) and (max-width: 1023px) {
-            font-weight: 500;
-            font-size: 28px;
-            line-height: 33px;
-        }
-        @media screen and (min-width: 320px) and (max-width: 767px) {
-            font-weight: 500;
-            font-size: 22px;
-            line-height: 26px;
-        }
+        font-size: 28px;
+        line-height: 33px;
     }
-
-    .linkImage {
-        width: 32px;
-        height: 32px;
-        :hover path {
-            fill: #0ec261;
-        }
+    @media screen and (min-width: 320px) and (max-width: 767px) {
+        font-weight: 500;
+        font-size: 22px;
+        line-height: 26px;
     }
+}
 
+.linkImage {
+    width: 32px;
+    height: 32px;
+    :hover path {
+        fill: #0ec261;
+    }
     :last-of-type {
         margin-right: 0;
         margin-bottom: 0;

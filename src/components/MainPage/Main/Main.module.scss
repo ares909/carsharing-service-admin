@@ -28,85 +28,84 @@
         margin: 16px 0 0;
         min-width: 100%;
     }
+}
 
-    .titleContainer {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 65px;
-        // flex: 1 0 auto;
-        min-width: 560px;
-        overflow: visible;
+.titleContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 65px;
+    // flex: 1 0 auto;
+    min-width: 560px;
+    overflow: visible;
 
-        @media screen and (min-width: 1024px) and (max-width: 1439px) {
-            min-width: 481px;
-        }
-
-        @media screen and (min-width: 768px) and (max-width: 1023px) {
-            min-width: calc(100vw - 64px - 85px);
-        }
-        @media screen and (min-width: 0) and (max-width: 767px) {
-            min-width: calc(100vw - 32px);
-            margin-bottom: 140px;
-        }
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        min-width: 481px;
     }
 
-    .title {
-        font-weight: 700;
-        font-size: 70px;
-        line-height: 66px;
-        margin: 0;
-        @media screen and (min-width: 0) and (max-width: 767px) {
-            margin: 0 16px 0;
-            font-size: 32px;
-            line-height: 100%;
-            margin-bottom: 6px;
-            :last-child {
-                margin-bottom: 0;
-            }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        min-width: calc(100vw - 64px - 85px);
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        min-width: calc(100vw - 32px);
+        margin-bottom: 140px;
+    }
+}
+
+.title {
+    font-weight: 700;
+    font-size: 70px;
+    line-height: 66px;
+    margin: 0;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        margin: 0 16px 0;
+        font-size: 32px;
+        line-height: 100%;
+        margin-bottom: 6px;
+        :last-child {
+            margin-bottom: 0;
         }
     }
+}
 
-    .titleGreen {
-        @extend .title;
-        @include green-text;
-    }
-   
+.titleGreen {
+    @extend .title;
+    @include green-text;
+}
 
-    .text {
-        @include grey-text;
-        font-weight: 300;
-        font-size: 26px;
-        line-height: 30px;
-        margin: 34px 0 60px;
-        @media screen and (min-width: 0) and (max-width: 767px) {
-            margin: 16px 16px 32px;
-            font-size: 18px;
-            line-height: 21px;
-        }
-    }
-
-    .button {
-        @include white-text;
-        @include hover-button;
-        font-weight: 500;
+.text {
+    @include grey-text;
+    font-weight: 300;
+    font-size: 26px;
+    line-height: 30px;
+    margin: 34px 0 60px;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        margin: 16px 16px 32px;
         font-size: 18px;
         line-height: 21px;
-        margin: 0;
+    }
+}
+
+.button {
+    @include white-text;
+    @include hover-button;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    margin: 0;
+    max-width: 250px;
+    background: linear-gradient(90deg, #0ec261 2.61%, #039f67 112.6%);
+    border: none;
+    cursor: pointer;
+    background-blend-mode: darken;
+    border-radius: 8px;
+    padding: 15px 11px;
+    @media screen and (min-width: 0) and (max-width: 320px) {
+        min-width: 100vw;
+        border-radius: 0px;
+    }
+    @media screen and (min-width: 321px) and (max-width: 767px) {
         max-width: 250px;
-        background: linear-gradient(90deg, #0ec261 2.61%, #039f67 112.6%);
-        border: none;
-        cursor: pointer;
-        background-blend-mode: darken;
         border-radius: 8px;
-        padding: 15px 11px;
-        @media screen and (min-width: 0) and (max-width: 320px) {
-            min-width: 100vw;
-            border-radius: 0px;
-        }
-        @media screen and (min-width: 321px) and (max-width: 767px) {
-            max-width: 250px;
-            border-radius: 8px;
-            margin: 0 16px 0;
-        }
+        margin: 0 16px 0;
     }
 }

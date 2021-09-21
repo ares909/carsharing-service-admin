@@ -6,69 +6,69 @@
     @media screen and (min-width: 0) and (max-width: 767px) {
         margin: 0 16px 0px;
     }
-    .container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        @media screen and (min-width: 0) and (max-width: 767px) {
-            position: relative;
-            flex-direction: column;
-        }
+}
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        position: relative;
+        flex-direction: column;
     }
+}
 
-    .button {
-        display: none;
-        @media screen and (min-width: 0) and (max-width: 767px) {
-            display: block;
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            background-color: inherit;
-            cursor: pointer;
-            border: none;
-            padding: 0;
-            max-width: 99%;
-            :hover path {
-                stroke: #0ec261;
-            }
+.button {
+    display: none;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        display: block;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        background-color: inherit;
+        cursor: pointer;
+        border: none;
+        padding: 0;
+        max-width: 99%;
+        :hover path {
+            stroke: #0ec261;
         }
     }
+}
 
-    .title {
-        @include green-text;
-        font-weight: 700;
-        font-size: 30px;
-        line-height: 35px;
-        margin: 0;
-        @media screen and (min-width: 0) and (max-width: 767px) {
-            align-self: flex-end;
-            margin-bottom: 8px;
-        }
+.title {
+    @include green-text;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 35px;
+    margin: 0;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        align-self: flex-end;
+        margin-bottom: 8px;
     }
+}
 
-    .locationContainer {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        min-width: 95px;
-        @media screen and (min-width: 0) and (max-width: 767px) {
-            align-self: flex-end;
-        }
+.locationContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: 95px;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        align-self: flex-end;
     }
-    .locationImage {
-        width: 18px;
-        height: 18px;
-        align-self: center;
-    }
-    .locationText {
-        @include grey-text;
-        align-self: center;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 16px;
-        margin: 0;
-        @media screen and (min-width: 0) and (max-width: 767px) {
-            font-weight: 400;
-        }
+}
+.locationImage {
+    width: 18px;
+    height: 18px;
+    align-self: center;
+}
+.locationText {
+    @include grey-text;
+    align-self: center;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 0;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        font-weight: 400;
     }
 }

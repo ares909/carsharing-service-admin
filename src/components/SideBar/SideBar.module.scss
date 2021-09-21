@@ -16,42 +16,42 @@
     @media screen and (min-width: 0) and (max-width: 767px) {
         display: none;
     }
+}
 
-    .button {
-        background-color: inherit;
+.button {
+    background-color: inherit;
 
-        cursor: pointer;
-        border: none;
-        padding: 0;
-        max-width: 99%;
-        @include hover-strokes;
-        &:hover #outer {
-            stroke: #0ec261;
-        }
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    max-width: 99%;
+    @include hover-strokes;
+    &:hover #outer {
+        stroke: #0ec261;
     }
+}
 
-    .buttonGreen {
-        @extend .button;
-        @include hover-circle;
-        @include green-text;
-        // @include hover-text-white;
-        align-self: center;
-        width: 48px;
-        height: 48px;
-        font-weight: 700;
-        font-size: 13px;
-        line-height: 15px;
+.buttonGreen {
+    @extend .button;
+    @include hover-circle;
+    @include green-text;
+    // @include hover-text-white;
+    align-self: center;
+    width: 48px;
+    height: 48px;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 15px;
+}
+
+.buttonImage {
+    width: 32px;
+    height: 32px;
+    margin: auto;
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        width: 42px;
     }
-
-    .buttonImage {
-        width: 32px;
-        height: 32px;
-        margin: auto;
-        @media screen and (min-width: 768px) and (max-width: 1023px) {
-            width: 42px;
-        }
-        :hover path{
-            stroke: #0ec261;
-        }
+    :hover path {
+        stroke: #0ec261;
     }
 }
