@@ -3,8 +3,8 @@ import SliderCard from "./SliderCard/SliderCard.jsx";
 import SliderContent from "./SliderContent/SliderContent.jsx";
 import Arrow from "./Arrow/Arrow.jsx";
 import Dots from "./Dots/Dots.jsx";
-import slides from "./slides";
 import useSlider from "../../../hooks/useSlider";
+import slides from "./slides";
 import styles from "./Slider.module.scss";
 
 const Slider = () => {

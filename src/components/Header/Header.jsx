@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../UI/Button.jsx";
-import locationImage from "../../images/header/locationImage.svg";
 import burgerMenuButtonBlack from "./BurgerMenuButtonBlack.jsx";
+import locationImage from "../../images/header/locationImage.svg";
 import styles from "./Header.module.scss";
 
 const Header = ({ toggle }) => {
