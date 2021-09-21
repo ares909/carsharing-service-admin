@@ -9,14 +9,12 @@ import styles from "./MainPage.module.scss";
 const MainPage = () => {
     const [isOpened, toggle] = useModal();
     return (
-        <>
-            <section className={styles.mainPage}>
-                <PopupMenu isOpened={isOpened} toggle={toggle} />
-                <SideBar toggle={toggle} />
-                <Main toggle={toggle} />
-                <Slider />
-            </section>
-        </>
+        <section className={styles.mainPage}>
+            <PopupMenu isOpened={isOpened} toggle={toggle} />
+            <SideBar toggle={toggle} />
+            <Main toggle={toggle} />
+            <Slider />
+        </section>
     );
 };
 

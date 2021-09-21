@@ -3,7 +3,10 @@ import React, { useState, useEffect, useRef } from "react";
 
 const useSlider = (slides) => {
     const getWidth = () => {
-        if (window.innerWidth >= 1440) {
+        if (window.innerWidth >= 1441) {
+            return window.innerWidth * 0.48;
+        }
+        if (window.innerWidth === 1440) {
             return 688;
         }
 
@@ -41,9 +44,7 @@ const useSlider = (slides) => {
             }
         };
 
-        const resize = () => {
-            resizeRef.current();
-        };
+        const resize = () => resizeRef.current();
 
         const transitionEnd = window.addEventListener("transitionend", smooth);
         const onResize = window.addEventListener("resize", resize);
@@ -58,9 +59,7 @@ const useSlider = (slides) => {
         if (transition === 0) setState({ ...state, transition: 0.45, transitioning: false });
     }, [transition]);
 
-    const handleResize = () => {
-        setState({ ...state, translate: getWidth(), transition: 0 });
-    };
+    const handleResize = () => setState({ ...state, translate: getWidth(), transition: 0 });
 
     const nextSlide = () => {
         if (transitioning) return;

@@ -10,14 +10,12 @@ const Dot = ({ active }) => {
     return <span className={className}></span>;
 };
 
-const Dots = ({ slides, activeSlide }) => {
-    return (
-        <div className={styles.dotsContainer}>
-            {slides.map((slide, i) => (
-                <Dot key={slide.title} active={activeSlide === i} />
-            ))}
-        </div>
-    );
-};
+const Dots = ({ slides, activeSlide }) => (
+    <div className={styles.dotsContainer}>
+        {slides.map((slide, i) => (
+            <Dot key={slide.title} active={activeSlide === i} />
+        ))}
+    </div>
+);
 
 export default Dots;
