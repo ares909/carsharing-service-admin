@@ -30,7 +30,6 @@
         font-size: 22px;
         line-height: 26px;
     }
-
 }
 
 .linkImage {
@@ -51,10 +50,41 @@
     margin-top: 38px;
 }
 
+.formNavbar {
+    @extend .horizontalNavbar;
+    padding: 8px 64px 8px;
+    margin: 40px 0 0 -64px;
+    border-top: 1px solid #eeeeee;
+    border-bottom: 1px solid #eeeeee;
+    min-width: calc(100vw - 64px - 128px);
+}
+
 .horizontalLink {
     @extend .link;
     margin-bottom: 0px;
     margin-right: 24px;
     font-size: 0px;
     line-height: 0px;
+}
+
+.formLink {
+    @include hover-with-opacity;
+    text-decoration: none;
+    color: #999999;
+    margin: 0;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.formLinkActive {
+    @extend .formLink;
+    color: #0ec261;
+}
+
+.navArrow {
+    margin: 0 16px 0;
+    &:last-of-type {
+        display: none;
+    }
 }

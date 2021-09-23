@@ -1,0 +1,23 @@
+@import "../../Common/Page/Page.scss";
+.content {
+    min-width: calc(100% - 64px - 128px);
+    position: relative;
+    margin: 32px 64px 32px;
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        min-width: calc(100% - 64px - 64px);
+        margin: 32px 32px 32px;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        margin: 32px 32px 38px;
+        min-width: calc(100% - 86px - 64px);
+    }
+
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        margin: 16px 0 0;
+        min-width: 100%;
+    }
+}

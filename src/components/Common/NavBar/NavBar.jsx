@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import navArrow from "../../../images/navbar/navArrow.svg";
 import styles from "./Navbar.module.scss";
 
 const NavBar = ({ data, type }) => {
@@ -17,6 +18,25 @@ const NavBar = ({ data, type }) => {
                         >
                             <div className={styles.linkImage}>{link.image}</div>
                         </a>
+                    ))}
+                </nav>
+            );
+        case "form":
+            return (
+                <nav className={styles.formNavbar}>
+                    {data.map((link, i) => (
+                        <>
+                            <NavLink
+                                key={link.title}
+                                className={styles.formLink}
+                                exact
+                                activeClassName={styles.formLinkActive}
+                                to={link.route}
+                            >
+                                {link.title}
+                            </NavLink>
+                            <img key={link.route} className={styles.navArrow} src={navArrow} />
+                        </>
                     ))}
                 </nav>
             );

@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../../../UI/Button.jsx";
+import Button from "../../../Common/UI/Button.jsx";
 import styles from "../Slider.module.scss";
 
 const SliderCard = ({ content, width }) => (
