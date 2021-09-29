@@ -1,20 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getCities, getPoints } from "../../api/api";
+import { getCities } from "../../api/api";
 
 const initialState = {
     cities: [],
-    points: [],
     status: "idle",
     error: "",
 };
 
-export const fetchCities = createAsyncThunk("auth/authSlice", () => {
+export const fetchCities = createAsyncThunk("location/locationSlice", () => {
     return getCities();
 });
-
-// export const fetchPoints = createAsyncThunk("auth/authSlice", () => {
-//     return getPoints();
-// });
 
 export const locationSlice = createSlice({
     name: "location",
@@ -33,19 +28,6 @@ export const locationSlice = createSlice({
             state.status = "failed";
             state.error = action.payload.message;
         },
-        // [fetchPoints.pending]: (state) => {
-        //     state.status = "loading";
-        // },
-        // [fetchPoints.fulfilled]: (state, action) => {
-        //     state.status = action.payload.message ? "failed" : "succeeded";
-        //     state.points = action.payload;
-        //     state.error = action.payload.message;
-        // },
-
-        // [fetchPoints.rejected]: (state, action) => {
-        //     state.status = "failed";
-        //     state.error = action.payload.message;
-        // },
     },
 });
 

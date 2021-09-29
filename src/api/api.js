@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { url, baseUrl, appId, username, password, appSecret } from "../constants/constants";
+import { url, baseUrl, appId, username, password, appSecret, yandexApiKey, yandexUrl } from "../constants/constants";
 
 const bearerToken = JSON.parse(localStorage.getItem("token"));
 
@@ -59,7 +59,16 @@ export const getCities = async () => {
 
 export const getPoints = async (cityId) => {
     try {
-        const response = await axios.get(`${baseUrl}/db/point/${cityId}`, { headers: headersInfo });
+        const response = await axios.get(`${baseUrl}/db/point?cityId=${cityId}`, { headers: headersInfo });
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const getGeoData = async (city) => {
+    try {
+        const response = await axios.get(`${yandexUrl}/?format=json&apikey=${yandexApiKey}&geocode=${city}`);
         return response.data;
     } catch (error) {
         return error;

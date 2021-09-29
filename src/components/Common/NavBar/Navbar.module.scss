@@ -70,7 +70,7 @@
 .formLink {
     @include hover-with-opacity;
     text-decoration: none;
-    color: #999999;
+    color: black;
     margin: 0;
     font-weight: 700;
     font-size: 14px;
@@ -80,6 +80,16 @@
 .formLinkActive {
     @extend .formLink;
     color: #0ec261;
+
+}
+
+.formLinkDisabled {
+    @extend .formLink;
+    color: #999999;
+    pointer-events: none;
+    // &:visited {
+    //     color: black;
+    // }
 }
 
 .navArrow {

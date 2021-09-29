@@ -10,6 +10,10 @@
     color: #999999;
 }
 
+@mixin black-text {
+    color: black;
+}
+
 @mixin hover-with-opacity {
     transition: opacity 0.1s ease 0s;
 

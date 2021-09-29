@@ -1,9 +1,19 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useLocation, useHistory } from "react-router-dom";
+import classNames from "classnames";
+import useFormComplete from "../../../hooks/useFormComplete";
 import navArrow from "../../../images/navbar/navArrow.svg";
+import NavElement from "./NavElement.jsx";
 import styles from "./Navbar.module.scss";
 
 const NavBar = ({ data, type }) => {
+    const location = useLocation();
+    const [complete, toggle] = useFormComplete();
+    // const [completed, setCompleted] = useState(false);
+    useEffect(() => {
+        toggle();
+    }, [location.pathname]);
+
     switch (type) {
         case "horizontal":
             return (
@@ -25,18 +35,7 @@ const NavBar = ({ data, type }) => {
             return (
                 <nav className={styles.formNavbar}>
                     {data.map((link, i) => (
-                        <>
-                            <NavLink
-                                key={link.title}
-                                className={styles.formLink}
-                                exact
-                                activeClassName={styles.formLinkActive}
-                                to={link.route}
-                            >
-                                {link.title}
-                            </NavLink>
-                            <img key={link.route} className={styles.navArrow} src={navArrow} />
-                        </>
+                        <NavElement key={link.title} styles={styles} link={link} />
                     ))}
                 </nav>
             );

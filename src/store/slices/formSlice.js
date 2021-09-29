@@ -10,7 +10,7 @@ export const formSlice = createSlice({
     initialState,
     reducers: {
         formAction(state, action) {
-            return { ...state, ...initialState, ...action.payload };
+            return { ...state, ...action.payload };
         },
     },
 });

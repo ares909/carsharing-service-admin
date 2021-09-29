@@ -1,0 +1,66 @@
+@import "../../Common/Page/Page.scss";
+
+.locationForm {
+    display: flex;
+    flex-direction: column;
+    margin: 32px 0 48px;
+    max-width: 928px;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 13px;
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+}
+
+.inputLabel {
+    @include black-text;
+    padding: 3px;
+    align-self: center;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    min-width: 91px;
+    text-align: right;
+    margin-right: 8px;
+}
+
+.formButton {
+    @include white-text;
+    @include hover-button;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    margin: 0;
+    max-width: 287px;
+    background: linear-gradient(90deg, #0ec261 2.61%, #039f67 112.6%);
+    border: none;
+    cursor: pointer;
+    background-blend-mode: darken;
+    border-radius: 8px;
+    padding: 15px 11px;
+    @media screen and (min-width: 0) and (max-width: 320px) {
+        min-width: 100vw;
+        border-radius: 0px;
+    }
+    @media screen and (min-width: 321px) and (max-width: 767px) {
+        max-width: 250px;
+        border-radius: 8px;
+        margin: 0 16px 0;
+    }
+}
+
+.formButtonDisabled {
+    @extend .formButton;
+    // @include hover-with-opacity;
+    background: #eeeeee;
+    border-radius: 8px;
+    cursor: default;
+    &:hover {
+        background: #eeeeee;
+        opacity: inherit;
+    }
+}

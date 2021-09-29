@@ -65,6 +65,13 @@ export const navButtonsHorizontal = [
     },
 ];
 
+// export const navButtonsForm = [
+//     { title: "Местоположение", route: "/order", state: { complete: true } },
+//     { title: "Модель", route: "/order/model", state: { complete: false } },
+//     { title: "Дополнительно", route: "/order/additional", state: { complete: false } },
+//     { title: "Итого", route: "/order/total", state: { complete: false } },
+// ];
+
 export const navButtonsForm = [
     { title: "Местоположение", route: "/order" },
     { title: "Модель", route: "/order/model" },
