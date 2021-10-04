@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPoints, resetPoints } from "../../../store/slices/pointSlice";
-import { fetchGeoData } from "../../../store/slices/geodataSlice";
+import { fetchGeoData, resetGeodata } from "../../../store/slices/geodataSlice";
 import { formAction } from "../../../store/slices/formSlice";
-import { fetchGeoDataPoints, resetGeodata } from "../../../store/slices/geodataPointsSlice";
+import { fetchGeoDataPoints, resetGeodataPoints } from "../../../store/slices/geodataPointsSlice";
+import { fetchSinglePoint, resetChosenPoint } from "../../../store/slices/singlePointSlice";
 import styles from "./Autocomplete.module.scss";
 import Button from "../../Common/UI/Button.jsx";
 import inputCrossButton from "../../../images/autocomplete/inputCrossButton.svg";
 
 const Autocomplete = ({ suggestions, register, valueState, errors, name }) => {
     const dispatch = useDispatch();
+    const points = useSelector((state) => state.point.points);
     // const { onChange, showSuggestions, filteredSuggestions, onClick, userInput, cityId } = useAutocomplete(suggestions);
 
     const [state, setState] = useState({
@@ -17,6 +19,7 @@ const Autocomplete = ({ suggestions, register, valueState, errors, name }) => {
         showSuggestions: false,
         userInput: valueState,
         city: "",
+        point: "",
     });
 
     // const { activeSuggestion, filteredSuggestions, showSuggestions, userInput } = state;
@@ -40,7 +43,6 @@ const Autocomplete = ({ suggestions, register, valueState, errors, name }) => {
     const onClick = (e) => {
         dispatch(formAction({ [name]: e.currentTarget.innerText }));
         // dispatch(resetPoints());
-        dispatch(resetGeodata());
 
         if (name === "city") {
             const filteredCity = suggestions.find(
@@ -54,26 +56,42 @@ const Autocomplete = ({ suggestions, register, valueState, errors, name }) => {
                 city: filteredCity,
             });
         } else {
+            const filteredPoint = suggestions.find(
+                (suggestion) => suggestion.address.toLowerCase() === e.currentTarget.innerText.toLowerCase(),
+            );
             setState({
                 ...state,
-
                 filteredSuggestions: [],
                 showSuggestions: false,
                 userInput: e.currentTarget.innerText,
+                point: filteredPoint,
             });
         }
     };
 
     const onReset = (e) => {
         e.preventDefault();
-        dispatch(formAction({ [name]: "" }));
-        setState({
-            ...state,
-            userInput: "",
-        });
+
+        if (e.target.previousSibling.name === "city") {
+            dispatch(formAction({ city: "", point: "" }));
+            dispatch(resetChosenPoint());
+            dispatch(resetGeodataPoints());
+            dispatch(resetGeodata());
+            setState({
+                ...state,
+                userInput: "",
+            });
+        } else {
+            setState({
+                ...state,
+                userInput: "",
+            });
+            dispatch(resetChosenPoint());
+            dispatch(formAction({ [name]: "" }));
+        }
     };
 
-    const { filteredSuggestions, showSuggestions, userInput, city } = state;
+    const { filteredSuggestions, showSuggestions, userInput, city, point } = state;
 
     useEffect(() => {
         if (city) {
@@ -81,6 +99,34 @@ const Autocomplete = ({ suggestions, register, valueState, errors, name }) => {
             dispatch(fetchGeoData(city.name));
         }
     }, [city]);
+
+    // useEffect(() => {
+    //     if (city && points)
+    //         points.forEach((item) => {
+    //             dispatch(fetchGeoDataPoints(`${item.cityId.name}, ${item.address}`));
+    //         });
+    // }, [points]);
+
+    useEffect(() => {
+        if (city && points)
+            points.forEach((item) => {
+                dispatch(fetchGeoDataPoints(`${item.cityId.name}, ${item.address}`));
+            });
+    }, [points]);
+
+    useEffect(() => {
+        if (point) {
+            dispatch(fetchSinglePoint(point.id));
+            dispatch(fetchGeoData(`${point.cityId.name}, ${point.address}`));
+            // dispatch(fetchGeoDataPoints(`${point.cityId.name}, ${point.address}`));
+        }
+    }, [point]);
+
+    useEffect(() => {
+        if (valueState) {
+            setState({ ...state, userInput: valueState });
+        }
+    }, [valueState]);
 
     let suggestionsListComponent;
     if (showSuggestions && userInput) {

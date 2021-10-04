@@ -14,7 +14,9 @@ export const fetchGeoData = createAsyncThunk("geodata/geodataSlice", (cityName) 
 export const geodataSlice = createSlice({
     name: "geodata",
     initialState,
-    reducers: {},
+    reducers: {
+        resetGeodata: () => initialState,
+    },
     extraReducers: {
         [fetchGeoData.pending]: (state) => {
             state.status = "loading";
@@ -34,4 +36,5 @@ export const geodataSlice = createSlice({
     },
 });
 
+export const { resetGeodata } = geodataSlice.actions;
 export default geodataSlice.reducer;

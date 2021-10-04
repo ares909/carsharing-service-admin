@@ -11,6 +11,10 @@ export const fetchPoints = createAsyncThunk("point/pointSlice", (cityId) => {
     return getPoints(cityId);
 });
 
+// const addCoordinates = (array) => {
+//     console.log(array.map((item) => ({ ...item, coodinates: getGeoData(`${item.cityId.name}, ${item.address}`) })));
+// };
+
 export const pointSlice = createSlice({
     name: "point",
     initialState,

@@ -11,10 +11,11 @@ import { fetchCities } from "../../../store/slices/locationSlice";
 import Autocomplete from "./Autocomplete.jsx";
 import Button from "../../Common/UI/Button.jsx";
 import MyPlacemark from "./Map.jsx";
-import { yandexApiKey } from "../../../constants/constants";
+import { secondKey } from "../../../constants/constants";
 import { fetchGeoDataPoints } from "../../../store/slices/geodataPointsSlice";
 
 const LocationStep = () => {
+    const mapRef = useRef(null);
     const stateForm = useSelector((state) => state.form);
     const dataStatus = useSelector((state) => state.location.status);
     const cities = useSelector((state) => state.location.cities);
@@ -25,7 +26,7 @@ const LocationStep = () => {
         state: { complete: true },
     };
     const dispatch = useDispatch();
-    const mapRef = useRef();
+
     const [isValid, setValid] = useState(false);
     useEffect(() => {
         if (dataStatus === "idle") {
@@ -42,7 +43,6 @@ const LocationStep = () => {
     }, [stateForm.city, stateForm.point]);
 
     const { handleSubmit, register } = useForm({
-        mode: "onChange",
         defaultValues: stateForm,
     });
 
@@ -56,7 +56,7 @@ const LocationStep = () => {
     return (
         <YMaps
             query={{
-                apikey: yandexApiKey,
+                apikey: secondKey,
                 ns: "use-load-option",
                 load: "Map,Placemark,control.ZoomControl,control.FullscreenControl,geoObject.addon.balloon",
             }}
@@ -80,7 +80,7 @@ const LocationStep = () => {
                     type="submit"
                     name="Выбрать модель"
                 />
-                <MyPlacemark mapRef={mapRef} points={points} />
+                <MyPlacemark points={points} />
             </form>
         </YMaps>
     );

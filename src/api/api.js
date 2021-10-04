@@ -1,6 +1,16 @@
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { url, baseUrl, appId, username, password, appSecret, yandexApiKey, yandexUrl } from "../constants/constants";
+import {
+    url,
+    baseUrl,
+    appId,
+    username,
+    password,
+    appSecret,
+    yandexApiKey,
+    yandexUrl,
+    secondKey,
+} from "../constants/constants";
 
 const bearerToken = JSON.parse(localStorage.getItem("token"));
 
@@ -68,9 +78,32 @@ export const getPoints = async (cityId) => {
 
 export const getGeoData = async (city) => {
     try {
-        const response = await axios.get(`${yandexUrl}/?format=json&apikey=${yandexApiKey}&geocode=${city}`);
+        const response = await axios.get(`${yandexUrl}/?format=json&apikey=${secondKey}&geocode=${city}`);
         return response.data;
     } catch (error) {
         return error;
     }
 };
+
+export const getOnePoint = async (pointId) => {
+    try {
+        const response = await axios.get(`${baseUrl}/db/point/${pointId}`, { headers: headersInfo });
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+// // eslint-disable-next-line consistent-return
+// export const getGeoDataTest = async (cityId) => {
+//     try {
+//         const response = await axios.get(`${baseUrl}/db/point?cityId=${cityId}`, { headers: headersInfo });
+//         const result = await response.data.data.map((point) => ({
+//             ...point,
+//             pos: getGeoData(`${point.cityId.name}, ${point.address}`),
+//         }));
+//         return { points: response.data, geodata: result };
+//     } catch (error) {
+//         return error;
+//     }
+// };

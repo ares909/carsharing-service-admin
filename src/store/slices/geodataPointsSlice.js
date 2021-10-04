@@ -15,7 +15,7 @@ export const geodataPointsSlice = createSlice({
     name: "geodataPoints",
     initialState,
     reducers: {
-        resetGeodata: () => initialState,
+        resetGeodataPoints: () => initialState,
     },
     extraReducers: {
         [fetchGeoDataPoints.pending]: (state) => {
@@ -23,10 +23,7 @@ export const geodataPointsSlice = createSlice({
         },
         [fetchGeoDataPoints.fulfilled]: (state, action) => {
             state.status = action.payload.message ? "failed" : "succeeded";
-            state.geodataPoints = [
-                ...state.geodataPoints,
-                action.payload.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(" ").reverse(),
-            ];
+            state.geodataPoints = [...state.geodataPoints, action.payload.response.GeoObjectCollection];
             state.error = action.payload.message;
         },
 
@@ -37,5 +34,5 @@ export const geodataPointsSlice = createSlice({
     },
 });
 
-export const { resetGeodata } = geodataPointsSlice.actions;
+export const { resetGeodataPoints } = geodataPointsSlice.actions;
 export default geodataPointsSlice.reducer;
