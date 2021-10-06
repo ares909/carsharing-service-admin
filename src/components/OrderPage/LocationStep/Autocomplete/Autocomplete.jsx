@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPoints } from "../../../store/slices/pointSlice";
-import { fetchGeoData, resetGeodata } from "../../../store/slices/geodataSlice";
-import { formAction } from "../../../store/slices/formSlice";
-import { fetchGeoDataPoints, resetGeodataPoints } from "../../../store/slices/geodataPointsSlice";
-import { fetchSinglePoint, resetChosenPoint } from "../../../store/slices/singlePointSlice";
-import { fetchPrices } from "../../../store/slices/priceRangeSlice";
+import { fetchPoints } from "../../../../store/slices/pointSlice";
+import { fetchGeoData, resetGeodata } from "../../../../store/slices/geodataSlice";
+import { formAction } from "../../../../store/slices/formSlice";
+import { fetchGeoDataPoints, resetGeodataPoints } from "../../../../store/slices/geodataPointsSlice";
+import { fetchSinglePoint, resetChosenPoint } from "../../../../store/slices/singlePointSlice";
+import { fetchPrices } from "../../../../store/slices/priceRangeSlice";
 import styles from "./Autocomplete.module.scss";
 
 const Autocomplete = ({ suggestions, register, valueState, name }) => {

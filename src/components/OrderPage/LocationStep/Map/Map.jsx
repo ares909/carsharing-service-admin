@@ -2,11 +2,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Map, Placemark, Clusterer } from "react-yandex-maps";
 import { useSelector, useDispatch } from "react-redux";
-import { formAction } from "../../../store/slices/formSlice";
-import { fetchPrices } from "../../../store/slices/priceRangeSlice";
-import { fetchSinglePoint } from "../../../store/slices/singlePointSlice";
-import { fetchGeoData } from "../../../store/slices/geodataSlice";
-import placemark from "../../../images/map/placemark.svg";
+import { formAction } from "../../../../store/slices/formSlice";
+import { fetchPrices } from "../../../../store/slices/priceRangeSlice";
+import { fetchSinglePoint } from "../../../../store/slices/singlePointSlice";
+import { fetchGeoData } from "../../../../store/slices/geodataSlice";
+import placemark from "../../../../images/map/placemark.svg";
 import styles from "./Map.module.scss";
 
 const YaMap = () => {

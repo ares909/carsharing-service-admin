@@ -1,4 +1,4 @@
-@import "../../Common/Page/Page.scss";
+@import "../../../Common/Page/Page.scss";
 
 .input {
     @include black-text;
@@ -46,7 +46,7 @@ input[type="search"]::-webkit-search-cancel-button {
     flex-direction: column;
     justify-items: center;
     align-items: center;
-    background-image: url("../../../images/autocomplete/inputCrossButton.svg");
+    background-image: url("../../../../images/autocomplete/inputCrossButton.svg");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

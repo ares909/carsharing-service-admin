@@ -4,15 +4,17 @@ import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { YMaps } from "react-yandex-maps";
 import classNames from "classnames";
-import Autocomplete from "./Autocomplete.jsx";
+import Autocomplete from "./Autocomplete/Autocomplete.jsx";
 import Button from "../../Common/UI/Button.jsx";
-import YaMap from "./Map.jsx";
+import YaMap from "./Map/Map.jsx";
 import { yandexApiKey } from "../../../constants/constants";
 import useNumberFormat from "../../../hooks/useNumberFormat";
+import { fetchCities } from "../../../store/slices/locationSlice";
 import { formAction } from "../../../store/slices/formSlice";
 import styles from "./LocationStep.module.scss";
 
 const LocationStep = () => {
+    const dataStatus = useSelector((state) => state.location.status);
     const stateForm = useSelector((state) => state.form);
     const cities = useSelector((state) => state.location.cities);
     const points = useSelector((state) => state.point.points);
@@ -27,6 +29,11 @@ const LocationStep = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        if (dataStatus === "idle") {
+            dispatch(fetchCities());
+        }
+    }, [dataStatus]);
+    useEffect(() => {
         if (stateForm.city && stateForm.point) {
             dispatch(formAction({ locationValid: true }));
         } else {
@@ -40,8 +47,6 @@ const LocationStep = () => {
 
     const onSubmit = () => {
         push(location);
-
-        // console.log(cityId);
     };
 
     return (
