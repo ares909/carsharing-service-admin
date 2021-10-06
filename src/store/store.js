@@ -6,6 +6,7 @@ import pointReducer from "./slices/pointSlice";
 import geodataReducer from "./slices/geodataSlice";
 import geodataPointsReducer from "./slices/geodataPointsSlice";
 import singlePointReducer from "./slices/singlePointSlice";
+import priceRangeReducer from "./slices/priceRangeSlice";
 
 const store = configureStore({
     reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
         singlePoint: singlePointReducer,
         geodata: geodataReducer,
         geodataPoints: geodataPointsReducer,
+        priceRange: priceRangeReducer,
     },
 });
 

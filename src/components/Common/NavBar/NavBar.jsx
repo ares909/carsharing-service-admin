@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { NavLink, useLocation, useHistory } from "react-router-dom";
+import React from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import classNames from "classnames";
-import useFormComplete from "../../../hooks/useFormComplete";
+import { useSelector } from "react-redux";
 import navArrow from "../../../images/navbar/navArrow.svg";
-import NavElement from "./NavElement.jsx";
 import styles from "./Navbar.module.scss";
 
 const NavBar = ({ data, type }) => {
+    const stateForm = useSelector((state) => state.form);
     const location = useLocation();
-    const [complete, toggle] = useFormComplete();
-    // const [completed, setCompleted] = useState(false);
-    useEffect(() => {
-        toggle();
-    }, [location.pathname]);
 
     switch (type) {
         case "horizontal":
@@ -34,9 +29,72 @@ const NavBar = ({ data, type }) => {
         case "form":
             return (
                 <nav className={styles.formNavbar}>
-                    {data.map((link, i) => (
-                        <NavElement key={link.title} styles={styles} link={link} />
-                    ))}
+                    <div className={styles.formNavbarContainer}>
+                        <NavLink
+                            // complete={complete}
+
+                            exact
+                            className={classNames({
+                                [`${styles.formLinkActive}`]: location.pathname === "/order",
+                                [`${styles.formLink}`]:
+                                    location.pathname !== "/order" && stateForm.locationValid === true,
+                                [`${styles.formLinkDisabled}`]:
+                                    location.pathname !== "/order" && stateForm.locationValid === false,
+                            })}
+                            to={{ pathname: "/order" }}
+                        >
+                            Местоположение
+                        </NavLink>
+                        <img className={styles.navArrow} src={navArrow} />
+                        <NavLink
+                            // complete={complete}
+
+                            exact
+                            className={classNames({
+                                [`${styles.formLinkActive}`]: location.pathname === "/order/model",
+                                [`${styles.formLink}`]:
+                                    location.pathname !== "/order/model" && stateForm.modelValid === true,
+                                [`${styles.formLinkDisabled}`]:
+                                    location.pathname !== "/order/model" && stateForm.modelValid === false,
+                            })}
+                            to={{ pathname: "/order/model" }}
+                        >
+                            Модель
+                        </NavLink>
+                        <img className={styles.navArrow} src={navArrow} />
+                        <NavLink
+                            // complete={complete}
+
+                            exact
+                            className={classNames({
+                                [`${styles.formLinkActive}`]: location.pathname === "/order/extra",
+                                [`${styles.formLink}`]:
+                                    location.pathname !== "/order/extra" && stateForm.extraValid === true,
+                                [`${styles.formLinkDisabled}`]:
+                                    location.pathname !== "/order/extra" && stateForm.extraValid === false,
+                            })}
+                            to={{ pathname: "/order/extra" }}
+                        >
+                            Дополнительно
+                        </NavLink>
+                        <img className={styles.navArrow} src={navArrow} />
+                        <NavLink
+                            // complete={complete}
+
+                            exact
+                            className={classNames({
+                                [`${styles.formLinkActive}`]: location.pathname === "/order/total",
+                                [`${styles.formLink}`]:
+                                    location.pathname !== "/order/total" && stateForm.totalValid === true,
+                                [`${styles.formLinkDisabled}`]:
+                                    location.pathname !== "/order/tolal" && stateForm.totalValid === false,
+                            })}
+                            to={{ pathname: "/order/tolal" }}
+                        >
+                            Итого
+                        </NavLink>
+                        <img className={styles.navArrow} src={navArrow} />
+                    </div>
                 </nav>
             );
         default:

@@ -1,86 +1,154 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useForm, useFormState } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { YMaps } from "react-yandex-maps";
 import classNames from "classnames";
-import styles from "./LocationStep.module.scss";
-import { formAction } from "../../../store/slices/formSlice";
-import { fetchCities } from "../../../store/slices/locationSlice";
-
 import Autocomplete from "./Autocomplete.jsx";
 import Button from "../../Common/UI/Button.jsx";
-import MyPlacemark from "./Map.jsx";
-import { secondKey } from "../../../constants/constants";
-import { fetchGeoDataPoints } from "../../../store/slices/geodataPointsSlice";
+import YaMap from "./Map.jsx";
+import { yandexApiKey } from "../../../constants/constants";
+import useNumberFormat from "../../../hooks/useNumberFormat";
+import { formAction } from "../../../store/slices/formSlice";
+import styles from "./LocationStep.module.scss";
 
 const LocationStep = () => {
-    const mapRef = useRef(null);
     const stateForm = useSelector((state) => state.form);
-    const dataStatus = useSelector((state) => state.location.status);
     const cities = useSelector((state) => state.location.cities);
     const points = useSelector((state) => state.point.points);
+    const priceMin = useSelector((state) => state.priceRange.pricesMin);
+    const priceMax = useSelector((state) => state.priceRange.pricesMax);
     const { push } = useHistory();
+    const { convertNumber } = useNumberFormat();
     const location = {
         pathname: "/order/model",
         state: { complete: true },
     };
     const dispatch = useDispatch();
 
-    const [isValid, setValid] = useState(false);
-    useEffect(() => {
-        if (dataStatus === "idle") {
-            dispatch(fetchCities());
-        }
-    }, [dataStatus]);
-
     useEffect(() => {
         if (stateForm.city && stateForm.point) {
-            setValid(true);
+            dispatch(formAction({ locationValid: true }));
         } else {
-            setValid(false);
+            dispatch(formAction({ locationValid: false }));
         }
     }, [stateForm.city, stateForm.point]);
 
-    const { handleSubmit, register } = useForm({
+    const { register } = useForm({
         defaultValues: stateForm,
     });
 
-    const onSubmit = (data) => {
-        // dispatch(formAction(data));
+    const onSubmit = () => {
         push(location);
-        console.log(data);
+
         // console.log(cityId);
     };
 
     return (
         <YMaps
             query={{
-                apikey: secondKey,
+                apikey: yandexApiKey,
                 ns: "use-load-option",
                 load: "Map,Placemark,control.ZoomControl,control.FullscreenControl,geoObject.addon.balloon",
             }}
         >
-            <form className={styles.locationForm} onSubmit={handleSubmit(onSubmit)}>
-                <div className={styles.inputContainer}>
-                    <label className={styles.inputLabel}>Город</label>
-                    <Autocomplete suggestions={cities} register={register} name="city" valueState={stateForm.city} />
+            <form className={styles.locationForm}>
+                <div className={styles.locationContainer}>
+                    <div className={styles.inputContainer}>
+                        <label className={styles.inputLabel}>Город</label>
+                        <Autocomplete
+                            suggestions={cities}
+                            register={register}
+                            name="city"
+                            valueState={stateForm.city}
+                        />
+                    </div>
+                    <div className={styles.inputContainer}>
+                        <label className={styles.inputLabel}>Пункт выдачи</label>
+                        <Autocomplete
+                            suggestions={points}
+                            register={register}
+                            name="point"
+                            valueState={stateForm.point}
+                        />
+                    </div>
+
+                    <h3 className={styles.mapTitle}>Выбрать на карте</h3>
+                    <YaMap points={points} />
                 </div>
-                <div className={styles.inputContainer}>
-                    <label className={styles.inputLabel}>Пункт выдачи</label>
-                    <Autocomplete suggestions={points} register={register} name="point" valueState={stateForm.point} />
+                <div className={styles.submitContainer}>
+                    <h3 className={styles.submitHeader}>Ваш заказ:</h3>
+                    {stateForm.city && stateForm.point ? (
+                        <>
+                            <div className={styles.pointContainer}>
+                                <span className={styles.point}>Пункт выдачи</span>
+                                <span className={styles.dots}></span>
+                                <div className={styles.text}>
+                                    <p className={styles.textPart}>{`${stateForm.city},`}</p>
+                                    <p className={styles.textPart}>{stateForm.point}</p>
+                                </div>
+                            </div>
+                            <div className={styles.priceContainer}>
+                                <p className={styles.priceTitle}>Цена: </p>
+                                <span className={styles.price}>
+                                    {priceMin.length !== 0
+                                        ? `от ${convertNumber(priceMin[0])} до ${convertNumber(
+                                              priceMax[priceMax.length - 1],
+                                          )} ₽`
+                                        : `нет данных`}
+                                </span>
+                            </div>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+
+                    <Button
+                        disabled={!stateForm.locationValid}
+                        className={classNames({
+                            [`${styles.formButton}`]: true,
+                            [`${styles.formButtonDisabled}`]: !stateForm.locationValid,
+                        })}
+                        type="button"
+                        name="Выбрать модель"
+                        onClick={onSubmit}
+                    />
                 </div>
 
-                <Button
-                    disabled={!isValid}
+                <div
                     className={classNames({
-                        [`${styles.formButton}`]: true,
-                        [`${styles.formButtonDisabled}`]: !isValid,
+                        [`${styles.submitMobileContainer}`]: true,
+                        [`${styles.submitMobileContainerActive}`]: stateForm.city && stateForm.point,
                     })}
-                    type="submit"
-                    name="Выбрать модель"
-                />
-                <MyPlacemark points={points} />
+                >
+                    <h3 className={styles.submitHeader}>Ваш заказ:</h3>
+
+                    <div className={styles.pointContainer}>
+                        <span className={styles.point}>Пункт выдачи</span>
+                        <span className={styles.dots}></span>
+                        <div className={styles.text}>
+                            <p className={styles.textPart}>{`${stateForm.city},`}</p>
+                            <p className={styles.textPart}>{stateForm.point}</p>
+                        </div>
+                    </div>
+                    <div className={styles.priceContainer}>
+                        <p className={styles.priceTitle}>Цена: </p>
+                        <span className={styles.price}>{`от ${convertNumber(priceMin[0])} до ${convertNumber(
+                            priceMax[priceMax.length - 1],
+                        )} ₽`}</span>
+                    </div>
+
+                    <Button
+                        disabled={!stateForm.locationValid}
+                        className={classNames({
+                            [`${styles.formButton}`]: true,
+                            [`${styles.formButtonDisabled}`]: !stateForm.locationValid,
+                        })}
+                        type="button"
+                        name="Выбрать модель"
+                        onClick={onSubmit}
+                    />
+                </div>
             </form>
         </YMaps>
     );

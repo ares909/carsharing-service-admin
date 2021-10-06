@@ -1,18 +1,7 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
-import {
-    url,
-    baseUrl,
-    appId,
-    username,
-    password,
-    appSecret,
-    yandexApiKey,
-    yandexUrl,
-    secondKey,
-} from "../constants/constants";
+import { url, baseUrl, appId, username, password, appSecret, yandexApiKey, yandexUrl } from "../constants/constants";
 
-const bearerToken = JSON.parse(localStorage.getItem("token"));
+const bearerToken = JSON.parse(localStorage.getItem("access_token"));
 
 const headersInfo = {
     "X-Api-Factory-Application-Id": appId,
@@ -37,6 +26,7 @@ export const authorize = async () => {
         );
 
         localStorage.setItem("token", JSON.stringify(response.data.refresh_token));
+        localStorage.setItem("access_token", JSON.stringify(response.data.access_token));
         return response.data;
     } catch (error) {
         return error;
@@ -52,6 +42,7 @@ export const refreshToken = async (token) => {
                 headers: headersAuth,
             },
         );
+        localStorage.setItem("access_token", JSON.stringify(response.data.access_token));
         return response.data;
     } catch (error) {
         return error;
@@ -78,7 +69,7 @@ export const getPoints = async (cityId) => {
 
 export const getGeoData = async (city) => {
     try {
-        const response = await axios.get(`${yandexUrl}/?format=json&apikey=${secondKey}&geocode=${city}`);
+        const response = await axios.get(`${yandexUrl}/?format=json&apikey=${yandexApiKey}&geocode=${city}`);
         return response.data;
     } catch (error) {
         return error;
@@ -94,16 +85,13 @@ export const getOnePoint = async (pointId) => {
     }
 };
 
-// // eslint-disable-next-line consistent-return
-// export const getGeoDataTest = async (cityId) => {
-//     try {
-//         const response = await axios.get(`${baseUrl}/db/point?cityId=${cityId}`, { headers: headersInfo });
-//         const result = await response.data.data.map((point) => ({
-//             ...point,
-//             pos: getGeoData(`${point.cityId.name}, ${point.address}`),
-//         }));
-//         return { points: response.data, geodata: result };
-//     } catch (error) {
-//         return error;
-//     }
-// };
+export const getPriceRange = async ({ cityId, pointId }) => {
+    try {
+        const response = await axios.get(`${baseUrl}/db/order?cityId=${cityId}&pointId=${pointId}`, {
+            headers: headersInfo,
+        });
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+};

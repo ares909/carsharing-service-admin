@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPoints, resetPoints } from "../../../store/slices/pointSlice";
+import { fetchPoints } from "../../../store/slices/pointSlice";
 import { fetchGeoData, resetGeodata } from "../../../store/slices/geodataSlice";
 import { formAction } from "../../../store/slices/formSlice";
 import { fetchGeoDataPoints, resetGeodataPoints } from "../../../store/slices/geodataPointsSlice";
 import { fetchSinglePoint, resetChosenPoint } from "../../../store/slices/singlePointSlice";
+import { fetchPrices } from "../../../store/slices/priceRangeSlice";
 import styles from "./Autocomplete.module.scss";
-import Button from "../../Common/UI/Button.jsx";
-import inputCrossButton from "../../../images/autocomplete/inputCrossButton.svg";
 
-const Autocomplete = ({ suggestions, register, valueState, errors, name }) => {
+const Autocomplete = ({ suggestions, register, valueState, name }) => {
     const dispatch = useDispatch();
     const points = useSelector((state) => state.point.points);
-    // const { onChange, showSuggestions, filteredSuggestions, onClick, userInput, cityId } = useAutocomplete(suggestions);
 
     const [state, setState] = useState({
         filteredSuggestions: [],
@@ -22,10 +20,8 @@ const Autocomplete = ({ suggestions, register, valueState, errors, name }) => {
         point: "",
     });
 
-    // const { activeSuggestion, filteredSuggestions, showSuggestions, userInput } = state;
-
     const onChange = (e) => {
-        const userInput = e.currentTarget.value;
+        const userInput = valueState || e.currentTarget.value;
         const filteredSuggestions = suggestions.filter(
             (suggestion) =>
                 (name === "city" ? suggestion.name : suggestion.address)
@@ -42,7 +38,6 @@ const Autocomplete = ({ suggestions, register, valueState, errors, name }) => {
 
     const onClick = (e) => {
         dispatch(formAction({ [name]: e.currentTarget.innerText }));
-        // dispatch(resetPoints());
 
         if (name === "city") {
             const filteredCity = suggestions.find(
@@ -63,7 +58,7 @@ const Autocomplete = ({ suggestions, register, valueState, errors, name }) => {
                 ...state,
                 filteredSuggestions: [],
                 showSuggestions: false,
-                userInput: e.currentTarget.innerText,
+                userInput: valueState || e.currentTarget.innerText,
                 point: filteredPoint,
             });
         }
@@ -78,8 +73,11 @@ const Autocomplete = ({ suggestions, register, valueState, errors, name }) => {
             dispatch(resetGeodataPoints());
             dispatch(resetGeodata());
             setState({
-                ...state,
+                filteredSuggestions: [],
+                showSuggestions: false,
                 userInput: "",
+                city: "",
+                point: "",
             });
         } else {
             setState({
@@ -100,13 +98,6 @@ const Autocomplete = ({ suggestions, register, valueState, errors, name }) => {
         }
     }, [city]);
 
-    // useEffect(() => {
-    //     if (city && points)
-    //         points.forEach((item) => {
-    //             dispatch(fetchGeoDataPoints(`${item.cityId.name}, ${item.address}`));
-    //         });
-    // }, [points]);
-
     useEffect(() => {
         if (city && points)
             points.forEach((item) => {
@@ -118,6 +109,7 @@ const Autocomplete = ({ suggestions, register, valueState, errors, name }) => {
         if (point) {
             dispatch(fetchSinglePoint(point.id));
             dispatch(fetchGeoData(`${point.cityId.name}, ${point.address}`));
+            dispatch(fetchPrices({ cityId: point.cityId.id, pointId: point.id }));
             // dispatch(fetchGeoDataPoints(`${point.cityId.name}, ${point.address}`));
         }
     }, [point]);
@@ -126,14 +118,14 @@ const Autocomplete = ({ suggestions, register, valueState, errors, name }) => {
         if (valueState) {
             setState({ ...state, userInput: valueState });
         }
-    }, [valueState]);
+    }, [valueState, userInput]);
 
     let suggestionsListComponent;
     if (showSuggestions && userInput) {
         if (filteredSuggestions.length) {
             suggestionsListComponent = (
                 <ul className={styles.suggestionsContainter}>
-                    {filteredSuggestions.map((suggestion, index) => {
+                    {filteredSuggestions.map((suggestion) => {
                         return (
                             <li className={styles.suggestions} key={suggestion.id} onClick={onClick}>
                                 {name === "city" ? suggestion.name : suggestion.address}
@@ -162,13 +154,7 @@ const Autocomplete = ({ suggestions, register, valueState, errors, name }) => {
                 className={styles.input}
                 placeholder={name === "city" ? "Начните вводить город" : "Начните вводить пункт"}
             />
-            <button onClick={onReset} className={styles.inputCrossButton}>
-                {/* <img className={styles.inputCrossImage} src={inputCrossButton} /> */}
-            </button>
-
-            {/* {name === "city"
-                ? errors.city && <p>{errors.city.message}</p>
-                : errors.point && <p>{errors.point.message}</p>} */}
+            <button onClick={onReset} className={styles.inputCrossButton}></button>
 
             {suggestionsListComponent}
         </div>

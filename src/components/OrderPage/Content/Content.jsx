@@ -6,7 +6,7 @@ import LocationStep from "../LocationStep/LocationStep.jsx";
 import ModelStep from "../ModelStep/ModelStep.jsx";
 import AdditionalStep from "../AdditionalStep/AdditionalStep.jsx";
 import TotalStep from "../TotalStep/TotalStep.jsx";
-import Button from "../../Common/UI/Button.jsx";
+
 import { navButtonsForm } from "../../Common/NavBar/NavButtons.jsx";
 import styles from "./Content.module.scss";
 
@@ -18,7 +18,7 @@ const Content = ({ toggle }) => {
             <NavBar data={navButtonsForm} type="form" />
             <Route exact path={`${match.url}`} component={LocationStep} />
             <Route path={`${match.url}/model`} component={ModelStep} />
-            <Route path={`${match.url}/additional`} component={AdditionalStep} />
+            <Route path={`${match.url}/extra`} component={AdditionalStep} />
             <Route path={`${match.url}/total`} component={TotalStep} />
             <Route path={`${match.url}/:orderId`} />
         </div>

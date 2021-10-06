@@ -74,7 +74,7 @@
 .titleGreen {
     @extend .title;
     @include green-text;
-    @media screen and (min-width: 0) and (max-width: 425px) {
+    @media screen and (min-width: 0) and (max-width: 767px) {
         margin-top: 6px;
        
     }

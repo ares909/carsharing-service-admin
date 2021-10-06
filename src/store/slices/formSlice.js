@@ -3,6 +3,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 const initialState = {
     city: "",
     point: "",
+    locationValid: false,
+    modelValid: false,
+    extraValid: false,
+    totalValid: false,
 };
 
 export const formSlice = createSlice({

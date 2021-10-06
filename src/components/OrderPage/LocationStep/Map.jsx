@@ -1,15 +1,15 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useCallback, useEffect, useState, useRef } from "react";
-
-import { YMaps, Map, Placemark, Clusterer, SearchControl } from "react-yandex-maps";
+import React, { useEffect, useState, useRef } from "react";
+import { Map, Placemark, Clusterer } from "react-yandex-maps";
 import { useSelector, useDispatch } from "react-redux";
-import { set } from "react-hook-form";
-import { getGeoData } from "../../../api/api";
-import { fetchGeoDataPoints } from "../../../store/slices/geodataPointsSlice";
 import { formAction } from "../../../store/slices/formSlice";
+import { fetchPrices } from "../../../store/slices/priceRangeSlice";
+import { fetchSinglePoint } from "../../../store/slices/singlePointSlice";
+import { fetchGeoData } from "../../../store/slices/geodataSlice";
 import placemark from "../../../images/map/placemark.svg";
+import styles from "./Map.module.scss";
 
-const MyPlacemark = () => {
+const YaMap = () => {
     const mapRef = useRef(null);
     const dispatch = useDispatch();
     const cityData = useSelector((state) => state.geodata.geodata);
@@ -17,19 +17,18 @@ const MyPlacemark = () => {
     const geodataPoints = useSelector((state) => state.geodataPoints.geodataPoints);
     const chosenPoint = useSelector((state) => state.singlePoint.point);
     const defaultState = {
-        center: ["55.751574", "37.573856"],
+        center: ["55.7522200", "37.6155600"],
         zoom: 12,
         controls: ["zoomControl"],
         checkZoomRange: true,
     };
 
     const [mapState, setMapState] = useState(defaultState);
-    const [geoPoints, setGeoPoints] = useState([]);
     const [point, setPoint] = useState();
 
     useEffect(() => {
         if (cityData && points && mapRef.current) {
-            mapRef.current.setCenter(cityData, 12);
+            mapRef.current.setCenter(cityData, window.innerWidth >= 768 ? 12 : 10);
         } else if (!cityData && mapRef.current) {
             mapRef.current.setCenter(defaultState.center, defaultState.zoom);
         } else if (!mapRef.current && cityData) {
@@ -37,7 +36,7 @@ const MyPlacemark = () => {
         } else {
             setMapState({ ...mapState, center: defaultState.center, zoom: defaultState.zoom });
         }
-    }, [cityData]);
+    }, [cityData, mapRef.current]);
 
     useEffect(() => {
         if (cityData && chosenPoint && mapRef.current) {
@@ -47,21 +46,28 @@ const MyPlacemark = () => {
         } else if (!mapRef.current && cityData && chosenPoint) {
             setMapState({ ...mapState, center: cityData, zoom: 16 });
         }
-    }, [chosenPoint, cityData]);
+    }, [chosenPoint, cityData, mapRef.current]);
+
+    useEffect(() => {
+        if (point) {
+            dispatch(fetchSinglePoint(point[0].id));
+            dispatch(fetchPrices({ cityId: point[0].cityId.id, pointId: point[0].id }));
+            dispatch(fetchGeoData(`${point[0].cityId.name}, ${point[0].address}`));
+        }
+    }, [point]);
 
     const handleClick = (e) => {
-        // mapRef.current.setCenter(e.originalEvent.target.geometry._coordinates, 16);
-
         setPoint(
             points.filter((item) => item.address === e.originalEvent.target.properties._data.balloonContentHeader),
         );
         dispatch(formAction({ point: e.originalEvent.target.properties._data.balloonContentHeader }));
+        // mapRef.current.setCenter(e.originalEvent.target.geometry._coordinates, 16);
     };
     return (
         <Map
-            style={{ width: "1000px", height: "500px" }}
+            className={styles.map}
             state={{ center: mapState.center, zoom: mapState.zoom, controls: ["zoomControl"] }}
-            // options={{ autoFitToViewport: "always" }}
+            options={{ autoFitToViewport: "always" }}
             instanceRef={(ref) => {
                 mapRef.current = ref;
             }}
@@ -105,4 +111,4 @@ const MyPlacemark = () => {
     );
 };
 
-export default MyPlacemark;
+export default YaMap;
