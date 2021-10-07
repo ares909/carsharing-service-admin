@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getPriceRange } from "../../api/api";
 
 const initialState = {
+    order: [],
+    cars: [],
     pricesMin: [],
     pricesMax: [],
     status: "idle",
@@ -24,6 +26,8 @@ export const priceRangeSlice = createSlice({
         },
         [fetchPrices.fulfilled]: (state, action) => {
             state.status = action.payload.message ? "failed" : "succeeded";
+            state.order = action.payload.data;
+            state.cars = action.payload.data.filter((item) => item.carId);
             state.pricesMin = action.payload.data
                 .filter((item) => item.carId)
                 .map((item) => item.carId.priceMin)

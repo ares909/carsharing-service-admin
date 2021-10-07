@@ -95,3 +95,14 @@ export const getPriceRange = async ({ cityId, pointId }) => {
         return error;
     }
 };
+
+export const getCar = async (carId) => {
+    try {
+        const response = await axios.get(`${baseUrl}/db/car/${carId}`, {
+            headers: headersInfo,
+        });
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+};

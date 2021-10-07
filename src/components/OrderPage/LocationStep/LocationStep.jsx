@@ -7,11 +7,13 @@ import classNames from "classnames";
 import Autocomplete from "./Autocomplete/Autocomplete.jsx";
 import Button from "../../Common/UI/Button.jsx";
 import YaMap from "./Map/Map.jsx";
+import FormSubmit from "../Common/FormSubmit/FormSubmit.jsx";
 import { yandexApiKey } from "../../../constants/constants";
 import useNumberFormat from "../../../hooks/useNumberFormat";
 import { fetchCities } from "../../../store/slices/locationSlice";
 import { formAction } from "../../../store/slices/formSlice";
 import styles from "./LocationStep.module.scss";
+import OrderContainer from "../Common/OrderContainer/OrderContainer.jsx";
 
 const LocationStep = () => {
     const dataStatus = useSelector((state) => state.location.status);
@@ -24,7 +26,6 @@ const LocationStep = () => {
     const { convertNumber } = useNumberFormat();
     const location = {
         pathname: "/order/model",
-        state: { complete: true },
     };
     const dispatch = useDispatch();
 
@@ -48,6 +49,11 @@ const LocationStep = () => {
     const onSubmit = () => {
         push(location);
     };
+
+    const priceRange =
+        priceMin.length !== 0
+            ? `от ${convertNumber(priceMin[0])} до ${convertNumber(priceMax[priceMax.length - 1])} ₽`
+            : `нет данных`;
 
     return (
         <YMaps
@@ -81,7 +87,18 @@ const LocationStep = () => {
                     <h3 className={styles.mapTitle}>Выбрать на карте</h3>
                     <YaMap points={points} />
                 </div>
-                <div className={styles.submitContainer}>
+                <FormSubmit
+                    price={priceRange}
+                    onSubmit={onSubmit}
+                    buttonName="Выбрать модель"
+                    buttonClassName={classNames({
+                        [`${styles.formButton}`]: true,
+                        [`${styles.formButtonDisabled}`]: !stateForm.locationValid,
+                    })}
+                >
+                    <OrderContainer name="Пункт выдачи" data={`${stateForm.city}, \n ${stateForm.point}`} />
+                </FormSubmit>
+                {/* <div className={styles.submitContainer}>
                     <h3 className={styles.submitHeader}>Ваш заказ:</h3>
                     {stateForm.city && stateForm.point ? (
                         <>
@@ -118,7 +135,7 @@ const LocationStep = () => {
                         name="Выбрать модель"
                         onClick={onSubmit}
                     />
-                </div>
+                </div> */}
 
                 <div
                     className={classNames({

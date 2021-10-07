@@ -3,6 +3,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 const initialState = {
     city: "",
     point: "",
+    car: "",
+    extra: "",
     locationValid: false,
     modelValid: false,
     extraValid: false,
