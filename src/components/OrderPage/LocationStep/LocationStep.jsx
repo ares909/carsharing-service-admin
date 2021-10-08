@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Select from "react-select";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,11 +8,14 @@ import classNames from "classnames";
 import Autocomplete from "./Autocomplete/Autocomplete.jsx";
 import Button from "../../Common/UI/Button.jsx";
 import YaMap from "./Map/Map.jsx";
+import useAutocomplete from "../../../hooks/useAutocomplete";
 import { yandexApiKey } from "../../../constants/constants";
 import useNumberFormat from "../../../hooks/useNumberFormat";
 import { fetchCities } from "../../../store/slices/locationSlice";
 import { formAction } from "../../../store/slices/formSlice";
 import styles from "./LocationStep.module.scss";
+import FormSubmit from "../Common/FormSubmit/FormSubmit.jsx";
+import OrderContainer from "../Common/OrderContainer/OrderContainer.jsx";
 
 const LocationStep = () => {
     const dataStatus = useSelector((state) => state.location.status);
@@ -20,13 +24,20 @@ const LocationStep = () => {
     const points = useSelector((state) => state.point.points);
     const priceMin = useSelector((state) => state.priceRange.pricesMin);
     const priceMax = useSelector((state) => state.priceRange.pricesMax);
+
+    const cityOptions = cities ? cities.map((item) => ({ value: item.name, label: item.name, id: item.id })) : [];
+    const pointOptions = points
+        ? points.map((item) => ({ value: item.address, label: item.address, id: item.id }))
+        : [];
+
     const { push } = useHistory();
     const { convertNumber } = useNumberFormat();
     const location = {
         pathname: "/order/model",
-        state: { complete: true },
     };
     const dispatch = useDispatch();
+
+    const { onCityChange, onPointChange, city, point, onReset } = useAutocomplete();
 
     useEffect(() => {
         if (dataStatus === "idle") {
@@ -61,27 +72,60 @@ const LocationStep = () => {
                 <div className={styles.locationContainer}>
                     <div className={styles.inputContainer}>
                         <label className={styles.inputLabel}>Город</label>
-                        <Autocomplete
-                            suggestions={cities}
-                            register={register}
+
+                        <Select
                             name="city"
-                            valueState={stateForm.city}
+                            onChange={onCityChange}
+                            // defaultValue={stateForm.city}
+                            // defaultInputValue={stateForm.city.name || ""}
+                            value={
+                                stateForm.city
+                                    ? cityOptions.filter((option) => option.value === stateForm.city.name)
+                                    : ""
+                            }
+                            options={cityOptions}
+                            isSearchable={true}
+                            // isClearable={true}
+                            onClick={(e) => console.log(e.currentTarget)}
+                            placeholder={"Начните вводить город"}
                         />
+                        <button name="city" onClick={onReset} className={styles.inputCrossButton}></button>
                     </div>
                     <div className={styles.inputContainer}>
                         <label className={styles.inputLabel}>Пункт выдачи</label>
-                        <Autocomplete
-                            suggestions={points}
-                            register={register}
+                        <Select
                             name="point"
-                            valueState={stateForm.point}
+                            onChange={onPointChange}
+                            // defaultInputValue={stateForm.point.name || ""}
+                            value={
+                                stateForm.point.name
+                                    ? pointOptions.filter((option) => option.value === stateForm.point.name)
+                                    : ""
+                            }
+                            options={pointOptions}
+                            isSearchable={true}
+                            isDisabled={points.length === 0}
+                            // isClearable={true}
+                            placeholder={"Начните вводить пункт"}
                         />
+                        <button name="point" onClick={onReset} className={styles.inputCrossButton}></button>
                     </div>
 
                     <h3 className={styles.mapTitle}>Выбрать на карте</h3>
-                    <YaMap points={points} />
+                    {/* <YaMap points={points} /> */}
                 </div>
-                <div className={styles.submitContainer}>
+                <FormSubmit
+                    // price={priceRange}
+                    onSubmit={onSubmit}
+                    buttonName="Выбрать модель"
+                    buttonClassName={classNames({
+                        [`${styles.formButton}`]: true,
+                        [`${styles.formButtonDisabled}`]: !stateForm.locationValid,
+                    })}
+                >
+                    <OrderContainer name="Пункт выдачи" data={`${stateForm.city.name}, \n ${stateForm.point.name}`} />
+                </FormSubmit>
+                {/* <div className={styles.submitContainer}>
                     <h3 className={styles.submitHeader}>Ваш заказ:</h3>
                     {stateForm.city && stateForm.point ? (
                         <>
@@ -89,8 +133,8 @@ const LocationStep = () => {
                                 <span className={styles.point}>Пункт выдачи</span>
                                 <span className={styles.dots}></span>
                                 <div className={styles.text}>
-                                    <p className={styles.textPart}>{`${stateForm.city},`}</p>
-                                    <p className={styles.textPart}>{stateForm.point}</p>
+                                    <p className={styles.textPart}>{`${stateForm.city.name},`}</p>
+                                    <p className={styles.textPart}>{`${stateForm.point.name}`}</p>
                                 </div>
                             </div>
                             <div className={styles.priceContainer}>
@@ -118,8 +162,8 @@ const LocationStep = () => {
                         name="Выбрать модель"
                         onClick={onSubmit}
                     />
-                </div>
-
+                </div> */}
+                {/* 
                 <div
                     className={classNames({
                         [`${styles.submitMobileContainer}`]: true,
@@ -153,7 +197,7 @@ const LocationStep = () => {
                         name="Выбрать модель"
                         onClick={onSubmit}
                     />
-                </div>
+                </div> */}
             </form>
         </YMaps>
     );
