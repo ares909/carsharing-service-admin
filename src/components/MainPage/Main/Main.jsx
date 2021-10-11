@@ -7,8 +7,7 @@ import styles from "./Main.module.scss";
 
 const Main = ({ toggle }) => {
     const { push } = useHistory();
-    const handleClick = (e) => {
-        e.preventDefault();
+    const handleClick = () => {
         push("./order");
     };
     return (

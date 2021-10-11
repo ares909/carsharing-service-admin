@@ -6,10 +6,7 @@ const OrderContainer = ({ children, data, name }) => {
         <div className={styles.pointContainer}>
             <span className={styles.point}>{name}</span>
             <span className={styles.dots}></span>
-            <div className={styles.text}>
-                <p className={styles.textPart}>{data}</p>
-                {/* <p className={styles.textPart}>{stateForm.point}</p> */}
-            </div>
+            <span className={styles.text}>{data}</span>
         </div>
     );
 };

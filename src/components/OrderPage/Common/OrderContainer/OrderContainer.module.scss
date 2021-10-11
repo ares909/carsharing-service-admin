@@ -14,17 +14,23 @@
 }
 
 .text {
+    display: inline-block;
+    max-width: 160px;
     font-weight: 300;
     font-size: 14px;
     line-height: 16px;
     flex: 1 0 auto;
     color: #999999;
-    word-wrap: break-word;
     margin: 0;
     text-align: right;
+    // word-break: break-all;
+    white-space: pre-line;
+    // text-overflow: ellipsis;
+
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         font-size: 12px;
         line-height: 14px;
+        max-width: 100px;
     }
 }
 
@@ -40,29 +46,37 @@
 }
 
 .pointContainer {
-    overflow: hidden;
+    // overflow: hidden;
     display: flex;
+    flex-direction: row;
     margin-bottom: 32px;
+    max-width: 287px;
+    // overflow: hidden;
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         min-width: 10px;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        max-width: 100%;
     }
-    @media screen and (min-width: 0px) and (max-width: 767px) {
-        margin-bottom: 15px;
+    @media screen and (min-width: 0px) and (max-width: 425px) {
+        margin: 0 auto 15px;
     }
 }
 
 .dots {
+    margin: 0 12px 0;
     flex: 0 1 auto;
-    min-width: 30px;
-    max-width: 75px;
+    min-width: 12px;
+    font-size: 14px;
+    line-height: 16px;
+    color: #999999;
+    // max-width: 75px;
     align-self: flex-end;
     @media screen and (min-width: 0) and (max-width: 1023px) {
         font-size: 10px;
         line-height: 12px;
-        display: none;
+        // display: none;
     }
 }
 
@@ -78,6 +92,6 @@
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         font-size: 10px;
         line-height: 12px;
-        display: none;
+        // display: none;
     }
 }

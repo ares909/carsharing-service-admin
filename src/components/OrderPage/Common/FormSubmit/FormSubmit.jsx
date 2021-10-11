@@ -6,25 +6,12 @@ import styles from "./FormSubmit.module.scss";
 
 const FormSubmit = ({ children, price, onSubmit, buttonName, buttonClassName }) => {
     const stateForm = useSelector((state) => state.form);
-    return (
+    const city = useSelector((state) => state.form.city);
+    const point = useSelector((state) => state.form.point);
+    return city && point ? (
         <div className={styles.submitContainer}>
             <h3 className={styles.submitContainerHeader}>Ваш заказ:</h3>
-            {stateForm.city && stateForm.point ? (
-                <>
-                    {children}
-
-                    {price ? (
-                        <div className={styles.priceContainer}>
-                            <p className={styles.priceTitle}>Цена: </p>
-                            <span className={styles.price}>{price}</span>
-                        </div>
-                    ) : (
-                        <></>
-                    )}
-                </>
-            ) : (
-                <></>
-            )}
+            {children}
 
             <Button
                 disabled={!stateForm.locationValid}
@@ -34,6 +21,8 @@ const FormSubmit = ({ children, price, onSubmit, buttonName, buttonClassName }) 
                 onClick={onSubmit}
             />
         </div>
+    ) : (
+        <></>
     );
 };
 
