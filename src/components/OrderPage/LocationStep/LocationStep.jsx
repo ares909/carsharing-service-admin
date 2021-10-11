@@ -1,20 +1,16 @@
 import React, { useEffect } from "react";
-import Select from "react-select";
 import { useHistory } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { YMaps } from "react-yandex-maps";
 import classNames from "classnames";
 import Autocomplete from "./Autocomplete/Autocomplete.jsx";
-import Button from "../../Common/UI/Button.jsx";
 import YaMap from "./Map/Map.jsx";
-import useAutocomplete from "../../../hooks/useAutocomplete";
-import { yandexApiKey } from "../../../constants/constants";
-import useNumberFormat from "../../../hooks/useNumberFormat";
-import { formAction, fetchCities } from "../../../store/slices/formSlice";
-import styles from "./LocationStep.module.scss";
 import FormSubmit from "../Common/FormSubmit/FormSubmit.jsx";
 import OrderContainer from "../Common/OrderContainer/OrderContainer.jsx";
+import useAutocomplete from "../../../hooks/useAutocomplete";
+import { yandexApiKey } from "../../../constants/constants";
+import { formAction, fetchCities } from "../../../store/slices/formSlice";
+import styles from "./LocationStep.module.scss";
 
 const LocationStep = () => {
     const dataStatus = useSelector((state) => state.form.cities.status);
@@ -30,7 +26,6 @@ const LocationStep = () => {
         : [];
 
     const { push } = useHistory();
-    const { convertNumber } = useNumberFormat();
     const location = {
         pathname: "/order/model",
     };
@@ -102,7 +97,6 @@ const LocationStep = () => {
                     }
                 </div>
                 <FormSubmit
-                    // price={priceRange}
                     onSubmit={onSubmit}
                     buttonName="Выбрать модель"
                     buttonClassName={classNames({
@@ -112,79 +106,6 @@ const LocationStep = () => {
                 >
                     <OrderContainer name="Пункт выдачи" data={`${city.name}, \n ${point.name}`} />
                 </FormSubmit>
-                {/* <div className={styles.submitContainer}>
-                    <h3 className={styles.submitHeader}>Ваш заказ:</h3>
-                    {stateForm.city && stateForm.point ? (
-                        <>
-                            <div className={styles.pointContainer}>
-                                <span className={styles.point}>Пункт выдачи</span>
-                                <span className={styles.dots}></span>
-                                <div className={styles.text}>
-                                    <p className={styles.textPart}>{`${stateForm.city.name},`}</p>
-                                    <p className={styles.textPart}>{`${stateForm.point.name}`}</p>
-                                </div>
-                            </div>
-                            <div className={styles.priceContainer}>
-                                <p className={styles.priceTitle}>Цена: </p>
-                                <span className={styles.price}>
-                                    {priceMin.length !== 0
-                                        ? `от ${convertNumber(priceMin[0])} до ${convertNumber(
-                                              priceMax[priceMax.length - 1],
-                                          )} ₽`
-                                        : `нет данных`}
-                                </span>
-                            </div>
-                        </>
-                    ) : (
-                        <></>
-                    )}
-
-                    <Button
-                        disabled={!stateForm.locationValid}
-                        className={classNames({
-                            [`${styles.formButton}`]: true,
-                            [`${styles.formButtonDisabled}`]: !stateForm.locationValid,
-                        })}
-                        type="button"
-                        name="Выбрать модель"
-                        onClick={onSubmit}
-                    />
-                </div> */}
-                {/* 
-                <div
-                    className={classNames({
-                        [`${styles.submitMobileContainer}`]: true,
-                        [`${styles.submitMobileContainerActive}`]: stateForm.city && stateForm.point,
-                    })}
-                >
-                    <h3 className={styles.submitHeader}>Ваш заказ:</h3>
-
-                    <div className={styles.pointContainer}>
-                        <span className={styles.point}>Пункт выдачи</span>
-                        <span className={styles.dots}></span>
-                        <div className={styles.text}>
-                            <p className={styles.textPart}>{`${stateForm.city},`}</p>
-                            <p className={styles.textPart}>{stateForm.point}</p>
-                        </div>
-                    </div>
-                    <div className={styles.priceContainer}>
-                        <p className={styles.priceTitle}>Цена: </p>
-                        <span className={styles.price}>{`от ${convertNumber(priceMin[0])} до ${convertNumber(
-                            priceMax[priceMax.length - 1],
-                        )} ₽`}</span>
-                    </div>
-
-                    <Button
-                        disabled={!stateForm.locationValid}
-                        className={classNames({
-                            [`${styles.formButton}`]: true,
-                            [`${styles.formButtonDisabled}`]: !stateForm.locationValid,
-                        })}
-                        type="button"
-                        name="Выбрать модель"
-                        onClick={onSubmit}
-                    />
-                </div> */}
             </form>
         </YMaps>
     );
