@@ -4,7 +4,7 @@ import classNames from "classnames";
 import Button from "../../../Common/UI/Button.jsx";
 import styles from "./FormSubmit.module.scss";
 
-const FormSubmit = ({ children, price, onSubmit, buttonName, buttonClassName }) => {
+const FormSubmit = ({ children, price, onSubmit, buttonName, buttonClassName, isDisabled }) => {
     const stateForm = useSelector((state) => state.form);
     const city = useSelector((state) => state.form.city);
     const point = useSelector((state) => state.form.point);
@@ -14,7 +14,7 @@ const FormSubmit = ({ children, price, onSubmit, buttonName, buttonClassName }) 
             {children}
 
             <Button
-                disabled={!stateForm.locationValid}
+                disabled={isDisabled}
                 className={buttonClassName}
                 type="button"
                 name={buttonName}

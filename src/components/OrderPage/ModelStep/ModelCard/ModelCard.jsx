@@ -6,7 +6,7 @@ import { imageUrl } from "../../../../constants/constants";
 import styles from "./ModelCard.module.scss";
 
 const ModelCard = ({ car, onClick }) => {
-    const selectedCar = useSelector((state) => state.car.car);
+    const selectedCar = useSelector((state) => state.form.selectedCar);
     const { convertNumber } = useNumberFormat();
     const handleClick = () => {
         onClick(car);
@@ -26,7 +26,10 @@ const ModelCard = ({ car, onClick }) => {
                 )} ₽`}</div>
             </div>
             <div className={styles.cardImageContainer}>
-                <img className={styles.cardImage} src={imageUrl + car.thumbnail.path} />
+                <img
+                    className={styles.cardImage}
+                    src={car.thumbnail.path.includes("files") ? imageUrl + car.thumbnail.path : car.thumbnail.path}
+                />
             </div>
         </div>
     );

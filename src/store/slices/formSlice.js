@@ -1,10 +1,11 @@
 /* eslint-disable no-use-before-define */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getCities, getPoints, getPriceRange, getGeoData } from "../../api/api";
+import { getCities, getPoints, getPriceRange, getGeoData, getCar } from "../../api/api";
 
 const initialState = {
     city: "",
     point: "",
+    car: "",
     cities: {
         data: [],
         status: "idle",
@@ -15,6 +16,9 @@ const initialState = {
     },
     order: [],
     cars: [],
+    filteredCars: [],
+    categories: [],
+    selectedCar: "",
     geodata: {
         status: "idle",
         city: "",
@@ -28,6 +32,10 @@ const initialState = {
     extraValid: false,
     totalValid: false,
     error: null,
+};
+
+const getUniqueObject = (array) => {
+    return [...new Map(array.map((item) => [item.id, item])).values()];
 };
 
 export const fetchCities = createAsyncThunk("form/fetchCities", (_, { rejectWithValue }) => {
@@ -57,6 +65,14 @@ export const fetchGeoData = createAsyncThunk("form/fetchGeoData", async (cityNam
     try {
         const point = await getGeoData(cityName);
         return dispatch(addCityPoint(point));
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
+
+export const fetchCar = createAsyncThunk("form/fetchCar", (carId, { rejectWithValue }) => {
+    try {
+        return getCar(carId);
     } catch (error) {
         return rejectWithValue(error.message);
     }
@@ -130,6 +146,18 @@ export const formSlice = createSlice({
                 geodata: { city: state.geodata.city, points: state.geodata.points, point: initialState.geodata.point },
             };
         },
+        resetSelectedCar(state) {
+            return {
+                ...state,
+                selectedCar: initialState.selectedCar,
+            };
+        },
+        filterCars(state, action) {
+            return {
+                ...state,
+                filteredCars: state.cars.filter((car) => car.categoryId.name === action.payload),
+            };
+        },
 
         // addCities(state, action) {
         //     state.cities = action.payload.data;
@@ -146,7 +174,16 @@ export const formSlice = createSlice({
         },
         [fetchOrder.fulfilled]: (state, action) => {
             state.order = action.payload.data;
-            state.cars = action.payload.data.filter((item) => item.carId);
+            state.cars = getUniqueObject(action.payload.data.filter((item) => item.carId).map((item) => item.carId));
+            state.categories = getUniqueObject(
+                getUniqueObject(action.payload.data.filter((item) => item.carId).map((item) => item.carId))
+                    .filter((car) => car.categoryId !== null)
+                    .map((car) => ({ id: car.categoryId.id, name: car.categoryId.name })),
+            );
+            // state.categories = getUniqueObject(
+            //     action.payload.data.filter((item) => item.carId.categoryId).map((item) => item.categoryId !== null),
+            // );
+
             state.pricesMin = action.payload.data
                 .filter((item) => item.carId)
                 .map((item) => item.carId.priceMin)
@@ -156,14 +193,27 @@ export const formSlice = createSlice({
                 .map((item) => item.carId.priceMax)
                 .sort((a, b) => (a > b ? 1 : -1));
         },
+        [fetchCar.fulfilled]: (state, action) => {
+            state.selectedCar = action.payload.data;
+        },
 
         [fetchCities.rejected]: setError,
         [fetchPoints.rejected]: setError,
         [fetchGeoData.rejected]: setError,
         [fetchGeoDataPoints.rejected]: setError,
         [fetchChosenPoint.rejected]: setError,
+        [fetchCar.rejected]: setError,
     },
 });
 
-export const { formAction, resetPoints, addCityPoint, addPoints, addChosenPoint, resetChosenPoint } = formSlice.actions;
+export const {
+    formAction,
+    resetPoints,
+    addCityPoint,
+    addPoints,
+    addChosenPoint,
+    resetChosenPoint,
+    resetSelectedCar,
+    filterCars,
+} = formSlice.actions;
 export default formSlice.reducer;

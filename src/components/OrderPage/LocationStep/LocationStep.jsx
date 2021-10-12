@@ -52,11 +52,6 @@ const LocationStep = () => {
         push(location);
     };
 
-    const priceRange =
-        priceMin.length !== 0
-            ? `от ${convertNumber(priceMin[0])} до ${convertNumber(priceMax[priceMax.length - 1])} ₽`
-            : `нет данных`;
-
     return (
         <YMaps
             query={{
@@ -108,6 +103,7 @@ const LocationStep = () => {
                         [`${styles.formButton}`]: true,
                         [`${styles.formButtonDisabled}`]: !stateForm.locationValid,
                     })}
+                    isDisabled={!stateForm.locationValid}
                 >
                     <OrderContainer name="Пункт выдачи" data={`${city.name}, \n ${point.name}`} />
                 </FormSubmit>

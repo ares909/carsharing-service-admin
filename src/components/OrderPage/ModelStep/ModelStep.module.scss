@@ -11,7 +11,6 @@
     height: 100%;
     position: relative;
 
-
     @media screen and (min-width: 1024px) and (max-width: 1439px) {
         margin-top: 10px;
         min-width: calc(100vw - 64px - 64px);
@@ -70,6 +69,10 @@
 .modelContainer {
     display: flex;
     flex-direction: row;
+    flex-grow: 1;
+    justify-content: flex-start;
+    align-content: flex-start;
+
     flex-wrap: wrap;
-    border-right: 1px solid #EEEEEE;
+    border-right: 1px solid #eeeeee;
 }

@@ -12,6 +12,7 @@ import {
     fetchGeoDataPoints,
     fetchChosenPoint,
     resetChosenPoint,
+    resetSelectedCar,
 } from "../store/slices/formSlice";
 
 const useAutocomplete = () => {
@@ -43,6 +44,8 @@ const useAutocomplete = () => {
         if (option) {
             dispatch(formAction({ point: { name: option.value, id: option.id } }));
             setState({ ...state, point: { name: option.value, id: option.id } });
+            dispatch(formAction({ car: "" }));
+            dispatch(resetSelectedCar());
         } else {
             // dispatch(formAction({ point: "" }));
             // dispatch(resetChosenPoint());
@@ -59,6 +62,8 @@ const useAutocomplete = () => {
         } else {
             dispatch(formAction({ point: "" }));
             dispatch(resetChosenPoint());
+            dispatch(formAction({ car: "" }));
+            dispatch(resetSelectedCar());
         }
     };
 
