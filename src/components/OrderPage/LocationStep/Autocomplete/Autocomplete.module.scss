@@ -4,35 +4,52 @@
     @include black-text;
     border: none;
 
-    padding: 3px;
-    min-width: 225px;
+    padding: 0;
     outline: none;
     align-self: center;
     font-weight: 300;
     font-size: 14px;
     line-height: 16px;
+    max-width: 225px;
     @media screen and (min-width: 0px) and (max-width: 767px) {
         font-size: 11px;
         line-height: 11px;
-        min-width: 180px;
-        max-width: 180px;
+        min-width: 200px;
+        max-width: 200px;
     }
 }
-
-
 
 input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
 }
 
+
+
 .inputContainer {
-    position: relative;
     display: flex;
     flex-direction: row;
-    // max-height: 105px;
-    max-width: 225px;
-    border-bottom: 1px solid #999999;
-    
+    margin-bottom: 13px;
+    align-self: center;
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+}
+
+.inputLabel {
+    @include black-text;
+    align-self: center;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    min-width: 91px;
+    text-align: right;
+    margin-right: 8px;
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        font-size: 11px;
+        line-height: 11px;
+        margin-right: 5px;
+        min-width: 91px;
+    }
 }
 
 .inputCrossButton {
@@ -50,75 +67,12 @@ input[type="search"]::-webkit-search-cancel-button {
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    background-color: white;
+    // background-color: white;
     border: none;
     padding: 0;
-    left: 210px;
+    left: 310px;
     @media screen and (min-width: 0px) and (max-width: 767px) {
-        left: 170px;
+        left: 280px;
     }
 }
 
-.suggestionsContainter {
-    min-width: 225px;
-    position: absolute;
-    top: 20px;
-    z-index: 1;
-    opacity: 1;
-    margin-top: 0;
-    border: 1px solid #eeeeee;
-    background-color: white;
-    // box-sizing: border-box;
-    max-height: 105px;
-    padding: 0;
-    overflow: scroll;
-    overflow-x: hidden;
-    @media screen and (min-width: 0px) and (max-width: 767px) {
-        min-width: 180px;
-        max-width: 180px;
-    }
-}
-
-.noSuggestions {
-    position: absolute;
-    top: 20px;
-    z-index: 1;
-    color: #999;
-    padding: 3px;
-    max-width: 225px;
-    @media screen and (min-width: 0px) and (max-width: 767px) {
-        font-size: 11px;
-        line-height: 11px;
-    }
-}
-
-.suggestions {
-    
-    margin-top: 6px;
-    color: gray;
-    padding: 0;
-    list-style: none;
-    padding: 3px;
-    // width: 300px;
-    // overflow-y: auto;
-    scroll-behavior: smooth;
-    @media screen and (min-width: 0px) and (max-width: 767px) {
-        font-size: 11px;
-        line-height: 11px;
-    }
-
-    &:hover {
-        background-color: white;
-        color: #0ec261;
-        cursor: pointer;
-        list-style: none;
-    }
-}
-
-.suggestionsActive {
-    @extend .suggestions;
-    background-color: white;
-    color: #0ec261;
-    cursor: pointer;
-    list-style: none;
-}

@@ -11,7 +11,7 @@ import styles from "./MainPage.module.scss";
 const MainPage = () => {
     const dispatch = useDispatch();
     const authStatus = useSelector((state) => state.auth.status);
-    const refreshToken = JSON.parse(localStorage.getItem("token"));
+    const refreshToken = JSON.parse(localStorage.getItem("access_token"));
     useEffect(() => {
         if (authStatus === "idle" && !refreshToken) {
             dispatch(handleAuth());

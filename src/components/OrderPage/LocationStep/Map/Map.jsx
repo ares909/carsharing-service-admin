@@ -2,22 +2,22 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Map, Placemark, Clusterer } from "react-yandex-maps";
 import { useSelector, useDispatch } from "react-redux";
+import classNames from "classnames";
 import { formAction } from "../../../../store/slices/formSlice";
-import { fetchPrices } from "../../../../store/slices/priceRangeSlice";
-import { fetchSinglePoint } from "../../../../store/slices/singlePointSlice";
-import { fetchGeoData } from "../../../../store/slices/geodataSlice";
 import placemark from "../../../../images/map/placemark.svg";
 import styles from "./Map.module.scss";
 
 const YaMap = () => {
     const mapRef = useRef(null);
     const dispatch = useDispatch();
-    const cityData = useSelector((state) => state.geodata.geodata);
-    const points = useSelector((state) => state.point.points);
-    const geodataPoints = useSelector((state) => state.geodataPoints.geodataPoints);
-    const chosenPoint = useSelector((state) => state.singlePoint.point);
+    const cityData = useSelector((state) => state.form.geodata.city);
+    const pointData = useSelector((state) => state.form.geodata.point);
+    const points = useSelector((state) => state.form.points);
+    const geodataPoints = useSelector((state) => state.form.geodata.points);
+    const city = useSelector((state) => state.form.city);
+    const chosenPoint = useSelector((state) => state.form.point);
     const defaultState = {
-        center: ["55.7522200", "37.6155600"],
+        center: ["54.314192", "48.403132"],
         zoom: 12,
         controls: ["zoomControl"],
         checkZoomRange: true,
@@ -39,33 +39,35 @@ const YaMap = () => {
     }, [cityData, mapRef.current]);
 
     useEffect(() => {
-        if (cityData && chosenPoint && mapRef.current) {
-            mapRef.current.setCenter(cityData, 16);
-        } else if (cityData && mapRef.current && !chosenPoint) {
+        if (cityData && pointData && mapRef.current) {
+            mapRef.current.setCenter(pointData, 16);
+        } else if (cityData && mapRef.current && !pointData) {
             mapRef.current.setCenter(cityData, defaultState.zoom);
-        } else if (!mapRef.current && cityData && chosenPoint) {
-            setMapState({ ...mapState, center: cityData, zoom: 16 });
+        } else if (!mapRef.current && cityData && pointData) {
+            setMapState({ ...mapState, center: pointData, zoom: 16 });
         }
-    }, [chosenPoint, cityData, mapRef.current]);
+    }, [pointData, cityData, mapRef.current]);
+
+    const handleClick = (e) => {
+        setPoint(points.data.filter((item) => item.address === e.originalEvent.target.properties._data.hintContent));
+    };
 
     useEffect(() => {
         if (point) {
-            dispatch(fetchSinglePoint(point[0].id));
-            dispatch(fetchPrices({ cityId: point[0].cityId.id, pointId: point[0].id }));
-            dispatch(fetchGeoData(`${point[0].cityId.name}, ${point[0].address}`));
+            dispatch(
+                formAction({
+                    point: { name: point[0].address, id: point[0].id },
+                }),
+            );
         }
     }, [point]);
 
-    const handleClick = (e) => {
-        setPoint(
-            points.filter((item) => item.address === e.originalEvent.target.properties._data.balloonContentHeader),
-        );
-        dispatch(formAction({ point: e.originalEvent.target.properties._data.balloonContentHeader }));
-        // mapRef.current.setCenter(e.originalEvent.target.geometry._coordinates, 16);
-    };
     return (
         <Map
-            className={styles.map}
+            className={classNames({
+                [`${styles.map}`]: true,
+                [`${styles.mapMobile}`]: city && chosenPoint,
+            })}
             state={{ center: mapState.center, zoom: mapState.zoom, controls: ["zoomControl"] }}
             options={{ autoFitToViewport: "always" }}
             instanceRef={(ref) => {
@@ -78,34 +80,29 @@ const YaMap = () => {
                     groupByCoordinates: false,
                 }}
             >
-                {geodataPoints.map((coordinates, index) => (
-                    <Placemark
-                        key={coordinates.featureMember[0].GeoObject.name}
-                        geometry={coordinates.featureMember[0].GeoObject.Point.pos.split(" ").reverse()}
-                        options={{
-                            // preset: "islands#darkGreenCircleIcon",
-                            iconLayout: "default#image",
-                            iconImageHref: placemark,
-                            iconImageSize: [18, 18],
-                            iconImageOffset: [-18, -18],
-                        }}
-                        onClick={handleClick}
-                        modules={[
-                            // чтобы видеть хинты и балуны подключаем данные модули
-                            "objectManager.addon.objectsBalloon",
-                            "objectManager.addon.objectsHint",
-                        ]}
-                        properties={{
-                            balloonContentHeader: `${coordinates.metaDataProperty.GeocoderResponseMetaData.request
-                                .split(", ")
-                                .slice(1)
-                                .join(", ")}`,
-                            balloonContent: `<p style='color: black'><strong>${
-                                point ? point[0].name : ""
-                            }</strong></p>`,
-                        }}
-                    />
-                ))}
+                {geodataPoints
+                    ? geodataPoints.map((coordinates, index) => (
+                          <Placemark
+                              key={coordinates.featureMember[0].GeoObject.name}
+                              geometry={coordinates.featureMember[0].GeoObject.Point.pos.split(" ").reverse()}
+                              options={{
+                                  // preset: "islands#darkGreenCircleIcon",
+                                  iconLayout: "default#image",
+                                  iconImageHref: placemark,
+                                  iconImageSize: [18, 18],
+                                  iconImageOffset: [-18, -18],
+                              }}
+                              onClick={handleClick}
+                              modules={["objectManager.addon.objectsHint"]}
+                              properties={{
+                                  hintContent: `${coordinates.metaDataProperty.GeocoderResponseMetaData.request
+                                      .split(", ")
+                                      .slice(1)
+                                      .join(", ")}`,
+                              }}
+                          />
+                      ))
+                    : ""}
             </Clusterer>
         </Map>
     );

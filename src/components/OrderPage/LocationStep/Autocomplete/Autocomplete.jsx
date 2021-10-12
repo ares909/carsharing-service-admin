@@ -1,162 +1,113 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchPoints } from "../../../../store/slices/pointSlice";
-import { fetchGeoData, resetGeodata } from "../../../../store/slices/geodataSlice";
-import { formAction } from "../../../../store/slices/formSlice";
-import { fetchGeoDataPoints, resetGeodataPoints } from "../../../../store/slices/geodataPointsSlice";
-import { fetchSinglePoint, resetChosenPoint } from "../../../../store/slices/singlePointSlice";
-import { fetchPrices } from "../../../../store/slices/priceRangeSlice";
+import React, { useState, useEffect, useRef } from "react";
+import Select, { createFilter } from "react-select";
 import styles from "./Autocomplete.module.scss";
 
-const Autocomplete = ({ suggestions, register, valueState, name }) => {
-    const dispatch = useDispatch();
-    const points = useSelector((state) => state.point.points);
+const Autocomplete = ({ onChange, options, valueState, onReset, placeholder, name, isDisabled, labelText }) => {
+    const controlWidth = () => {
+        if (window.innerWidth > 0 && window.innerWidth <= 767) {
+            return "200px";
+        }
 
-    const [state, setState] = useState({
-        filteredSuggestions: [],
-        showSuggestions: false,
-        userInput: valueState,
-        city: "",
-        point: "",
+        return "225px";
+    };
+    const [width, setWidth] = useState(controlWidth());
+    const resizeRef = useRef();
+
+    useEffect(() => {
+        const resize = () => resizeRef.current();
+        const onResize = window.addEventListener("resize", resize);
+
+        return () => {
+            window.removeEventListener("resize", onResize);
+        };
+    }, []);
+
+    const handleResize = () => setWidth(controlWidth());
+
+    useEffect(() => {
+        resizeRef.current = handleResize;
     });
 
-    const onChange = (e) => {
-        const userInput = valueState || e.currentTarget.value;
-        const filteredSuggestions = suggestions.filter(
-            (suggestion) =>
-                (name === "city" ? suggestion.name : suggestion.address)
-                    .toLowerCase()
-                    .indexOf(userInput.toLowerCase()) > -1,
-        );
+    const customStyles = {
+        valueContainer: (provided, state) => ({
+            ...provided,
+            padding: 0,
+            background: state.isDisabled ? "#eeeeee" : "none",
+            color: state.isDisabled ? "black" : "gray",
+        }),
 
-        setState({
-            filteredSuggestions,
-            showSuggestions: true,
-            userInput,
-        });
+        option: (provided, state) => ({
+            ...provided,
+            color: state.isFocused ? "#0EC261" : "gray",
+            padding: 8,
+            backgroundColor: "white",
+            cursor: "pointer",
+            fontSize: "14px",
+            lineHeight: "16px",
+        }),
+
+        control: () => ({
+            minHeigth: "25px",
+            border: "none",
+            borderRadius: "none",
+            width: controlWidth(),
+            borderBottom: "1px solid gray",
+            outline: "none",
+            boxShadow: "none",
+            borderColor: "gray",
+        }),
+        indicatorsContainer: () => ({
+            display: "none",
+        }),
+        singleValue: (provided) => ({
+            ...provided,
+
+            margin: 0,
+            padding: "3px 8px 3px",
+        }),
+        input: (provided) => ({
+            ...provided,
+            margin: 0,
+            padding: "3px 8px 3px",
+        }),
+
+        placeholder: (provided) => ({
+            ...provided,
+            margin: 0,
+            padding: "3px 8px 3px",
+        }),
     };
 
-    const onClick = (e) => {
-        dispatch(formAction({ [name]: e.currentTarget.innerText }));
-
-        if (name === "city") {
-            const filteredCity = suggestions.find(
-                (suggestion) => suggestion.name.toLowerCase() === e.currentTarget.innerText.toLowerCase(),
-            );
-            setState({
-                ...state,
-                filteredSuggestions: [],
-                showSuggestions: false,
-                userInput: e.currentTarget.innerText,
-                city: filteredCity,
-            });
-        } else {
-            const filteredPoint = suggestions.find(
-                (suggestion) => suggestion.address.toLowerCase() === e.currentTarget.innerText.toLowerCase(),
-            );
-            setState({
-                ...state,
-                filteredSuggestions: [],
-                showSuggestions: false,
-                userInput: valueState || e.currentTarget.innerText,
-                point: filteredPoint,
-            });
-        }
+    const filterConfig = {
+        ignoreCase: true,
+        ignoreAccents: true,
+        trim: true,
+        matchFrom: "start",
     };
-
-    const onReset = (e) => {
-        e.preventDefault();
-
-        if (e.target.previousSibling.name === "city") {
-            dispatch(formAction({ city: "", point: "" }));
-            dispatch(resetChosenPoint());
-            dispatch(resetGeodataPoints());
-            dispatch(resetGeodata());
-            setState({
-                filteredSuggestions: [],
-                showSuggestions: false,
-                userInput: "",
-                city: "",
-                point: "",
-            });
-        } else {
-            setState({
-                ...state,
-                userInput: "",
-            });
-            dispatch(resetChosenPoint());
-            dispatch(formAction({ [name]: "" }));
-        }
-    };
-
-    const { filteredSuggestions, showSuggestions, userInput, city, point } = state;
-
-    useEffect(() => {
-        if (city) {
-            dispatch(fetchPoints(city.id));
-            dispatch(fetchGeoData(city.name));
-        }
-    }, [city]);
-
-    useEffect(() => {
-        if (city && points)
-            points.forEach((item) => {
-                dispatch(fetchGeoDataPoints(`${item.cityId.name}, ${item.address}`));
-            });
-    }, [points]);
-
-    useEffect(() => {
-        if (point) {
-            dispatch(fetchSinglePoint(point.id));
-            dispatch(fetchGeoData(`${point.cityId.name}, ${point.address}`));
-            dispatch(fetchPrices({ cityId: point.cityId.id, pointId: point.id }));
-            // dispatch(fetchGeoDataPoints(`${point.cityId.name}, ${point.address}`));
-        }
-    }, [point]);
-
-    useEffect(() => {
-        if (valueState) {
-            setState({ ...state, userInput: valueState });
-        }
-    }, [valueState, userInput]);
-
-    let suggestionsListComponent;
-    if (showSuggestions && userInput) {
-        if (filteredSuggestions.length) {
-            suggestionsListComponent = (
-                <ul className={styles.suggestionsContainter}>
-                    {filteredSuggestions.map((suggestion) => {
-                        return (
-                            <li className={styles.suggestions} key={suggestion.id} onClick={onClick}>
-                                {name === "city" ? suggestion.name : suggestion.address}
-                            </li>
-                        );
-                    })}
-                </ul>
-            );
-        } else {
-            suggestionsListComponent = (
-                <div className={styles.noSuggestions}>
-                    <em>Место не найдено</em>
-                </div>
-            );
-        }
-    }
 
     return (
         <div className={styles.inputContainer}>
-            <input
-                type="search"
-                {...register(name, { required: "Введите пункт" })}
-                onChange={onChange}
-                value={userInput}
-                autoComplete="off"
-                className={styles.input}
-                placeholder={name === "city" ? "Начните вводить город" : "Начните вводить пункт"}
-            />
-            <button onClick={onReset} className={styles.inputCrossButton}></button>
+            <label className={styles.inputLabel}>{labelText}</label>
 
-            {suggestionsListComponent}
+            <Select
+                styles={customStyles}
+                className={styles.input}
+                name={name}
+                onChange={onChange}
+                value={valueState ? options.filter((option) => option.value === valueState) : ""}
+                options={options}
+                isSearchable={true}
+                placeholder={placeholder}
+                isDisabled={isDisabled}
+                noOptionsMessage={() => "Пункт не найден"}
+                filterOption={createFilter(filterConfig)}
+            />
+            <button
+                style={{ backgroundColor: isDisabled ? "#eeeeee" : "white" }}
+                name={name}
+                onClick={onReset}
+                className={styles.inputCrossButton}
+            ></button>
         </div>
     );
 };
