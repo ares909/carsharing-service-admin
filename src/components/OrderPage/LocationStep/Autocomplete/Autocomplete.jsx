@@ -90,8 +90,11 @@ const Autocomplete = ({ onChange, options, valueState, onReset, placeholder, nam
             <label className={styles.inputLabel}>{labelText}</label>
 
             <Select
-                styles={customStyles}
+                // styles={customStyles}
+                // classNamePrefix="react-select"
+                // className="react-select-container"
                 className={styles.input}
+                classNamePrefix={styles.input}
                 name={name}
                 onChange={onChange}
                 value={valueState ? options.filter((option) => option.value === valueState) : ""}

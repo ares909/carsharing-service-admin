@@ -1,26 +1,25 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 import classNames from "classnames";
 import useNumberFormat from "../../../../hooks/useNumberFormat";
 import { imageUrl } from "../../../../constants/constants";
 import styles from "./ModelCard.module.scss";
 
-const ModelCard = ({ car, onClick }) => {
-    const selectedCar = useSelector((state) => state.form.selectedCar);
+const ModelCard = ({ car, onClick, pickedCar }) => {
     const { convertNumber } = useNumberFormat();
     const handleClick = () => {
         onClick(car);
     };
+    const conteinerClassName = classNames({
+        [`${styles.cardContainer}`]: true,
+        [`${styles.cardContainerActive}`]: pickedCar.car.id === car.id,
+    });
+
     return (
-        <div
-            onClick={handleClick}
-            className={classNames({
-                [`${styles.cardContainer}`]: true,
-                [`${styles.cardContainerActive}`]: selectedCar.id === car.id,
-            })}
-        >
+        <div onClick={handleClick} className={conteinerClassName}>
             <div className={styles.textContainer}>
-                <div className={styles.cardModelText}>{car.name.split(" ").slice(1).join(" ")}</div>
+                <div className={styles.cardModelText}>
+                    {car.name.includes(",") ? car.name.split(" ").slice(1).join(" ") : car.name}
+                </div>
                 <div className={styles.cardPriceText}>{`${convertNumber(car.priceMin)} - ${convertNumber(
                     car.priceMax,
                 )} ₽`}</div>

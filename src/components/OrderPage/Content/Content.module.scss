@@ -3,4 +3,29 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.topContainer {
+    position: sticky;
+    margin-top: 32px;
+    // top: 32px;
+    z-index: 1;
+
+    background-color: white;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        padding-top: 16px;
+        opacity: 1;
+        margin-top: 0;
+        top: 0px;
+        position: sticky;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        padding-top: 16px;
+        opacity: 1;
+        margin-top: 0;
+        top: 0px;
+        position: sticky;
+    }
 }

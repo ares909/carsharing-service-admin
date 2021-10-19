@@ -5,7 +5,6 @@ import { getCities, getPoints, getPriceRange, getGeoData, getCar } from "../../a
 const initialState = {
     city: "",
     point: "",
-    car: "",
     cities: {
         data: [],
         status: "idle",
@@ -14,10 +13,10 @@ const initialState = {
         data: [],
         status: "idle",
     },
-    order: [],
-    cars: [],
+    order: { data: [], status: "idle", cars: [], categories: [{ id: "Все модели", name: "Все модели" }] },
+    // cars: [],
     filteredCars: [],
-    categories: [],
+
     selectedCar: "",
     geodata: {
         status: "idle",
@@ -155,13 +154,28 @@ export const formSlice = createSlice({
         filterCars(state, action) {
             return {
                 ...state,
-                filteredCars: state.cars.filter((car) => car.categoryId.name === action.payload),
+                filteredCars: state.order.cars.filter(
+                    (car) => car.categoryId !== null && car.categoryId.name === action.payload,
+                ),
             };
         },
 
-        // addCities(state, action) {
-        //     state.cities = action.payload.data;
-        // },
+        resetFilteredCars(state) {
+            return {
+                ...state,
+                filteredCars: initialState.filteredCars,
+            };
+        },
+        resetOrder(state) {
+            return {
+                ...state,
+                order: {
+                    data: initialState.order.data,
+                    status: initialState.order.status,
+                    cars: initialState.order.cars,
+                },
+            };
+        },
     },
     extraReducers: {
         [fetchCities.fulfilled]: (state, action) => {
@@ -173,25 +187,21 @@ export const formSlice = createSlice({
             state.points.status = "succeeded";
         },
         [fetchOrder.fulfilled]: (state, action) => {
-            state.order = action.payload.data;
-            state.cars = getUniqueObject(action.payload.data.filter((item) => item.carId).map((item) => item.carId));
-            state.categories = getUniqueObject(
-                getUniqueObject(action.payload.data.filter((item) => item.carId).map((item) => item.carId))
-                    .filter((car) => car.categoryId !== null)
-                    .map((car) => ({ id: car.categoryId.id, name: car.categoryId.name })),
-            );
-            // state.categories = getUniqueObject(
-            //     action.payload.data.filter((item) => item.carId.categoryId).map((item) => item.categoryId !== null),
-            // );
-
-            state.pricesMin = action.payload.data
-                .filter((item) => item.carId)
-                .map((item) => item.carId.priceMin)
-                .sort((a, b) => (a > b ? 1 : -1));
-            state.pricesMax = action.payload.data
-                .filter((item) => item.carId)
-                .map((item) => item.carId.priceMax)
-                .sort((a, b) => (a > b ? 1 : -1));
+            state.order.data = action.payload.data;
+            state.order.status = "succeeded";
+            state.order.cars = action.payload.data
+                ? getUniqueObject(action.payload.data.filter((item) => item.carId).map((item) => item.carId))
+                : initialState.order.cars;
+            state.order.categories = action.payload.data
+                ? [
+                      ...initialState.order.categories,
+                      ...getUniqueObject(
+                          getUniqueObject(action.payload.data.filter((item) => item.carId).map((item) => item.carId))
+                              .filter((car) => car.categoryId !== null)
+                              .map((car) => ({ id: car.categoryId.id, name: car.categoryId.name })),
+                      ),
+                  ]
+                : initialState.order.categories;
         },
         [fetchCar.fulfilled]: (state, action) => {
             state.selectedCar = action.payload.data;
@@ -203,6 +213,13 @@ export const formSlice = createSlice({
         [fetchGeoDataPoints.rejected]: setError,
         [fetchChosenPoint.rejected]: setError,
         [fetchCar.rejected]: setError,
+
+        [fetchPoints.pending]: (state) => {
+            state.points.status = "loading";
+        },
+        [fetchOrder.pending]: (state) => {
+            state.order.status = "loading";
+        },
     },
 });
 
@@ -215,5 +232,7 @@ export const {
     resetChosenPoint,
     resetSelectedCar,
     filterCars,
+    resetOrder,
+    resetFilteredCars,
 } = formSlice.actions;
 export default formSlice.reducer;

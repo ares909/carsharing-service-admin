@@ -8,13 +8,12 @@ import styles from "./Header.module.scss";
 
 const Header = ({ toggle }) => {
     const location = useLocation();
+    const headerClassname = classNames({
+        [`${styles.header}`]: true,
+        [`${styles.formHeader}`]: location.pathname !== "/",
+    });
     return (
-        <header
-            className={classNames({
-                [`${styles.header}`]: true,
-                [`${styles.formHeader}`]: location.pathname !== "/",
-            })}
-        >
+        <header className={headerClassname}>
             <div className={styles.container}>
                 <h2 className={styles.title}>Need for drive</h2>
                 <div className={styles.locationContainer}>

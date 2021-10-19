@@ -14,8 +14,10 @@ const Content = ({ toggle }) => {
     const match = useRouteMatch();
     return (
         <div className={styles.content}>
-            <Header toggle={toggle} />
-            <NavBar data={navButtonsForm} type="form" />
+            <div className={styles.topContainer}>
+                <Header toggle={toggle} />
+                <NavBar data={navButtonsForm} type="form" />
+            </div>
             <Route exact path={`${match.url}`} component={LocationStep} />
             <Route path={`${match.url}/model`} component={ModelStep} />
             <Route path={`${match.url}/extra`} component={AdditionalStep} />

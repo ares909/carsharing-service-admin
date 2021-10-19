@@ -64,10 +64,7 @@ const YaMap = () => {
 
     return (
         <Map
-            className={classNames({
-                [`${styles.map}`]: true,
-                [`${styles.mapMobile}`]: city && chosenPoint,
-            })}
+            className={styles.map}
             state={{ center: mapState.center, zoom: mapState.zoom, controls: ["zoomControl"] }}
             options={{ autoFitToViewport: "always" }}
             instanceRef={(ref) => {
