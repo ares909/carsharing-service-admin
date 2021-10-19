@@ -76,6 +76,10 @@
     [class*="-IndicatorsContainer"] {
         display: none;
     }
+
+    [class*="-Indicators"] {
+        display: none;
+    }
     [class*="-singleValue"] {
         margin: 0;
         padding: 0;
