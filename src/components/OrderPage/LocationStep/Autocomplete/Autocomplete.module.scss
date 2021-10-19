@@ -80,6 +80,9 @@
     [class*="-indicators"] {
         display: none;
     }
+    [class*="indicators"] {
+        display: none;
+    }
     [class*="-singleValue"] {
         margin: 0;
         padding: 0;
