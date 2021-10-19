@@ -55,7 +55,6 @@
 
     @media screen and (min-width: 1441px) {
         min-width: calc(100% - 48%);
-       
     }
 
     @media screen and (min-width: 1024px) and (max-width: 1200px) {
@@ -70,6 +69,10 @@
     }
 }
 
+.wrapperOrder {
+    @extend .wrapper;
+    min-width: 100%;
+}
 .button {
     background-color: inherit;
     cursor: pointer;

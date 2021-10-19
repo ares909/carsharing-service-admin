@@ -64,3 +64,10 @@ export const navButtonsHorizontal = [
         url: "https://www.instagram.com",
     },
 ];
+
+export const navButtonsForm = [
+    { title: "Местоположение", route: "/order" },
+    { title: "Модель", route: "/order/model" },
+    { title: "Дополнительно", route: "/order/additional" },
+    { title: "Итого", route: "/order/total" },
+];

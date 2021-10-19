@@ -1,0 +1,67 @@
+.submitContainer {
+    border-left: 1px solid #eeeeee;
+    display: flex;
+    flex-direction: column;
+    min-width: 287px;
+    max-width: 287px;
+    padding: 26px 0 48px 32px;
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        justify-self: flex-end;
+        min-width: 210px;
+        max-width: 210px;
+        padding: 26px 10px 48px;
+        align-items: flex-end;
+    }
+    @media screen and (min-width: 0px) and (max-width: 425px) {
+        padding: 5px 10px 5px;
+        max-width: calc(100vw - 20px);
+        margin: 0 auto 0;
+        // min-height: 30%;
+        border-left: none;
+    }
+    @media screen and (min-width: 426px) and (max-width: 767px) {
+        padding: 5px 0 5px;
+        max-width: calc(100vw - 20px);
+        margin: 0 auto 0;
+        // min-height: 30%;
+        border-left: none;
+    }
+}
+
+.submitContainerHeader {
+    margin: 0 0 26px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: right;
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        align-self: center;
+        margin-bottom: 5px;
+    }
+}
+
+.priceContainer {
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: row;
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        margin-bottom: 15px;
+    }
+}
+
+.price {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 16px;
+    align-self: center;
+    margin: 0 1px 0 0;
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-size: 12px;
+        line-height: 12px;
+    }
+}
+
+.priceTitle {
+    @extend .price;
+    font-weight: 500;
+}
