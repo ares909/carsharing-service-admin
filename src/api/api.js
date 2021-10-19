@@ -46,6 +46,7 @@ export const refreshToken = async (token) => {
         return response.data;
     } catch (error) {
         localStorage.removeItem("access_token");
+        localStorage.removeItem("token");
         return error;
     }
 };
