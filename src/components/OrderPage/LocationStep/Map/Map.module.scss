@@ -1,0 +1,59 @@
+@import "../../../Common/Page/Page.scss";
+.map {
+    width: 736px;
+    height: 352px;
+
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        width: calc(100vw - 64px - 64px - 287px);
+        max-width: 736px;
+        margin: 0;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        width: calc(100vw - 86px - 64px);
+        max-width: 736px;
+        margin: 0;
+    }
+    @media screen and (min-width: 426px) and (max-width: 767px) {
+        width: 0;
+        min-width: 100%;
+    }
+
+    @media screen and (min-width: 0) and (max-width: 425px) {
+        min-width: 100vw;
+        max-width: 100vw;
+        // max-width: 736px;
+        margin: 0;
+        height: 0;
+        min-height: calc(100vh - 220px);
+        // max-height: 100vh;
+    }
+}
+
+.mapMobile {
+    @extend .map;
+
+    @media screen and (min-width: 0) and (max-width: 425px) {
+        min-width: 100vw;
+        max-width: 100vw;
+        // max-width: 736px;
+        margin: 0;
+        height: 0;
+        min-height: calc(100vh - 220px - 145px);
+        // max-height: 100vh;
+    }
+
+    @media screen and (min-width: 426px) and (max-width: 767px) {
+        // min-width: 100vw;
+        max-width: 100vw;
+        // max-width: 736px;
+        margin: 0;
+        height: 0;
+        min-height: calc(100vh - 220px - 160px);
+        // max-height: 100vh;
+    }
+
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        width: calc(100vw - 86px - 64px - 230px);
+    }
+}

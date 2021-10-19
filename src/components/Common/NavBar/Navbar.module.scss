@@ -1,0 +1,151 @@
+@import "../Page/Page.scss";
+.navbar {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+}
+
+.link {
+    @include white-text;
+    @include hover-text-green;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 37px;
+    text-align: left;
+    align-self: flex-start;
+    margin-bottom: 15px;
+    text-decoration: none;
+    &:last-of-type {
+        // margin-right: 0;
+        margin-bottom: 0;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-weight: 500;
+        font-size: 28px;
+        line-height: 33px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        font-weight: 500;
+        font-size: 22px;
+        line-height: 26px;
+    }
+}
+
+.linkImage {
+    width: 32px;
+    height: 32px;
+    :hover path {
+        fill: #0ec261;
+    }
+    :last-of-type {
+        margin-right: 0;
+        margin-bottom: 0;
+    }
+}
+
+.horizontalNavbar {
+    @extend .navbar;
+    flex-direction: row;
+    margin-top: 38px;
+}
+
+.formNavbar {
+    @extend .horizontalNavbar;
+    padding: 8px 64px 8px;
+    margin: 32px 0 0 0;
+    border-top: 1px solid #eeeeee;
+    border-bottom: 1px solid #eeeeee;
+    min-width: calc(100vw - 64px - 128px);
+
+    @media screen and (min-width: 1441px) {
+        min-width: calc(100vw - 64px);
+        margin: 32px 0 0;
+        padding: 8px 0 8px;
+    }
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        margin: 32px 0 0 0;
+        padding: 8px 32px 8px;
+        min-width: calc(100vw - 64px - 64px);
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        margin: 32px 0 0 -0;
+        padding: 8px 32px 8px;
+        min-width: calc(100vw - 86px - 64px);
+    }
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        padding: 8px 0 8px;
+        margin: 32px 0 0 0;
+        min-width: 100vw;
+        max-width: 100vw;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.formNavbarContainer {
+    min-width: 1248px;
+    max-width: 1248px;
+    margin: 0 auto 0;
+    @media screen and (min-width: 1441px) {
+        min-width: 1248px;
+        max-width: 1248px;
+    }
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        min-width: calc(100vw - 64px - 64px);
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        min-width: calc(100vw - 86px - 64px);
+    }
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        margin: 0 auto 0;
+        min-width: 60%;
+        justify-self: center;
+    }
+}
+
+.horizontalLink {
+    @extend .link;
+    margin-bottom: 0px;
+    margin-right: 24px;
+    font-size: 0px;
+    line-height: 0px;
+}
+
+.formLink {
+    @include hover-with-opacity;
+    text-decoration: none;
+    color: black;
+    margin: 0;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 10px;
+    }
+}
+
+.formLinkActive {
+    @extend .formLink;
+    color: #0ec261;
+}
+
+.formLinkDisabled {
+    @extend .formLink;
+    color: #999999;
+    pointer-events: none;
+    // &:visited {
+    //     color: black;
+    // }
+}
+
+.navArrow {
+    margin: 0 16px 0;
+    &:last-of-type {
+        display: none;
+    }
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        margin: 0 8px 0;
+    }
+}

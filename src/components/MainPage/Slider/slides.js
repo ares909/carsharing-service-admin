@@ -1,4 +1,4 @@
-import url from "../../../constants/constants";
+import { url } from "../../../constants/constants";
 
 const slides = [
     {
