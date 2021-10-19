@@ -18,7 +18,7 @@ const MainPage = () => {
         } else if (authStatus === "idle" && refreshToken) {
             dispatch(handleRefresh(refreshToken));
         }
-    }, [authStatus, dispatch]);
+    }, [authStatus, dispatch, refreshToken]);
 
     const [isOpened, toggle] = useModal();
 
