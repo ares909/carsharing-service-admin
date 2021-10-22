@@ -5,13 +5,11 @@ import {
     formAction,
     fetchPoints,
     resetPoints,
-    fetchOrder,
     fetchGeoData,
     fetchGeoDataPoints,
     fetchChosenPoint,
     resetChosenPoint,
     resetSelectedCar,
-    resetOrder,
 } from "../store/slices/formSlice";
 
 const useAutocomplete = () => {
@@ -28,7 +26,6 @@ const useAutocomplete = () => {
             if (option.value !== stateForm.city.name) dispatch(resetPoints());
             dispatch(formAction({ city: "", point: "" }));
             dispatch(formAction({ city: { name: option.value, id: option.id } }));
-            dispatch(resetOrder());
         }
     };
 
@@ -38,7 +35,6 @@ const useAutocomplete = () => {
 
             dispatch(formAction({ car: "" }));
             dispatch(resetSelectedCar());
-            dispatch(resetOrder());
         }
     };
 
@@ -48,13 +44,12 @@ const useAutocomplete = () => {
             dispatch(formAction({ city: "", point: "" }));
             dispatch(resetPoints());
             dispatch(resetSelectedCar());
-            dispatch(resetOrder());
+
             // dispatch(rese)
         } else {
             dispatch(formAction({ point: "" }));
             dispatch(resetChosenPoint());
             dispatch(resetSelectedCar());
-            dispatch(resetOrder());
         }
     };
 

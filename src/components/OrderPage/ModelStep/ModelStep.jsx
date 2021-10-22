@@ -5,10 +5,10 @@ import classNames from "classnames";
 import FormSubmit from "../Common/FormSubmit/FormSubmit.jsx";
 import OrderContainer from "../Common/OrderContainer/OrderContainer.jsx";
 import ModelCard from "./ModelCard/ModelCard.jsx";
-import Checkbox from "../../Common/UI/Checkbox/Checkbox.jsx";
+import Radio from "../../Common/UI/Radio/Radio.jsx";
 import PriceContainer from "../Common/PriceContainer/PriceContainer.jsx";
 import useNumberFormat from "../../../hooks/useNumberFormat";
-import { formAction, fetchCar, fetchOrder } from "../../../store/slices/formSlice";
+import { formAction, fetchCar, fetchOrder, fetchCars, fetchCategories } from "../../../store/slices/formSlice";
 import useModal from "../../../hooks/useModal";
 import useCheckboxFilter from "../../../hooks/useCheckboxFilter";
 import styles from "./ModelStep.module.scss";
@@ -17,16 +17,18 @@ const ModelStep = () => {
     const dispatch = useDispatch();
     const [isOpened, toggle] = useModal();
     const stateForm = useSelector((state) => state.form);
-    const cars = useSelector((state) => state.form.order.cars);
+    const cars = useSelector((state) => state.form.cars.data);
     const filteredCars = useSelector((state) => state.form.filteredCars);
-    const categories = useSelector((state) => state.form.order.categories);
+    const categories = useSelector((state) => state.form.categories.data);
     const city = useSelector((state) => state.form.city);
     const point = useSelector((state) => state.form.point);
     const selectedCar = useSelector((state) => state.form.selectedCar);
     const [checked, check] = useCheckboxFilter();
     const [pickedCar, setPickedCar] = useState({ car: selectedCar });
     const orderStatus = useSelector((state) => state.form.order.status);
-    const order = useSelector((state) => state.form.order.data);
+    const carsStatus = useSelector((state) => state.form.cars.status);
+
+    const categoryStatus = useSelector((state) => state.form.categories.status);
     const buttonClassName = classNames({
         [`${styles.formButton}`]: true,
         [`${styles.formButtonDisabled}`]: !stateForm.modelValid,
@@ -43,7 +45,7 @@ const ModelStep = () => {
     };
 
     const hadleCardClick = (car) => {
-        dispatch(fetchCar(car.id));
+        dispatch(formAction({ selectedCar: car }));
         setPickedCar({ ...pickedCar, car });
         if (!isOpened) {
             toggle();
@@ -55,10 +57,16 @@ const ModelStep = () => {
     };
 
     useEffect(() => {
-        if (orderStatus === "idle") {
-            dispatch(fetchOrder({ cityId: city.id, pointId: point.id }));
+        if (carsStatus === "idle") {
+            dispatch(fetchCars());
         }
-    }, [orderStatus]);
+    }, [carsStatus]);
+
+    useEffect(() => {
+        if (categoryStatus === "idle") {
+            dispatch(fetchCategories());
+        }
+    }, [categoryStatus]);
 
     useEffect(() => {
         if (!selectedCar.name) {
@@ -79,12 +87,13 @@ const ModelStep = () => {
                         <div className={styles.checkboxContainer}>
                             <div className={styles.box}>
                                 {categories.map((category) => (
-                                    <Checkbox
+                                    <Radio
                                         key={category.id}
                                         value={category.name}
                                         name={category.name}
                                         checked={checked}
                                         onChange={handleCheck}
+                                        item={category}
                                     />
                                 ))}
                             </div>
@@ -109,7 +118,7 @@ const ModelStep = () => {
                                   ))}
                         </div>
                     </div>
-                ) : orderStatus === "loading" ? (
+                ) : carsStatus === "loading" ? (
                     <div className={styles.textMessage}>...Загрузка</div>
                 ) : (
                     <div className={styles.textMessage}>По данному адресу нет доступных авто</div>

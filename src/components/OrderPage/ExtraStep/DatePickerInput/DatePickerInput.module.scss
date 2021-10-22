@@ -1,0 +1,190 @@
+@import "../../../Common/Page/Page.scss";
+
+.inputContainer {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 13px;
+    align-self: center;
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+    @media screen and (min-width: 0) and (max-width: 424px) {
+        font-size: 12px;
+        line-height: 14px;
+        margin-right: 5px;
+        min-width: 91px;
+        // margin-left: 50px;
+    }
+
+    @media screen and (min-width: 425px) and (max-width: 767px) {
+        font-size: 12px;
+        line-height: 14px;
+        margin-right: 5px;
+        min-width: 91px;
+        // margin-left: auto;
+    }
+}
+
+.inputLabel {
+    @include black-text;
+    align-self: center;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    min-width: 18px;
+    text-align: right;
+    margin-right: 8px;
+    @media screen and (min-width: 0px) and (max-width: 424px) {
+        font-size: 10px;
+        line-height: 10px;
+        margin-right: 5px;
+        min-width: 12px;
+    }
+    @media screen and (min-width: 425px) and (max-width: 767px) {
+        font-size: 12px;
+        line-height: 14px;
+        margin-right: 5px;
+        min-width: 12px;
+    }
+}
+
+.datePickerWrapper input {
+    
+    width: 220px;
+    border: none;
+    padding: 0;
+    padding: 0 8px 3px;
+    border-bottom: 1px solid gray;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    outline: none;
+    @media screen and (min-width: 0) and (max-width: 424px) {
+        width: 200px;
+        font-size: 10px;
+        line-height: 12px;
+    }
+    @media screen and (min-width: 425px) and (max-width: 767px) {
+        width: 200px;
+        font-size: 12px;
+        line-height: 14px;
+
+    }
+    
+    
+    // background-color: white;
+} 
+
+.popperClassName {
+    max-width: 100%;
+    
+}
+
+.popperClassName > div.react-datepicker__month-container {
+    max-width: 220px;
+    font-weight: 300;
+    font-size: 10px;
+    line-height: 12px;
+ 
+
+}
+
+.popperClassName > div.react-datepicker__month-container {
+    width: 220px;
+    font-weight: 300;
+    font-size: 10px;
+    line-height: 12px;
+ 
+
+}
+
+.popperClassName > div.react-datepicker__time-container {
+    width: 70px;
+    font-weight: 300;
+    font-size: 10px;
+    line-height: 12px;
+ 
+
+}
+
+// .timeContainer {
+//     // max-width: 100px;
+// }
+
+
+.inputCrossButton {
+    position: absolute;
+    cursor: pointer;
+    align-self: center;
+    width: 8px;
+    height: 8px;
+    padding-left: -30px;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    background-image: url("../../../../images/autocomplete/inputCrossButton.svg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: white;
+    border: none;
+    padding: 0;
+    left: 245px;
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        left: 235px;
+    }
+
+}
+
+.datepicker .react-datepicker {
+    // box-shadow: 0 0 6px 0 rgb(0 0 0 / 30%);
+    font-size: 12px;
+    border: 0;
+    border-radius: 10px;
+    // background-color: var(--foreground-color);
+    // color: var(--primary-text-color);
+  
+    &-wrapper {
+      width: 100%;
+    }
+  
+    &__input-container {
+    //   border: 2px solid var(--brand-color);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      width: 100%;
+      margin: 0;
+    //   background: var(--background-color);
+    //   color: var(--primary-text-color);
+      padding: 10px;
+      font-family: inherit;
+      font-size: 16px;
+      resize: vertical;
+      outline: 0;
+  
+      &:focus {
+        outline: 0;
+      }
+  
+      @media screen and (max-width: 600px) {
+        font-size: 16px;
+      }
+  
+      input {
+        padding: 0 0 0 10px;
+      }
+  
+      &::before {
+        content: '\f073';
+        display: inline-block;
+        // font: normal normal normal 14px/1 ForkAwesome;
+        font-size: 14px;
+        // color: var(--primary-text-color--faint);
+      }
+    }
+}
+  

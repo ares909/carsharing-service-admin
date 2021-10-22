@@ -108,3 +108,36 @@ export const getCar = async (carId) => {
         return error;
     }
 };
+
+export const getRates = async () => {
+    try {
+        const response = await axios.get(`${baseUrl}/db/rate`, {
+            headers: headersInfo,
+        });
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const getCars = async () => {
+    try {
+        const response = await axios.get(`${baseUrl}/db/car`, {
+            headers: headersInfo,
+        });
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const getCategories = async () => {
+    try {
+        const response = await axios.get(`${baseUrl}/db/category`, {
+            headers: headersInfo,
+        });
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+};

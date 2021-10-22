@@ -4,7 +4,7 @@ import Header from "../../Common/Header/Header.jsx";
 import NavBar from "../../Common/NavBar/NavBar.jsx";
 import LocationStep from "../LocationStep/LocationStep.jsx";
 import ModelStep from "../ModelStep/ModelStep.jsx";
-import AdditionalStep from "../AdditionalStep/AdditionalStep.jsx";
+import ExtraStep from "../ExtraStep/ExtraStep.jsx";
 import TotalStep from "../TotalStep/TotalStep.jsx";
 
 import { navButtonsForm } from "../../Common/NavBar/NavButtons.jsx";
@@ -20,7 +20,7 @@ const Content = ({ toggle }) => {
             </div>
             <Route exact path={`${match.url}`} component={LocationStep} />
             <Route path={`${match.url}/model`} component={ModelStep} />
-            <Route path={`${match.url}/extra`} component={AdditionalStep} />
+            <Route path={`${match.url}/extra`} component={ExtraStep} />
             <Route path={`${match.url}/total`} component={TotalStep} />
             <Route path={`${match.url}/:orderId`} />
         </div>

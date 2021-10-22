@@ -1,20 +1,20 @@
 import React from "react";
 import classNames from "classnames";
-import styles from "./Checkbox.module.scss";
+import styles from "./Radio.module.scss";
 
 const Checkbox = (props) => {
-    const { name, value, children, toggle, checked, onChange, ...rest } = props;
-    const handleChange = () => {
-        props.onChange();
+    const { name, value, children, toggle, checked, onChange, item, ...rest } = props;
+    const handleChange = (e) => {
+        props.onChange(props.item);
     };
     return (
         <div className={styles.radioContainer}>
             <label className={styles.label}>
                 <input
                     className={styles.input}
-                    checked={props.checked}
+                    checked={props.checked === props.value}
                     value={props.value}
-                    type="checkbox"
+                    type="radio"
                     onChange={handleChange}
                     {...rest}
                     name={name}

@@ -9,7 +9,9 @@
 
 .topContainer {
     position: sticky;
-    margin-top: 32px;
+    padding-top: 32px;
+    opacity: 1;
+    top: 0px;
     // top: 32px;
     z-index: 1;
 

@@ -1,10 +1,25 @@
 /* eslint-disable no-use-before-define */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getCities, getPoints, getPriceRange, getGeoData, getCar } from "../../api/api";
+import {
+    getCities,
+    getPoints,
+    getPriceRange,
+    getGeoData,
+    getCar,
+    getRates,
+    getCars,
+    getCategories,
+} from "../../api/api";
 
 const initialState = {
     city: "",
     point: "",
+    selectedCar: "",
+    formColor: "Любой",
+    formRate: "",
+    formLength: "",
+    price: 0,
+
     cities: {
         data: [],
         status: "idle",
@@ -13,17 +28,33 @@ const initialState = {
         data: [],
         status: "idle",
     },
-    order: { data: [], status: "idle", cars: [], categories: [{ id: "Все модели", name: "Все модели" }] },
+
+    cars: {
+        data: [],
+        status: "idle",
+    },
+
+    categories: { data: [{ id: "Все модели", name: "Все модели" }], status: "idle" },
+    order: { data: [], status: "idle" },
     // cars: [],
     filteredCars: [],
+    colors: [{ name: "Любой", value: "Любой" }],
 
-    selectedCar: "",
+    rates: {
+        data: [],
+        status: "idle",
+    },
+    isFullTank: { id: "isFullTank", name: "Полный бак", value: "false", price: 500, form: "Нет" },
+    isNeedChildChair: { id: "isNeedChildChair", name: "Детское кресло", value: "false", price: 200, form: "Нет" },
+    isRightWheel: { id: "isRightWheel", name: "Правый руль", value: "false", price: 1600, form: "Нет" },
+
     geodata: {
         status: "idle",
         city: "",
         points: "",
         chosenPoint: "",
     },
+
     pricesMin: [],
     pricesMax: [],
     locationValid: false,
@@ -77,6 +108,22 @@ export const fetchCar = createAsyncThunk("form/fetchCar", (carId, { rejectWithVa
     }
 });
 
+export const fetchCars = createAsyncThunk("form/fetchCars", (_, { rejectWithValue }) => {
+    try {
+        return getCars();
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
+
+export const fetchCategories = createAsyncThunk("form/fetchCategories", (_, { rejectWithValue }) => {
+    try {
+        return getCategories();
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
+
 export const fetchGeoDataPoints = createAsyncThunk(
     "form/fetchGeoDataPoints",
     async (cityName, { rejectWithValue, dispatch }) => {
@@ -100,6 +147,14 @@ export const fetchChosenPoint = createAsyncThunk(
         }
     },
 );
+
+export const fetchRates = createAsyncThunk("form/fetchRates", (_, { rejectWithValue }) => {
+    try {
+        return getRates();
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
 
 const setError = (state, action) => {
     state.status = "rejected";
@@ -154,10 +209,20 @@ export const formSlice = createSlice({
         filterCars(state, action) {
             return {
                 ...state,
-                filteredCars: state.order.cars.filter(
+                filteredCars: state.cars.data.filter(
                     (car) => car.categoryId !== null && car.categoryId.name === action.payload,
                 ),
             };
+        },
+
+        filterOrder(state, action) {
+            state.colors = [
+                ...initialState.colors,
+                ...state.selectedCar.colors.map((item) => ({
+                    name: item.split("")[0].toUpperCase() + item.split("").slice(1).join(""),
+                    value: item.split("")[0].toUpperCase() + item.split("").slice(1).join(""),
+                })),
+            ];
         },
 
         resetFilteredCars(state) {
@@ -166,42 +231,45 @@ export const formSlice = createSlice({
                 filteredCars: initialState.filteredCars,
             };
         },
-        resetOrder(state) {
-            return {
-                ...state,
-                order: {
-                    data: initialState.order.data,
-                    status: initialState.order.status,
-                    cars: initialState.order.cars,
-                },
-            };
-        },
+        // resetOrder(state) {
+        //     return {
+        //         ...state,
+        //         order: {
+        //             data: initialState.order.data,
+        //             status: initialState.order.status,
+        //             cars: initialState.order.cars,
+        //         },
+        //     };
+        // },
     },
     extraReducers: {
         [fetchCities.fulfilled]: (state, action) => {
             state.cities.data = action.payload.data;
             state.cities.status = "succeeded";
         },
+
+        [fetchRates.fulfilled]: (state, action) => {
+            state.rates.data = action.payload.data.slice(0, 2);
+            state.rates.status = "succeeded";
+        },
         [fetchPoints.fulfilled]: (state, action) => {
             state.points.data = action.payload.data;
             state.points.status = "succeeded";
         },
+
+        [fetchCars.fulfilled]: (state, action) => {
+            state.cars.data = action.payload.data;
+            state.cars.status = "succeeded";
+        },
+
+        [fetchCategories.fulfilled]: (state, action) => {
+            state.categories.data = [...initialState.categories.data, ...action.payload.data];
+            state.categories.status = "succeeded";
+        },
+
         [fetchOrder.fulfilled]: (state, action) => {
             state.order.data = action.payload.data;
             state.order.status = "succeeded";
-            state.order.cars = action.payload.data
-                ? getUniqueObject(action.payload.data.filter((item) => item.carId).map((item) => item.carId))
-                : initialState.order.cars;
-            state.order.categories = action.payload.data
-                ? [
-                      ...initialState.order.categories,
-                      ...getUniqueObject(
-                          getUniqueObject(action.payload.data.filter((item) => item.carId).map((item) => item.carId))
-                              .filter((car) => car.categoryId !== null)
-                              .map((car) => ({ id: car.categoryId.id, name: car.categoryId.name })),
-                      ),
-                  ]
-                : initialState.order.categories;
         },
         [fetchCar.fulfilled]: (state, action) => {
             state.selectedCar = action.payload.data;
@@ -210,12 +278,17 @@ export const formSlice = createSlice({
         [fetchCities.rejected]: setError,
         [fetchPoints.rejected]: setError,
         [fetchGeoData.rejected]: setError,
+        [fetchRates.rejected]: setError,
+        [fetchCars.rejected]: setError,
         [fetchGeoDataPoints.rejected]: setError,
         [fetchChosenPoint.rejected]: setError,
         [fetchCar.rejected]: setError,
 
         [fetchPoints.pending]: (state) => {
             state.points.status = "loading";
+        },
+        [fetchCars.pending]: (state) => {
+            state.cars.status = "loading";
         },
         [fetchOrder.pending]: (state) => {
             state.order.status = "loading";
@@ -234,5 +307,6 @@ export const {
     filterCars,
     resetOrder,
     resetFilteredCars,
+    filterOrder,
 } = formSlice.actions;
 export default formSlice.reducer;
