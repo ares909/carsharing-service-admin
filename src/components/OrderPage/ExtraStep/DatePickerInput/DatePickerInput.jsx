@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
 import ru from "date-fns/locale/ru";
 import { useSelector, useDispatch } from "react-redux";
 import classNames from "classnames";
