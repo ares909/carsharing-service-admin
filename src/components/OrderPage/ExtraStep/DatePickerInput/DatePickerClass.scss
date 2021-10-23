@@ -4,6 +4,7 @@
         background-color: #eeee;
     }
     &-wrapper {
+        font-family: "Roboto", sans-serif;
         position: relative;
         width: 220px;
     }
@@ -13,6 +14,7 @@
     }
 
     &__input-container input {
+        font-family: "Roboto", sans-serif;
         width: 220px;
         border: none;
         padding: 0;
@@ -36,6 +38,7 @@
     }
 
     &__month-container {
+        
         @media screen and (min-width: 0) and (max-width: 424px) {
             width: 200px;
             font-size: 10px;
@@ -44,6 +47,7 @@
     }
 
     &__time-container {
+        
         @media screen and (min-width: 0) and (max-width: 424px) {
             width: 70px;
             font-size: 10px;
@@ -51,6 +55,7 @@
         }
     }
     &__day {
+        
         &:hover {
             background-color: $MainAccent;
             color: white;
@@ -89,6 +94,7 @@
         width: 70px;
         font-size: 10px;
         line-height: 12px;
+        
     }
 }
 

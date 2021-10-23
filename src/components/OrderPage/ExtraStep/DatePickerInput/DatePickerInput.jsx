@@ -58,6 +58,16 @@ const DatePickerInput = () => {
         return currentDate.getTime() < selectedDate.getTime();
     };
 
+    const handleChangeStart = (date) => {
+        setStartDate(date);
+        dispatch(formAction({ price: "" }));
+    };
+
+    const handleChangeEnd = (date) => {
+        setEndDate(date);
+        dispatch(formAction({ price: "" }));
+    };
+
     const resetDate = (e) => {
         if (e.target.name === "start") {
             setStartDate("");
@@ -149,7 +159,7 @@ const DatePickerInput = () => {
                     startDate={new Date()}
                     endDate={endDate}
                     minDate={new Date()}
-                    onChange={(date) => setStartDate(date)}
+                    onChange={handleChangeStart}
                     showTimeSelect
                     selectsStart
                     timeFormat="HH:mm"
@@ -173,7 +183,7 @@ const DatePickerInput = () => {
                     selected={endDate}
                     startDate={startDate}
                     endDate={endDate}
-                    onChange={(date) => setEndDate(date)}
+                    onChange={handleChangeEnd}
                     showTimeSelect
                     selectsEnd
                     minDate={startDate}

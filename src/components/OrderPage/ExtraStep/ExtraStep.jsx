@@ -32,7 +32,7 @@ const ExtraStep = () => {
     const formColor = useSelector((state) => state.form.formColor);
     const formRate = useSelector((state) => state.form.formRate);
     const price = useSelector((state) => Number(state.form.price));
-    const [changeColor, changeRate, checkWheel, checkChair, checkTank] = useCheckboxFilter();
+    const [checked, check, carColor, changeColor, changeRate, checkWheel, checkChair, checkTank] = useCheckboxFilter();
     const rates = useSelector((state) => state.form.rates.data);
     const rateStatus = useSelector((state) => state.form.rates.status);
     const formLength = useSelector((state) => state.form.formLength);
@@ -83,15 +83,15 @@ const ExtraStep = () => {
     }, [selectedCar]);
 
     useEffect(() => {
-        if (formLength.timeSec && formRate.name === "Поминутно") {
+        if (formLength.timeSec && formRate.name === "Поминутно" && price === 0) {
             const calcPrice = formRate.price * formLength.minutes;
             dispatch(formAction({ price: calcPrice }));
-        } else if (formLength.timeSec && formRate.name === "Суточный") {
+        } else if (formLength.timeSec && formRate.name === "Суточный" && price === 0) {
             const chargeDays = Math.ceil(formLength.hours / 24);
             const calcPrice = formRate.price * chargeDays;
             dispatch(formAction({ price: calcPrice }));
         }
-    }, [formLength.timeSec, formRate.name]);
+    }, [formLength.timeSec, formRate.name, price]);
 
     return (
         <form className={styles.extraForm}>

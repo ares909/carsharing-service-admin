@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import styles from "./Radio.module.scss";
 
-const Checkbox = (props) => {
+const Radio = (props) => {
     const { name, value, children, toggle, checked, onChange, item, ...rest } = props;
     const handleChange = (e) => {
         props.onChange(props.item);
@@ -28,4 +28,4 @@ const Checkbox = (props) => {
     );
 };
 
-export default Checkbox;
+export default Radio;
