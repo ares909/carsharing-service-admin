@@ -178,7 +178,8 @@
 
 .modalButton {
     @extend .formButton;
-    margin: 16px 0 0;
+    margin: 16px 0 10px;
+    border-radius: 8px;
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         min-width: 287px;
