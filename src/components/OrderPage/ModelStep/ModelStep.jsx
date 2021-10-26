@@ -1,51 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import classNames from "classnames";
-import FormSubmit from "../Common/FormSubmit/FormSubmit.jsx";
-import OrderContainer from "../Common/OrderContainer/OrderContainer.jsx";
 import ModelCard from "./ModelCard/ModelCard.jsx";
 import Radio from "../../Common/UI/Radio/Radio.jsx";
-import PriceContainer from "../Common/PriceContainer/PriceContainer.jsx";
-import useNumberFormat from "../../../hooks/useNumberFormat";
-import { formAction, fetchCar, fetchOrder, fetchCars, fetchCategories } from "../../../store/slices/formSlice";
+import { apiAction, fetchCars, fetchCategories, resetApiCarExtra } from "../../../store/slices/apiSlice";
+import { formAction, resetExtra } from "../../../store/slices/formSlice";
+import { validityAction } from "../../../store/slices/validationSlice";
 import useModal from "../../../hooks/useModal";
 import useCheckboxFilter from "../../../hooks/useCheckboxFilter";
 import styles from "./ModelStep.module.scss";
+import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
 
 const ModelStep = () => {
     const dispatch = useDispatch();
     const [isOpened, toggle] = useModal();
-    const stateForm = useSelector((state) => state.form);
-    const cars = useSelector((state) => state.form.cars.data);
-    const filteredCars = useSelector((state) => state.form.filteredCars);
-    const categories = useSelector((state) => state.form.categories.data);
-    const city = useSelector((state) => state.form.city);
-    const point = useSelector((state) => state.form.point);
-    const selectedCar = useSelector((state) => state.form.selectedCar);
+    const apiData = useSelector((state) => state.api);
+    const formData = useSelector((state) => state.form);
     const [checked, check] = useCheckboxFilter();
-    const [pickedCar, setPickedCar] = useState({ car: selectedCar });
-    const orderStatus = useSelector((state) => state.form.order.status);
-    const carsStatus = useSelector((state) => state.form.cars.status);
-
-    const categoryStatus = useSelector((state) => state.form.categories.status);
-    const buttonClassName = classNames({
-        [`${styles.formButton}`]: true,
-        [`${styles.formButtonDisabled}`]: !stateForm.modelValid,
-    });
-
-    const { push } = useHistory();
-    const location = {
-        pathname: "/order/extra",
-    };
-    const { convertNumber } = useNumberFormat();
-
-    const onSubmit = () => {
-        push(location);
-    };
+    const [pickedCar, setPickedCar] = useState({ car: apiData.selectedCar });
 
     const hadleCardClick = (car) => {
-        dispatch(formAction({ selectedCar: car }));
+        dispatch(apiAction({ selectedCar: car }));
+        dispatch(formAction({ car: { name: car.name, id: car.id } }));
+        dispatch(resetExtra());
+        dispatch(resetApiCarExtra());
         setPickedCar({ ...pickedCar, car });
         if (!isOpened) {
             toggle();
@@ -57,36 +34,36 @@ const ModelStep = () => {
     };
 
     useEffect(() => {
-        if (carsStatus === "idle") {
+        if (apiData.cars.status === "idle") {
             dispatch(fetchCars());
         }
-    }, [carsStatus]);
+    }, [apiData.cars.status]);
 
     useEffect(() => {
-        if (categoryStatus === "idle") {
+        if (apiData.categories.status === "idle") {
             dispatch(fetchCategories());
         }
-    }, [categoryStatus]);
+    }, [apiData.categories.status]);
 
     useEffect(() => {
-        if (!selectedCar.name) {
-            dispatch(formAction({ modelValid: false }));
-            dispatch(formAction({ extraValid: false }));
+        if (!formData.car.name) {
+            dispatch(validityAction({ modelValid: false }));
+            dispatch(validityAction({ extraValid: false }));
         } else {
-            dispatch(formAction({ modelValid: true }));
-            dispatch(formAction({ extraValid: true }));
+            dispatch(validityAction({ modelValid: true }));
+            dispatch(validityAction({ extraValid: true }));
         }
-    }, [selectedCar.name]);
+    }, [formData.car.name]);
 
     return (
         <form className={styles.modelForm}>
             {
                 // eslint-disable-next-line no-nested-ternary
-                cars.length > 0 ? (
+                apiData.cars.data.length > 0 ? (
                     <div className={styles.modelFormList}>
                         <div className={styles.checkboxContainer}>
                             <div className={styles.box}>
-                                {categories.map((category) => (
+                                {apiData.categories.data.map((category) => (
                                     <Radio
                                         key={category.id}
                                         value={category.name}
@@ -99,8 +76,8 @@ const ModelStep = () => {
                             </div>
                         </div>
                         <div className={styles.modelContainer}>
-                            {filteredCars.length !== 0
-                                ? filteredCars.map((car) => (
+                            {apiData.filteredCars.length !== 0
+                                ? apiData.filteredCars.map((car) => (
                                       <ModelCard
                                           onClick={hadleCardClick}
                                           key={car.id}
@@ -108,7 +85,7 @@ const ModelStep = () => {
                                           pickedCar={pickedCar}
                                       />
                                   ))
-                                : cars.map((car) => (
+                                : apiData.cars.data.map((car) => (
                                       <ModelCard
                                           onClick={hadleCardClick}
                                           key={car.id}
@@ -118,33 +95,12 @@ const ModelStep = () => {
                                   ))}
                         </div>
                     </div>
-                ) : carsStatus === "loading" ? (
-                    <div className={styles.textMessage}>...Загрузка</div>
+                ) : apiData.cars.status === "loading" ? (
+                    <Preloader />
                 ) : (
                     <div className={styles.textMessage}>По данному адресу нет доступных авто</div>
                 )
             }
-
-            <FormSubmit
-                onSubmit={onSubmit}
-                buttonClassName={buttonClassName}
-                buttonName="Дополнительно"
-                isDisabled={!stateForm.modelValid}
-                isOpened={isOpened}
-                toggle={toggle}
-            >
-                <div className={styles.orderStatusBox}>
-                    <OrderContainer name="Пункт выдачи" data={`${city.name}, \n ${point.name}`} />
-                    <OrderContainer name="Модель" data={`${selectedCar.name}`} />
-                </div>
-                <PriceContainer
-                    price={
-                        selectedCar
-                            ? `от ${convertNumber(selectedCar.priceMin)} до ${convertNumber(selectedCar.priceMax)} ₽`
-                            : ""
-                    }
-                />
-            </FormSubmit>
         </form>
     );
 };

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { filterCars, formAction } from "../store/slices/formSlice";
+import { filterCars } from "../store/slices/apiSlice";
+import { formAction } from "../store/slices/formSlice";
 
 const useCheckboxFilter = () => {
     const dispatch = useDispatch();

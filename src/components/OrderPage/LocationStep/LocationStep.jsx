@@ -1,70 +1,55 @@
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+
 import { useSelector, useDispatch } from "react-redux";
 import { YMaps } from "react-yandex-maps";
-import classNames from "classnames";
+
 import Autocomplete from "./Autocomplete/Autocomplete.jsx";
 import YaMap from "./Map/Map.jsx";
-import FormSubmit from "../Common/FormSubmit/FormSubmit.jsx";
-import OrderContainer from "../Common/OrderContainer/OrderContainer.jsx";
+
 import useModal from "../../../hooks/useModal";
 import useAutocomplete from "../../../hooks/useAutocomplete";
 import { yandexApiKey } from "../../../constants/constants";
-import { formAction, fetchCities, fetchOrder, resetFilteredCars } from "../../../store/slices/formSlice";
+import { fetchCities, resetFilteredCars } from "../../../store/slices/apiSlice";
+import { validityAction } from "../../../store/slices/validationSlice";
 import styles from "./LocationStep.module.scss";
+import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
 
 const LocationStep = () => {
     const dispatch = useDispatch();
     const [isOpened, toggle] = useModal();
-    const dataStatus = useSelector((state) => state.form.cities.status);
-    const stateForm = useSelector((state) => state.form);
-    const city = useSelector((state) => state.form.city);
-    const point = useSelector((state) => state.form.point);
-    const cities = useSelector((state) => state.form.cities.data);
-    const points = useSelector((state) => state.form.points.data);
-    const pointsStatus = useSelector((state) => state.form.points.status);
-    const cityOptions = cities ? cities.map((item) => ({ value: item.name, label: item.name, id: item.id })) : [];
-    const pointOptions = points
-        ? points.map((item) => ({ value: item.address, label: item.address, id: item.id }))
+    const apiData = useSelector((state) => state.api);
+    const formData = useSelector((state) => state.form);
+    const cityOptions = apiData.cities.data
+        ? apiData.cities.data.map((item) => ({ value: item.name, label: item.name, id: item.id }))
         : [];
-    const buttonClassName = classNames({
-        [`${styles.formButton}`]: true,
-        [`${styles.formButtonDisabled}`]: !stateForm.locationValid,
-    });
-    const { push } = useHistory();
-    const location = {
-        pathname: "/order/model",
-    };
+    const pointOptions = apiData.points.data
+        ? apiData.points.data.map((item) => ({ value: item.address, label: item.address, id: item.id }))
+        : [];
 
     const { onCityChange, onPointChange, onReset } = useAutocomplete();
 
     useEffect(() => {
-        if (dataStatus === "idle") {
+        if (apiData.cities.status === "idle") {
             dispatch(fetchCities());
         }
-    }, [dataStatus]);
+    }, [apiData.cities.status]);
     useEffect(() => {
-        if (city && point) {
-            dispatch(formAction({ locationValid: true }));
-            dispatch(formAction({ modelValid: true }));
+        if (formData.city && formData.point) {
+            dispatch(validityAction({ locationValid: true }));
+            dispatch(validityAction({ modelValid: true }));
             if (!isOpened) {
                 toggle();
             }
         } else {
-            dispatch(formAction({ locationValid: false }));
-            dispatch(formAction({ modelValid: false }));
-            dispatch(formAction({ extraValid: false }));
+            dispatch(validityAction({ locationValid: false }));
+            dispatch(validityAction({ modelValid: false }));
+            dispatch(validityAction({ extraValid: false }));
         }
-    }, [city, point]);
+    }, [formData.city, formData.point]);
 
     useEffect(() => {
         dispatch(resetFilteredCars());
     }, []);
-
-    const onSubmit = () => {
-        dispatch(fetchOrder({ cityId: city.id, pointId: point.id }));
-        push(location);
-    };
 
     return (
         <YMaps
@@ -80,7 +65,7 @@ const LocationStep = () => {
                         name="city"
                         onChange={onCityChange}
                         options={cityOptions}
-                        valueState={city.name}
+                        valueState={formData.city.name}
                         placeholder={"Начните вводить город"}
                         onReset={onReset}
                         labelText="Город"
@@ -89,40 +74,33 @@ const LocationStep = () => {
                         name="point"
                         onChange={onPointChange}
                         options={pointOptions}
-                        valueState={point.name}
+                        valueState={formData.point.name}
                         placeholder={"Начните вводить пункт"}
                         onReset={onReset}
-                        isDisabled={points.length === 0}
+                        isDisabled={apiData.points.data.length === 0}
                         labelText="Пункт выдачи"
                     />
 
                     {
                         // eslint-disable-next-line no-nested-ternary
-                        !city.name ? (
+                        apiData.cities.status === "loading" ? (
+                            <Preloader />
+                        ) : // eslint-disable-next-line no-nested-ternary
+                        !formData.city.name ? (
                             <h3 className={styles.mapTitleMobile}>Выберите город</h3>
                         ) : // eslint-disable-next-line no-nested-ternary
-                        points && points.length !== 0 ? (
+                        apiData.points.data && apiData.points.data.length !== 0 ? (
                             <>
                                 <h3 className={styles.mapTitle}>Выбрать на карте</h3>
                                 <YaMap />
                             </>
-                        ) : pointsStatus === "loading" ? (
-                            <h3 className={styles.mapTitle}>Загрузка...</h3>
+                        ) : apiData.points.status === "loading" ? (
+                            <Preloader />
                         ) : (
                             <h3 className={styles.mapTitleMobile}>В выбранном городе нет доступных авто</h3>
                         )
                     }
                 </div>
-                <FormSubmit
-                    onSubmit={onSubmit}
-                    buttonName="Выбрать модель"
-                    buttonClassName={buttonClassName}
-                    isDisabled={!stateForm.locationValid}
-                    isOpened={isOpened}
-                    toggle={toggle}
-                >
-                    <OrderContainer name="Пункт выдачи" data={`${city.name}, \n ${point.name}`} />
-                </FormSubmit>
             </form>
         </YMaps>
     );

@@ -4,18 +4,16 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
-    margin: 0 auto 0;
-    min-width: 1248px;
-    max-width: 1248px;
+    margin: 0 auto 0 0;
+    
+    // min-width: 1248px;
+    // max-width: 1248px;
     height: 100%;
     position: relative;
 
     @media screen and (min-width: 1024px) and (max-width: 1439px) {
         // margin-top: 10px;
         margin: 0 auto 0;
-        min-width: calc(100vw - 64px - 64px);
-        max-width: calc(100vw - 64px - 64px);
     }
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -122,6 +120,10 @@
         justify-content: flex-start;
         max-width: 85%;
     }
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        margin: 80px 0 0;
+        // max-width: 90%;
+    }
 }
 
 .modelFormList {
@@ -145,7 +147,7 @@
     position: fixed;
     min-width: 60%;
     max-width: 60%;
-    padding: 26px 0 0;
+    padding: 26px 0 26px;
     display: flex;
     flex-direction: row;
     margin-bottom: 48px;
@@ -159,7 +161,7 @@
         flex-direction: column;
         min-width: 100%;
         max-width: 100%;
-        padding: 10px 0 0;
+        padding: 10px 0 10px;
         // max-width: calc(100% - 16px);
     }
 
@@ -180,10 +182,10 @@
         margin-bottom: 16px;
         min-width: 100%;
         max-width: 100%;
-        
     }
     @media screen and (min-width: 1024px) and (max-width: 1439px) {
-        margin-bottom: 16px;
+        // margin-bottom: 17px;
+        padding: 16px 0 16px;
     }
 }
 

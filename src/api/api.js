@@ -141,3 +141,42 @@ export const getCategories = async () => {
         return error;
     }
 };
+
+export const getOrderStatuses = async () => {
+    try {
+        const response = await axios.get(`${baseUrl}/db/orderStatus`, {
+            headers: headersInfo,
+        });
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const postNewOrder = async (order) => {
+    try {
+        const response = await axios.post(
+            `${baseUrl}/db/order`,
+            {
+                orderStatusId: order.orderStatusId,
+                cityId: order.cityId,
+                pointId: order.pointId,
+                carId: order.carId,
+                color: order.color,
+                dateFrom: order.dateFrom,
+                dateTo: order.dateTo,
+                rateId: order.rateId,
+                price: order.price,
+                isFullTank: order.isFullTank,
+                isNeedChildChair: order.isNeedChildChair,
+                isRightWheel: order.isRightWheel,
+            },
+            {
+                headers: headersInfo,
+            },
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+};

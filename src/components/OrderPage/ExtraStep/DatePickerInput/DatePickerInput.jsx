@@ -33,6 +33,8 @@ const DatePickerInput = () => {
                 formAction({
                     formLength: {
                         timeSec: end - start,
+                        timeSecStart: start,
+                        timeSecEnd: end,
                         timeDate: secondsToDhms(end - start),
                         hours: secondsToHours(end - start),
                         minutes: secondsToMinutes(end - start),
@@ -52,10 +54,16 @@ const DatePickerInput = () => {
     };
 
     const filterPrevTime = (time) => {
-        const currentDate = new Date();
-        const selectedDate = new Date(time);
+        if (!endDate) {
+            const currentDate = new Date();
+            const selectedDate = new Date(time);
 
-        return currentDate.getTime() < selectedDate.getTime();
+            return currentDate.getTime() < selectedDate.getTime();
+        }
+
+        const currentDate = new Date(endDate);
+        const selectedDate = new Date(time);
+        return currentDate.getTime() >= selectedDate.getTime();
     };
 
     const handleChangeStart = (date) => {
@@ -159,6 +167,8 @@ const DatePickerInput = () => {
                     startDate={new Date()}
                     endDate={endDate}
                     minDate={new Date()}
+                    maxDate={endDate}
+                    // maxTime={endDate}
                     onChange={handleChangeStart}
                     showTimeSelect
                     selectsStart

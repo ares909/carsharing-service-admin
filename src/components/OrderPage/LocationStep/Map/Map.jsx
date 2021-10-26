@@ -2,7 +2,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Map, Placemark, Clusterer } from "react-yandex-maps";
 import { useSelector, useDispatch } from "react-redux";
-import classNames from "classnames";
 import { formAction } from "../../../../store/slices/formSlice";
 import placemark from "../../../../images/map/placemark.svg";
 import styles from "./Map.module.scss";
@@ -10,12 +9,7 @@ import styles from "./Map.module.scss";
 const YaMap = () => {
     const mapRef = useRef(null);
     const dispatch = useDispatch();
-    const cityData = useSelector((state) => state.form.geodata.city);
-    const pointData = useSelector((state) => state.form.geodata.point);
-    const points = useSelector((state) => state.form.points);
-    const geodataPoints = useSelector((state) => state.form.geodata.points);
-    const city = useSelector((state) => state.form.city);
-    const chosenPoint = useSelector((state) => state.form.point);
+    const apiData = useSelector((state) => state.api);
     const defaultState = {
         center: ["54.314192", "48.403132"],
         zoom: 12,
@@ -27,29 +21,31 @@ const YaMap = () => {
     const [point, setPoint] = useState();
 
     useEffect(() => {
-        if (cityData && points && mapRef.current) {
-            mapRef.current.setCenter(cityData, window.innerWidth >= 768 ? 12 : 10);
-        } else if (!cityData && mapRef.current) {
+        if (apiData.geodata.city && apiData.points.data && mapRef.current) {
+            mapRef.current.setCenter(apiData.geodata.city, window.innerWidth >= 768 ? 12 : 10);
+        } else if (!apiData.geodata.city && mapRef.current) {
             mapRef.current.setCenter(defaultState.center, defaultState.zoom);
-        } else if (!mapRef.current && cityData) {
-            setMapState({ ...mapState, center: cityData, zoom: 12 });
+        } else if (!mapRef.current && apiData.geodata.city) {
+            setMapState({ ...mapState, center: apiData.geodata.city, zoom: 12 });
         } else {
             setMapState({ ...mapState, center: defaultState.center, zoom: defaultState.zoom });
         }
-    }, [cityData, mapRef.current]);
+    }, [apiData.geodata.city, mapRef.current]);
 
     useEffect(() => {
-        if (cityData && pointData && mapRef.current) {
-            mapRef.current.setCenter(pointData, 16);
-        } else if (cityData && mapRef.current && !pointData) {
-            mapRef.current.setCenter(cityData, defaultState.zoom);
-        } else if (!mapRef.current && cityData && pointData) {
-            setMapState({ ...mapState, center: pointData, zoom: 16 });
+        if (apiData.geodata.city && apiData.geodata.point && mapRef.current) {
+            mapRef.current.setCenter(apiData.geodata.point, 16);
+        } else if (apiData.geodata.city && mapRef.current && !apiData.geodata.point) {
+            mapRef.current.setCenter(apiData.geodata.city, defaultState.zoom);
+        } else if (!mapRef.current && apiData.geodata.city && apiData.geodata.point) {
+            setMapState({ ...mapState, center: apiData.geodata.point, zoom: 16 });
         }
-    }, [pointData, cityData, mapRef.current]);
+    }, [apiData.geodata.point, apiData.geodata.city, mapRef.current]);
 
     const handleClick = (e) => {
-        setPoint(points.data.filter((item) => item.address === e.originalEvent.target.properties._data.hintContent));
+        setPoint(
+            apiData.points.data.filter((item) => item.address === e.originalEvent.target.properties._data.hintContent),
+        );
     };
 
     useEffect(() => {
@@ -77,8 +73,8 @@ const YaMap = () => {
                     groupByCoordinates: false,
                 }}
             >
-                {geodataPoints
-                    ? geodataPoints.map((coordinates, index) => (
+                {apiData.geodata.points
+                    ? apiData.geodata.points.map((coordinates, index) => (
                           <Placemark
                               key={coordinates.featureMember[0].GeoObject.name}
                               geometry={coordinates.featureMember[0].GeoObject.Point.pos.split(" ").reverse()}

@@ -64,16 +64,36 @@
     }
 
     &__day--today {
-        background-color: $MainAccent;
-        color: white;
+        // background-color:inherit;
+        // color: inherit;
+        font-weight: inherit;
         &:hover {
             background-color: $MainAccent;
             color: white;
         }
     }
+    &__day--in-range {
+        background-color: inherit;
+        color: inherit;
+    }
+
+    &__day--in-selecting-range {
+        background-color: inherit;
+        color: inherit;
+        // color: #ccc;
+        // &:hover {
+        //     background-color: inherit;
+        //     // color: black;
+        //     // opacity: 0.6;
+        // }
+    }
+    
+
 
     &__day--selected {
         background-color: $MainAccent;
+        color: white;
+        font-weight: 400;
     }
 
     &__time-list-item--selected {

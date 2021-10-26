@@ -4,14 +4,13 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 0 auto 0;
-    min-width: 1248px;
+    // margin: 0 auto 0 0;
+    // min-width: 1248px;
     height: 100%;
     position: relative;
 
     @media screen and (min-width: 1024px) and (max-width: 1439px) {
-        margin: 0 auto 0;
-        min-width: calc(100vw - 64px - 64px);
+        // margin: 0 auto 0;
     }
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {

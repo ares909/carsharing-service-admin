@@ -10,8 +10,9 @@ import Checkbox from "../../Common/UI/Checkbox/Checkbox.jsx";
 import PriceContainer from "../Common/PriceContainer/PriceContainer.jsx";
 import DatePickerInput from "./DatePickerInput/DatePickerInput.jsx";
 import Button from "../../Common/UI/Button.jsx";
-import { resetFilteredCars, filterOrder, formAction, fetchRates } from "../../../store/slices/formSlice";
-import useNumberFormat from "../../../hooks/useNumberFormat";
+import { formAction } from "../../../store/slices/formSlice";
+import { apiAction, fetchRates, resetFilteredCars, filterOrder } from "../../../store/slices/apiSlice";
+import { validityAction } from "../../../store/slices/validationSlice";
 import useModal from "../../../hooks/useModal";
 import useCheckboxFilter from "../../../hooks/useCheckboxFilter";
 import styles from "./ExtraStep.module.scss";
@@ -19,46 +20,19 @@ import styles from "./ExtraStep.module.scss";
 const ExtraStep = () => {
     const dispatch = useDispatch();
     const [isOpened, toggle] = useModal();
-    const { convertNumber } = useNumberFormat();
-    const stateForm = useSelector((state) => state.form);
-    const colors = useSelector((state) => state.form.colors);
-
-    const city = useSelector((state) => state.form.city);
-    const point = useSelector((state) => state.form.point);
-    const selectedCar = useSelector((state) => state.form.selectedCar);
-    const isFullTank = useSelector((state) => state.form.isFullTank);
-    const isNeedChildChair = useSelector((state) => state.form.isNeedChildChair);
-    const isRightWheel = useSelector((state) => state.form.isRightWheel);
-    const formColor = useSelector((state) => state.form.formColor);
-    const formRate = useSelector((state) => state.form.formRate);
-    const price = useSelector((state) => Number(state.form.price));
+    const apiData = useSelector((state) => state.api);
+    const formData = useSelector((state) => state.form);
     const [checked, check, carColor, changeColor, changeRate, checkWheel, checkChair, checkTank] = useCheckboxFilter();
-    const rates = useSelector((state) => state.form.rates.data);
-    const rateStatus = useSelector((state) => state.form.rates.status);
-    const formLength = useSelector((state) => state.form.formLength);
-    const buttonClassName = classNames({
-        [`${styles.formButton}`]: true,
-        [`${styles.formButtonDisabled}`]: !stateForm.extraValid,
-    });
-
-    const { push } = useHistory();
-
-    const location = {
-        pathname: "/order/total",
-    };
-    const onSubmit = () => {
-        push(location);
-    };
 
     useEffect(() => {
-        if (!formLength.timeDate || !formRate) {
-            dispatch(formAction({ extraValid: false }));
-            dispatch(formAction({ totalValid: false }));
+        if (!formData.formLength.timeDate || !formData.formRate) {
+            dispatch(validityAction({ extraValid: false }));
+            dispatch(validityAction({ totalValid: false }));
         } else {
-            dispatch(formAction({ extraValid: true }));
-            dispatch(formAction({ totalValid: true }));
+            dispatch(validityAction({ extraValid: true }));
+            dispatch(validityAction({ totalValid: true }));
         }
-    }, [formLength.timeDate, formRate]);
+    }, [formData.formLength.timeDate, formData.formRate]);
 
     const handleModalClick = () => {
         if (!isOpened) {
@@ -71,27 +45,41 @@ const ExtraStep = () => {
     }, []);
 
     useEffect(() => {
-        if (rateStatus === "idle") {
+        if (apiData.rates.status === "idle") {
             dispatch(fetchRates());
         }
-    }, [rateStatus]);
+    }, [apiData.rates.status]);
 
     useEffect(() => {
-        if (selectedCar) {
-            dispatch(filterOrder(selectedCar.id));
+        if (apiData.rates.data.length !== 0) {
+            dispatch(
+                formAction({
+                    formRate: {
+                        name: apiData.rates.data[0].rateTypeId.name,
+                        id: apiData.rates.data[0].id,
+                        price: apiData.rates.data[0].price,
+                    },
+                }),
+            );
         }
-    }, [selectedCar]);
+    }, [apiData.rates.data]);
 
     useEffect(() => {
-        if (formLength.timeSec && formRate.name === "Поминутно" && price === 0) {
-            const calcPrice = formRate.price * formLength.minutes;
+        if (apiData.selectedCar) {
+            dispatch(filterOrder(apiData.selectedCar.id));
+        }
+    }, [apiData.selectedCar]);
+
+    useEffect(() => {
+        if (formData.formLength.timeSec && formData.formRate.name === "Поминутно" && formData.price === 0) {
+            const calcPrice = formData.formRate.price * formData.formLength.minutes;
             dispatch(formAction({ price: calcPrice }));
-        } else if (formLength.timeSec && formRate.name === "Суточный" && price === 0) {
-            const chargeDays = Math.ceil(formLength.hours / 24);
-            const calcPrice = formRate.price * chargeDays;
+        } else if (formData.formLength.timeSec && formData.formRate.name === "Суточный" && formData.price === 0) {
+            const chargeDays = Math.ceil(formData.formLength.hours / 24);
+            const calcPrice = formData.formRate.price * chargeDays;
             dispatch(formAction({ price: calcPrice }));
         }
-    }, [formLength.timeSec, formRate.name, price]);
+    }, [formData.formLength.timeSec, formData.formRate.name, formData.price]);
 
     return (
         <form className={styles.extraForm}>
@@ -99,13 +87,13 @@ const ExtraStep = () => {
                 <div className={styles.inputContainer}>
                     <p className={styles.containerTitle}>Цвет</p>
                     <div className={styles.radioContainer}>
-                        {colors.length > 0 &&
-                            colors.map((color, index) => (
+                        {apiData.colors.length > 0 &&
+                            apiData.colors.map((color, index) => (
                                 <Radio
                                     key={index}
                                     value={color.value}
                                     name={color.name}
-                                    checked={formColor}
+                                    checked={formData.formColor}
                                     onChange={changeColor}
                                     item={color}
                                 />
@@ -121,14 +109,14 @@ const ExtraStep = () => {
                 <div className={styles.inputContainer}>
                     <p className={styles.containerTitle}>Тариф</p>
                     <div className={styles.radioContainerVer}>
-                        {rates.length > 0 &&
-                            rates.map((rate) => (
+                        {apiData.rates.data.length > 0 &&
+                            apiData.rates.data.map((rate) => (
                                 <Radio
                                     key={rate.id}
                                     price={rate.price}
                                     name={`${rate.rateTypeId.name}, ${rate.price} ₽/${rate.rateTypeId.unit}`}
                                     value={rate.rateTypeId.name}
-                                    checked={formRate.name}
+                                    checked={formData.formRate.name}
                                     item={rate}
                                     onChange={changeRate}
                                 />
@@ -139,46 +127,29 @@ const ExtraStep = () => {
                 <div className={styles.inputContainer}>
                     <p className={styles.containerTitle}>Доп услуги</p>
                     <Checkbox
-                        value={isFullTank.value}
-                        name={`${isFullTank.name}, ${isFullTank.price}р`}
+                        value={formData.isFullTank.value}
+                        name={`${formData.isFullTank.name}, ${formData.isFullTank.price}р`}
                         onChange={checkTank}
-                        checked={isFullTank.value === "true"}
-                        disabled={!formRate}
+                        checked={formData.isFullTank.value === "true"}
+                        disabled={!formData.formRate}
                     />
                     <Checkbox
-                        value={isNeedChildChair.value}
-                        name={`${isNeedChildChair.name}, ${isNeedChildChair.price}р`}
+                        value={formData.isNeedChildChair.value}
+                        name={`${formData.isNeedChildChair.name}, ${formData.isNeedChildChair.price}р`}
                         onChange={checkChair}
-                        checked={isNeedChildChair.value === "true"}
-                        disabled={!formRate}
+                        checked={formData.isNeedChildChair.value === "true"}
+                        disabled={!formData.formRate}
                     />
                     <Checkbox
-                        value={isRightWheel.value}
-                        name={`${isRightWheel.name}, ${isRightWheel.price}р`}
+                        value={formData.isRightWheel.value}
+                        name={`${formData.isRightWheel.name}, ${formData.isRightWheel.price}р`}
                         onChange={checkWheel}
-                        checked={isRightWheel.value === "true"}
-                        disabled={!formRate}
+                        checked={formData.isRightWheel.value === "true"}
+                        disabled={!formData.formRate}
                     />
                 </div>
             </div>
-            <FormSubmit
-                onSubmit={onSubmit}
-                buttonClassName={buttonClassName}
-                buttonName="Итого"
-                isDisabled={!stateForm.extraValid}
-                isOpened={isOpened}
-                toggle={toggle}
-            >
-                <div className={styles.orderStatusBox}>
-                    <OrderContainer name="Пункт выдачи" data={`${city.name}, \n ${point.name}`} />
-                    <OrderContainer name="Модель" data={`${selectedCar.name}`} />
-                    <OrderContainer name="Цвет" data={`${formColor}`} />
-                    <OrderContainer name="Длительность аренды" data={`${formLength.timeDate}`} />
-                    <OrderContainer name="Тариф" data={`${formRate.name}`} />
-                    <OrderContainer name="Полный бак" data={`${isFullTank.form}`} />
-                </div>
-                <PriceContainer price={price !== 0 && `${convertNumber(price)} ₽`} />
-            </FormSubmit>
+
             <Button name="Ваши параметры" type="button" className={styles.modalButton} onClick={handleModalClick} />
         </form>
     );
