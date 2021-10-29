@@ -6,22 +6,25 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.9);
-    z-index: 2;
+    // background: rgba(255, 255, 255, 0.9);
+    z-index: 4;
 }
 
 .container {
     display: flex;
     flex-direction: column;
     align-self: flex-start;
-    margin: auto 0 auto 128px;
-    max-width: 560px;
+    min-width: 405px;
+    max-width: 405px;
+    margin: auto;
+    // position: absolute;
     @media screen and (min-width: 768px) and (max-width: 1439px) {
-        margin: auto 0 auto 97px;
+        margin: auto;
     }
     @media screen and (min-width: 0) and (max-width: 767px) {
-        margin: 28px 0 auto 28px;
-        flex: 1 0 auto;
+        margin: auto;
+        min-width: 320px;
+        max-width: 320px;
     }
 }
 .crossButton {
@@ -48,7 +51,7 @@
 }
 
 .wrapper {
-    background: #111518;
+    background: rgba(255, 255, 255, 0.9);
     min-width: calc(100% - 688px);
     display: flex;
     flex-direction: column;
@@ -72,25 +75,26 @@
 .wrapperOrder {
     @extend .wrapper;
     min-width: 100%;
+    position: relative;
 }
-.button {
-    background-color: inherit;
-    cursor: pointer;
-    border: none;
-    padding: 0;
-    max-width: 99%;
-    display: none;
-    @media screen and (min-width: 0) and (max-width: 767px) {
-        display: block;
-        flex: 0 0 auto;
-        align-self: flex-start;
-        margin-left: 12px;
-        margin-bottom: 12px;
-    }
-    :hover path {
-        stroke: #0ec261;
-    }
-}
+// .button {
+//     background-color: inherit;
+//     cursor: pointer;
+//     border: none;
+//     padding: 0;
+//     max-width: 99%;
+//     display: none;
+//     @media screen and (min-width: 0) and (max-width: 767px) {
+//         display: block;
+//         flex: 0 0 auto;
+//         align-self: flex-start;
+//         margin-left: 12px;
+//         margin-bottom: 12px;
+//     }
+//     :hover path {
+//         stroke: #0ec261;
+//     }
+// }
 .buttonGreen {
     @extend .button;
     @include green-text;
@@ -105,4 +109,58 @@
 .active {
     @extend .popupMenu;
     display: flex;
+}
+
+.containerTitle {
+    margin: 24px 24px 32px;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        margin: 24px 10px 32px;
+        font-size: 20px;
+        line-height: 24px;
+    }
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 24px 24px;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        margin: 0 10px 32px;
+    }
+}
+
+.button {
+    color: $GrayLight;
+    background-blend-mode: darken;
+    border-radius: 8px;
+    padding: 15px 11px;
+    cursor: pointer;
+    max-width: 177px;
+    min-width: 177px;
+    outline: none;
+    border: none;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        max-width: 140px;
+        min-width: 140px;
+        font-size: 12px;
+        line-height: 14px;
+
+    }
+}
+
+.confirmButton {
+    @extend .button;
+    @include hover-button;
+    background: linear-gradient(90deg, #0ec261 2.61%, #039f67 112.6%);
+}
+
+.cancelButton {
+    @extend .button;
+    @include hover-button_red;
+    background: linear-gradient(90deg, #493013 0%, #7b0c3b 100%);
 }

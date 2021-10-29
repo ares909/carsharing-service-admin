@@ -23,7 +23,7 @@ const DatePickerInput = () => {
         [`react-datepicker_disabled`]: !startDate,
     });
 
-    const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours] = useDateFormat();
+    const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale] = useDateFormat();
 
     useEffect(() => {
         if (startDate && endDate) {
@@ -68,12 +68,12 @@ const DatePickerInput = () => {
 
     const handleChangeStart = (date) => {
         setStartDate(date);
-        dispatch(formAction({ price: "" }));
+        dispatch(formAction({ price: 0 }));
     };
 
     const handleChangeEnd = (date) => {
         setEndDate(date);
-        dispatch(formAction({ price: "" }));
+        dispatch(formAction({ price: 0 }));
     };
 
     const resetDate = (e) => {
@@ -81,11 +81,11 @@ const DatePickerInput = () => {
             setStartDate("");
             setEndDate("");
             dispatch(formAction({ formLength: "" }));
-            dispatch(formAction({ price: "" }));
+            dispatch(formAction({ price: 0 }));
             dispatch(
                 formAction({
                     isFullTank: {
-                        value: "false",
+                        value: false,
                         name: isFullTank.name,
                         id: isFullTank.id,
                         price: isFullTank.price,
@@ -96,7 +96,7 @@ const DatePickerInput = () => {
             dispatch(
                 formAction({
                     isNeedChildChair: {
-                        value: "false",
+                        value: false,
                         name: isNeedChildChair.name,
                         id: isNeedChildChair.id,
                         price: isNeedChildChair.price,
@@ -107,7 +107,7 @@ const DatePickerInput = () => {
             dispatch(
                 formAction({
                     isRightWheel: {
-                        value: "false",
+                        value: false,
                         name: isRightWheel.name,
                         id: isRightWheel.id,
                         price: isRightWheel.price,
@@ -118,11 +118,11 @@ const DatePickerInput = () => {
         } else {
             setEndDate("");
             dispatch(formAction({ formLength: "" }));
-            dispatch(formAction({ price: "" }));
+            dispatch(formAction({ price: 0 }));
             dispatch(
                 formAction({
                     isFullTank: {
-                        value: "false",
+                        value: false,
                         name: isFullTank.name,
                         id: isFullTank.id,
                         price: isFullTank.price,
@@ -133,7 +133,7 @@ const DatePickerInput = () => {
             dispatch(
                 formAction({
                     isNeedChildChair: {
-                        value: "false",
+                        value: false,
                         name: isNeedChildChair.name,
                         id: isNeedChildChair.id,
                         price: isNeedChildChair.price,
@@ -144,7 +144,7 @@ const DatePickerInput = () => {
             dispatch(
                 formAction({
                     isRightWheel: {
-                        value: "false",
+                        value: false,
                         name: isRightWheel.name,
                         id: isRightWheel.id,
                         price: isRightWheel.price,

@@ -92,14 +92,15 @@
         min-width: 10px;
         display: flex;
         flex-direction: row;
-        max-width: 100%;
+        // max-width: 100%;
     }
-    @media screen and (min-width: 0px) and (max-width: 549px) {
+    @media screen and (min-width: 0px) and (max-width: 550px) {
         margin: 0 auto 15px;
         
     }
-    @media screen and (min-width: 550px) and (max-width: 767px) {
+    @media screen and (min-width: 551px) and (max-width: 767px) {
         align-self: center;
+        margin: 0 auto 16px;
     }
 }
 

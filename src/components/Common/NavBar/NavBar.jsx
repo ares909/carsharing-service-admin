@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
 import navArrow from "../../../images/navbar/navArrow.svg";
@@ -29,8 +29,10 @@ const NavBar = ({ data, type }) => {
     const totalClassName = classNames({
         [`${styles.formLinkActive}`]: location.pathname === "/order/total",
         [`${styles.formLink}`]: location.pathname !== "/order/total" && validationState.totalValid === true,
-        [`${styles.formLinkDisabled}`]: location.pathname !== "/order/tolal" && validationState.totalValid === false,
+        [`${styles.formLinkDisabled}`]: location.pathname !== "/order/total" && validationState.totalValid === false,
     });
+
+    const apiData = useSelector((state) => state.api);
 
     switch (type) {
         case "horizontal":
@@ -52,24 +54,28 @@ const NavBar = ({ data, type }) => {
         case "form":
             return (
                 <nav className={styles.formNavbar}>
-                    <div className={styles.formNavbarContainer}>
-                        <NavLink exact className={orderLinkClassName} to={{ pathname: "/order" }}>
-                            Местоположение
-                        </NavLink>
-                        <img className={styles.navArrow} src={navArrow} />
-                        <NavLink exact className={modelLinkClassName} to={{ pathname: "/order/model" }}>
-                            Модель
-                        </NavLink>
-                        <img className={styles.navArrow} src={navArrow} />
-                        <NavLink exact className={extraLinkClassName} to={{ pathname: "/order/extra" }}>
-                            Дополнительно
-                        </NavLink>
-                        <img className={styles.navArrow} src={navArrow} />
-                        <NavLink exact className={totalClassName} to={{ pathname: "/order/total" }}>
-                            Итого
-                        </NavLink>
-                        <img className={styles.navArrow} src={navArrow} />
-                    </div>
+                    {apiData.order.orderId && apiData.order.orderId !== "undefined" ? (
+                        <div className={styles.orderNumber}>{`Заказ №${apiData.order.orderId}`}</div>
+                    ) : (
+                        <div className={styles.formNavbarContainer}>
+                            <NavLink exact className={orderLinkClassName} to={{ pathname: "/order" }}>
+                                Местоположение
+                            </NavLink>
+                            <img className={styles.navArrow} src={navArrow} />
+                            <NavLink exact className={modelLinkClassName} to={{ pathname: "/order/model" }}>
+                                Модель
+                            </NavLink>
+                            <img className={styles.navArrow} src={navArrow} />
+                            <NavLink exact className={extraLinkClassName} to={{ pathname: "/order/extra" }}>
+                                Дополнительно
+                            </NavLink>
+                            <img className={styles.navArrow} src={navArrow} />
+                            <NavLink exact className={totalClassName} to={{ pathname: "/order/total" }}>
+                                Итого
+                            </NavLink>
+                            <img className={styles.navArrow} src={navArrow} />
+                        </div>
+                    )}
                 </nav>
             );
         default:

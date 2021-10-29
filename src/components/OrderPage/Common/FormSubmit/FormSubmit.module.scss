@@ -5,7 +5,9 @@
     flex-direction: column;
     min-width: 287px;
     max-width: 287px;
-    padding: 26px 0 48px 32px;
+    padding: 26px 0 0 32px;
+    height: calc(100% - 26px);
+
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         justify-self: flex-end;
         min-width: 287px;
@@ -31,25 +33,30 @@
 
 .submitMobile {
     @extend .submitContainer;
+
     position: relative;
-    @media screen and (min-width: 0px) and (max-width: 549px) {
+
+    @media screen and (min-width: 0px) and (max-width: 550px) {
+        height: auto;
         display: none;
         position: fixed;
         background-color: white;
         bottom: 0px;
-        padding: 5px 5px 5px;
-        min-width: calc(100vw - 10px);
+        padding: 10px 0 10px;
+        border-radius: 6px;
+        min-width: 100%;
         border-top: 1px solid #eeeeee;
         margin: 0 auto 0;
         // min-height: 30%;
         border-left: none;
     }
-    @media screen and (min-width: 550px) and (max-width: 767px) {
+    @media screen and (min-width: 551px) and (max-width: 767px) {
+        height: auto;
         display: none;
         position: fixed;
         background-color: white;
         bottom: 0px;
-        padding: 5px 64px 5px;
+        padding: 10px 64px 10px;
         min-width: calc(100vw - 128px - 32px);
         border-top: 1px solid #eeeeee;
         margin: 0 auto 0;
@@ -57,18 +64,19 @@
         border-left: none;
     }
     @media screen and (min-width: 768px) and (max-width: 1023px) {
+        height: auto;
         border-top: none;
         justify-self: flex-end;
         min-width: 287px;
         max-width: 287px;
-        right: 16px;
+        right: 0;
         // padding: 26px 0 48px;
         height: 100%;
         align-items: flex-end;
         display: none;
         position: fixed;
         background-color: white;
-        top: 119px;
+        // top: 119px;
         padding: 26px 32px 5px;
         border-left: 1px solid #eeeeee;
         // border-top: 1px solid #999999;
@@ -81,6 +89,9 @@
     @extend .submitMobile;
     display: flex;
     flex-direction: column;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        z-index: 1;
+    }
 }
 
 .submitContainerHeader {
@@ -138,8 +149,8 @@
 }
 
 .crossButton {
-    width: 32px;
-    height: 32px;
+    width: 16px;
+    height: 16px;
     // margin-left: 16px;
 
     cursor: pointer;
@@ -154,32 +165,23 @@
         display: none;
     }
 
-    @media screen and (min-width: 0) and (max-width: 549px) {
+    @media screen and (min-width: 0) and (max-width: 550px) {
         position: absolute;
-        top: -35px;
-        left: 45%;
-        border-radius: 50%;
-        // margin-left: 20px;
-        // margin-top: 20px;
-        // width: 15px;
-        // height: 15px;
+        top: 7px;
+        right: 3%;
         background-color: none;
     }
-    @media screen and (min-width: 550px) and (max-width: 767px) {
+    @media screen and (min-width: 551px) and (max-width: 767px) {
         position: absolute;
-        top: -35px;
-        left: 47%;
-        border-radius: 50%;
-        // margin-left: 20px;
-        // margin-top: 20px;
-        // width: 15px;
-        // height: 15px;
-        background-color: none;
+        top: 7px;
+        right: 16%;
+        // background-color: none;
+        // background-color: none;
     }
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         position: absolute;
-        top: 5px;
-        left: 0;
+        top: 29px;
+        left: 30px;
         // left: 47%;
     }
 }
@@ -201,31 +203,40 @@
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         min-width: 100%;
+        font-size: 14px;
+        line-height: 16px;
     }
-    @media screen and (min-width: 0) and (max-width: 425px) {
-        min-width: calc(100vw - 10px);
-        border-radius: 0px;
+    @media screen and (min-width: 0) and (max-width: 550px) {
+        min-width: 95%;
+        max-width: 95%;
+        border-radius: 8px;
         align-self: center;
         font-size: 12px;
         line-height: 14px;
         padding: 10px 6px;
     }
-    @media screen and (min-width: 426px) and (max-width: 767px) {
-        padding: 10px 6px;
-        min-width: 100%;
+    @media screen and (min-width: 551px) and (max-width: 767px) {
+        // padding: 10px 6px;
+        min-width: 65vw;
         border-radius: 8px;
-        margin: 0 16px 10px;
+        // margin: 0 16px 10px;
         align-self: center;
         font-size: 12px;
         line-height: 14px;
     }
 }
 
+.formButtonRed {
+    @extend .formButton;
+    @include hover-button_red;
+    background: linear-gradient(90deg, #493013 0%, #7b0c3b 100%);
+}
+
 .formButtonDisabled {
     @extend .formButton;
     // @include hover-with-opacity;
     background: #eeeeee;
-    border-radius: 8px;
+    // border-radius: 8px;
     cursor: default;
     &:hover {
         background: #eeeeee;

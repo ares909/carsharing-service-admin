@@ -11,6 +11,8 @@ import {
     getCategories,
     getOrderStatuses,
     postNewOrder,
+    putOrder,
+    getOrderById,
 } from "../../api/api";
 
 const initialState = {
@@ -73,13 +75,38 @@ export const fetchPoints = createAsyncThunk("api/fetchPoints", (cityId, { reject
     }
 });
 
-export const fetchOrder = createAsyncThunk("api/fetchOrder", (order, rejectWithValue) => {
+export const fetchOrder = createAsyncThunk("api/fetchOrder", (id, rejectWithValue) => {
+    try {
+        return getOrderById(id);
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
+
+export const postOrder = createAsyncThunk("api/postOrder", (order, rejectWithValue) => {
     try {
         return postNewOrder(order);
     } catch (error) {
         return rejectWithValue(error.message);
     }
 });
+
+export const changeOrder = createAsyncThunk("api/changeOrder", (order, rejectWithValue) => {
+    try {
+        return putOrder(order);
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
+
+export const cancelOrder = createAsyncThunk("api/cancelOrder", (order, rejectWithValue) => {
+    try {
+        return putOrder(order);
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
+
 export const fetchGeoData = createAsyncThunk("api/fetchGeoData", async (cityName, { rejectWithValue, dispatch }) => {
     try {
         const point = await getGeoData(cityName);
@@ -237,16 +264,33 @@ export const apiSlice = createSlice({
                 colors: initialState.colors,
             };
         },
-        // resetOrder(state) {
-        //     return {
-        //         ...state,
-        //         order: {
-        //             data: initialState.order.data,
-        //             status: initialState.order.status,
-        //             cars: initialState.order.cars,
-        //         },
-        //     };
-        // },
+        resetOrder(state) {
+            return {
+                ...state,
+                order: {
+                    data: initialState.order.data,
+                    status: initialState.order.status,
+                    orderId: initialState.order.orderId,
+                },
+            };
+        },
+
+        resetApiData(state) {
+            return {
+                ...state,
+                cities: initialState.cities,
+                points: initialState.points,
+                cars: initialState.cars,
+                selectedCar: initialState.selectedCar,
+                categories: initialState.categories,
+                order: initialState.order,
+                filteredCars: initialState.filteredCars,
+                colors: initialState.colors,
+                rates: initialState.rates,
+                statuses: initialState.statuses,
+                geodata: initialState.geodata,
+            };
+        },
     },
     extraReducers: {
         [fetchCities.fulfilled]: (state, action) => {
@@ -286,12 +330,27 @@ export const apiSlice = createSlice({
             state.categories.status = "succeeded";
         },
 
+        [postOrder.fulfilled]: (state, action) => {
+            state.order.orderId = action.payload.data.id;
+            // state.order.status = "succeeded";
+        },
+
+        [changeOrder.fulfilled]: (state, action) => {
+            state.order.orderId = action.payload.data.id;
+            // state.order.status = "cancelled";
+        },
+
         [fetchOrder.fulfilled]: (state, action) => {
             state.order.data = action.payload.data;
+            state.order.orderId = action.payload.data.id;
             state.order.status = "succeeded";
         },
         [fetchCar.fulfilled]: (state, action) => {
             state.selectedCar = action.payload.data;
+        },
+
+        [cancelOrder.fulfilled]: (state, action) => {
+            state.order.data = initialState.order;
         },
 
         [fetchCities.rejected]: setError,
@@ -303,6 +362,9 @@ export const apiSlice = createSlice({
         [fetchChosenPoint.rejected]: setError,
         [fetchCar.rejected]: setError,
         [fetchStatuses.rejected]: setError,
+        [changeOrder.rejected]: setError,
+        [fetchOrder.rejected]: setError,
+        [cancelOrder.rejected]: setError,
 
         [fetchCities.pending]: (state) => {
             state.points.status = "loading";
@@ -332,5 +394,6 @@ export const {
     resetFilteredCars,
     filterOrder,
     resetApiCarExtra,
+    resetApiData,
 } = apiSlice.actions;
 export default apiSlice.reducer;

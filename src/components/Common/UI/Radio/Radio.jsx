@@ -2,26 +2,21 @@ import React from "react";
 import classNames from "classnames";
 import styles from "./Radio.module.scss";
 
-const Radio = (props) => {
-    const { name, value, children, toggle, checked, onChange, item, ...rest } = props;
-    const handleChange = (e) => {
-        props.onChange(props.item);
-    };
+const Radio = ({ name, value, checked, onChange, item }) => {
     return (
         <div className={styles.radioContainer}>
             <label className={styles.label}>
                 <input
                     className={styles.input}
-                    checked={props.checked === props.value}
-                    value={props.value}
+                    checked={checked === value}
+                    value={value}
                     type="radio"
-                    onChange={handleChange}
-                    {...rest}
+                    onChange={() => onChange(item)}
                     name={name}
                 ></input>
 
                 <span htmlFor={name} className={styles.point}>
-                    {props.name}
+                    {name}
                 </span>
             </label>
         </div>

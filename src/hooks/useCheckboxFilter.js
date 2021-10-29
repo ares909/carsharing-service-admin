@@ -26,11 +26,11 @@ const useCheckboxFilter = () => {
 
     const changeRate = (rate) => {
         dispatch(formAction({ formRate: { name: rate.rateTypeId.name, id: rate.id, price: rate.price } }));
-        dispatch(formAction({ price: "" }));
+        dispatch(formAction({ price: 0 }));
         dispatch(
             formAction({
                 isFullTank: {
-                    value: "false",
+                    value: false,
                     name: isFullTank.name,
                     id: isFullTank.id,
                     price: isFullTank.price,
@@ -41,7 +41,7 @@ const useCheckboxFilter = () => {
         dispatch(
             formAction({
                 isNeedChildChair: {
-                    value: "false",
+                    value: false,
                     name: isNeedChildChair.name,
                     id: isNeedChildChair.id,
                     price: isNeedChildChair.price,
@@ -52,7 +52,7 @@ const useCheckboxFilter = () => {
         dispatch(
             formAction({
                 isRightWheel: {
-                    value: "false",
+                    value: false,
                     name: isRightWheel.name,
                     id: isRightWheel.id,
                     price: isRightWheel.price,
@@ -64,11 +64,11 @@ const useCheckboxFilter = () => {
 
     const checkTank = () => {
         // setTank(!value);
-        if (isFullTank.value === "false") {
+        if (isFullTank.value === false) {
             dispatch(
                 formAction({
                     isFullTank: {
-                        value: "true",
+                        value: true,
                         name: isFullTank.name,
                         id: isFullTank.id,
                         price: isFullTank.price,
@@ -81,7 +81,7 @@ const useCheckboxFilter = () => {
             dispatch(
                 formAction({
                     isFullTank: {
-                        value: "false",
+                        value: false,
                         name: isFullTank.name,
                         id: isFullTank.id,
                         price: isFullTank.price,
@@ -95,11 +95,11 @@ const useCheckboxFilter = () => {
 
     const checkChair = () => {
         // setTank(!value);
-        if (isNeedChildChair.value === "false") {
+        if (isNeedChildChair.value === false) {
             dispatch(
                 formAction({
                     isNeedChildChair: {
-                        value: "true",
+                        value: true,
                         name: isNeedChildChair.name,
                         id: isNeedChildChair.id,
                         price: isNeedChildChair.price,
@@ -112,7 +112,7 @@ const useCheckboxFilter = () => {
             dispatch(
                 formAction({
                     isNeedChildChair: {
-                        value: "false",
+                        value: false,
                         name: isNeedChildChair.name,
                         id: isNeedChildChair.id,
                         price: isNeedChildChair.price,
@@ -126,11 +126,11 @@ const useCheckboxFilter = () => {
 
     const checkWheel = () => {
         // setTank(!value);
-        if (isRightWheel.value === "false") {
+        if (isRightWheel.value === false) {
             dispatch(
                 formAction({
                     isRightWheel: {
-                        value: "true",
+                        value: true,
                         name: isRightWheel.name,
                         id: isRightWheel.id,
                         price: isRightWheel.price,
@@ -143,7 +143,7 @@ const useCheckboxFilter = () => {
             dispatch(
                 formAction({
                     isRightWheel: {
-                        value: "false",
+                        value: false,
                         name: isRightWheel.name,
                         id: isRightWheel.id,
                         price: isRightWheel.price,

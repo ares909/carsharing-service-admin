@@ -5,7 +5,7 @@ import { imageUrl } from "../../../../constants/constants";
 import styles from "./ModelCard.module.scss";
 
 const ModelCard = ({ car, onClick, pickedCar }) => {
-    const { convertNumber } = useNumberFormat();
+    const [convertNumber, convertCarNumber] = useNumberFormat();
     const handleClick = () => {
         onClick(car);
     };

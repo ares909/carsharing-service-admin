@@ -52,7 +52,7 @@
 
 .formNavbar {
     @extend .horizontalNavbar;
-    padding: 8px 64px 8px;
+    padding: 8px 0 8px;
     margin: 32px 0 0 0;
     border-top: 1px solid #eeeeee;
     border-bottom: 1px solid #eeeeee;
@@ -70,7 +70,7 @@
     }
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         margin: 32px 0 0 -0;
-        padding: 8px 16px 8px;
+        padding: 8px 32px 8px;
         min-width: calc(100vw - 86px - 64px);
     }
     @media screen and (min-width: 0px) and (max-width: 767px) {
@@ -85,12 +85,12 @@
 }
 
 .formNavbarContainer {
-    min-width: 1248px;
-    max-width: 1248px;
+    min-width: 1238px;
+    max-width: 1238px;
     margin: 0 auto 0;
     @media screen and (min-width: 1441px) {
-        min-width: 1248px;
-        max-width: 1248px;
+        min-width: 1262px;
+        max-width: 1262px;
     }
     @media screen and (min-width: 1024px) and (max-width: 1439px) {
         min-width: calc(100vw - 64px - 64px);
@@ -127,7 +127,6 @@
     @media screen and (min-width: 0px) and (max-width: 425px) {
         font-size: 10px;
         line-height: 10px;
-        
     }
     @media screen and (min-width: 426px) and (max-width: 767px) {
         font-size: 12px;
@@ -156,5 +155,21 @@
     }
     @media screen and (min-width: 0px) and (max-width: 767px) {
         margin: 0 8px 0;
+    }
+}
+
+.orderNumber {
+    margin: 0 64px 0;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 16px;
+    @media screen and (min-width: 1441px) {
+        min-width: 1262px;
+        max-width: 1262px;
+        margin: 0 auto 0;
+        // padding: 8px 0 8px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 1439px) {
+        margin: 0;
     }
 }

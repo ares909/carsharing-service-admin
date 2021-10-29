@@ -10,24 +10,14 @@
     position: relative;
 
     @media screen and (min-width: 1024px) and (max-width: 1439px) {
-        // margin-top: 10px;
         margin: 0 auto 0 0;
-        // min-width: calc(100vw - 64px - 64px);
-        // max-width: calc(100vw - 64px - 64px);
     }
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {
-        // margin: 0 16px 0;
-        // min-width: calc(100vw - 86px - 32px);
         justify-content: flex-start;
         flex-direction: column;
     }
 
-    // @media screen and (min-width: 550px) and (max-width: 767px) {
-    //     padding: 0;
-    //     min-width: calc(100vw - 32px);
-    //     max-width: calc(100vw - 32px);
-    // }
     @media screen and (min-width: 0px) and (max-width: 767px) {
         padding: 0;
         flex-direction: column;
@@ -122,15 +112,15 @@
     justify-content: space-between;
 
     @media screen and (min-width: 1024px) and (max-width: 1439px) {
-        max-width: calc(100vw - 320px - 64px - 64px - 100px);
-        min-width: calc(100vw - 320px - 64px - 64px - 100px);
+        max-width: calc(100vw - 320px - 64px - 64px - 90px);
+        min-width: calc(100vw - 320px - 64px - 64px - 90px);
         // max-width: 100%;
         // min-width: 100%;
     }
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {
-        max-width: calc(100vw - 86px - 64px - 170px);
-        min-width: calc(100vw - 86px - 64px - 170px);
+        max-width: calc(100vw - 86px - 64px - 150px);
+        min-width: calc(100vw - 86px - 64px - 150px);
         // max-width: 100%;
         // min-width: 100%;
     }
@@ -142,7 +132,6 @@
         margin: 16px auto 0;
     }
 
-    
     @media screen and (min-width: 551px) and (max-width: 767px) {
         flex-direction: row;
         max-width: 500px;
@@ -266,5 +255,37 @@
     margin: 0 0 8px;
     &:last-of-type {
         margin: 0;
+    }
+}
+
+.orderTitle {
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+    margin: 0 0 16px;
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        font-size: 20px;
+        line-height: 24px;
+    }
+    @media screen and (min-width: 0) and (max-width: 320px) {
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 700;
+    }
+
+    @media screen and (min-width: 321px) and (max-width: 767px) {
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 700;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-size: 18px;
+        line-height: 21px;
+        font-weight: 700;
+    }
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        font-size: 20px;
+        line-height: 24px;
     }
 }

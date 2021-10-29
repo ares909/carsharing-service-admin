@@ -10,9 +10,10 @@ import {
     fetchChosenPoint,
     resetChosenPoint,
     resetSelectedCar,
+    resetApiCarExtra,
 } from "../store/slices/apiSlice";
 
-import { formAction } from "../store/slices/formSlice";
+import { formAction, resetExtra } from "../store/slices/formSlice";
 
 const useAutocomplete = () => {
     const dispatch = useDispatch();
@@ -33,6 +34,8 @@ const useAutocomplete = () => {
 
             dispatch(formAction({ car: "" }));
             dispatch(resetSelectedCar());
+            dispatch(resetExtra());
+            dispatch(resetApiCarExtra());
         }
     };
 

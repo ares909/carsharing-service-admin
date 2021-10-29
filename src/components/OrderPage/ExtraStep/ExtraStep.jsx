@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import classNames from "classnames";
-
-import FormSubmit from "../Common/FormSubmit/FormSubmit.jsx";
-import OrderContainer from "../Common/OrderContainer/OrderContainer.jsx";
 import Radio from "../../Common/UI/Radio/Radio.jsx";
 import Checkbox from "../../Common/UI/Checkbox/Checkbox.jsx";
-import PriceContainer from "../Common/PriceContainer/PriceContainer.jsx";
 import DatePickerInput from "./DatePickerInput/DatePickerInput.jsx";
-import Button from "../../Common/UI/Button.jsx";
 import { formAction } from "../../../store/slices/formSlice";
 import { apiAction, fetchRates, resetFilteredCars, filterOrder } from "../../../store/slices/apiSlice";
 import { validityAction } from "../../../store/slices/validationSlice";
-import useModal from "../../../hooks/useModal";
 import useCheckboxFilter from "../../../hooks/useCheckboxFilter";
 import styles from "./ExtraStep.module.scss";
 
 const ExtraStep = () => {
     const dispatch = useDispatch();
-    const [isOpened, toggle] = useModal();
     const apiData = useSelector((state) => state.api);
     const formData = useSelector((state) => state.form);
     const [checked, check, carColor, changeColor, changeRate, checkWheel, checkChair, checkTank] = useCheckboxFilter();
@@ -33,12 +24,6 @@ const ExtraStep = () => {
             dispatch(validityAction({ totalValid: true }));
         }
     }, [formData.formLength.timeDate, formData.formRate]);
-
-    const handleModalClick = () => {
-        if (!isOpened) {
-            toggle();
-        }
-    };
 
     useEffect(() => {
         dispatch(resetFilteredCars());
@@ -71,15 +56,15 @@ const ExtraStep = () => {
     }, [apiData.selectedCar]);
 
     useEffect(() => {
-        if (formData.formLength.timeSec && formData.formRate.name === "Поминутно" && formData.price === 0) {
+        if (formData.formLength.timeSec > 0 && formData.formRate.name === "Поминутно") {
             const calcPrice = formData.formRate.price * formData.formLength.minutes;
             dispatch(formAction({ price: calcPrice }));
-        } else if (formData.formLength.timeSec && formData.formRate.name === "Суточный" && formData.price === 0) {
+        } else if (formData.formLength.timeSec > 0 && formData.formRate.name === "Суточный") {
             const chargeDays = Math.ceil(formData.formLength.hours / 24);
             const calcPrice = formData.formRate.price * chargeDays;
             dispatch(formAction({ price: calcPrice }));
         }
-    }, [formData.formLength.timeSec, formData.formRate.name, formData.price]);
+    }, [formData.formLength.timeSec, formData.formRate.name]);
 
     return (
         <form className={styles.extraForm}>
@@ -130,27 +115,25 @@ const ExtraStep = () => {
                         value={formData.isFullTank.value}
                         name={`${formData.isFullTank.name}, ${formData.isFullTank.price}р`}
                         onChange={checkTank}
-                        checked={formData.isFullTank.value === "true"}
+                        checked={formData.isFullTank.value === true}
                         disabled={!formData.formRate}
                     />
                     <Checkbox
                         value={formData.isNeedChildChair.value}
                         name={`${formData.isNeedChildChair.name}, ${formData.isNeedChildChair.price}р`}
                         onChange={checkChair}
-                        checked={formData.isNeedChildChair.value === "true"}
+                        checked={formData.isNeedChildChair.value === true}
                         disabled={!formData.formRate}
                     />
                     <Checkbox
                         value={formData.isRightWheel.value}
                         name={`${formData.isRightWheel.name}, ${formData.isRightWheel.price}р`}
                         onChange={checkWheel}
-                        checked={formData.isRightWheel.value === "true"}
+                        checked={formData.isRightWheel.value === true}
                         disabled={!formData.formRate}
                     />
                 </div>
             </div>
-
-            <Button name="Ваши параметры" type="button" className={styles.modalButton} onClick={handleModalClick} />
         </form>
     );
 };

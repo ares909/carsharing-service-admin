@@ -44,6 +44,7 @@ const LocationStep = () => {
             dispatch(validityAction({ locationValid: false }));
             dispatch(validityAction({ modelValid: false }));
             dispatch(validityAction({ extraValid: false }));
+            dispatch(validityAction({ totalValid: false }));
         }
     }, [formData.city, formData.point]);
 
@@ -83,9 +84,6 @@ const LocationStep = () => {
 
                     {
                         // eslint-disable-next-line no-nested-ternary
-                        apiData.cities.status === "loading" ? (
-                            <Preloader />
-                        ) : // eslint-disable-next-line no-nested-ternary
                         !formData.city.name ? (
                             <h3 className={styles.mapTitleMobile}>Выберите город</h3>
                         ) : // eslint-disable-next-line no-nested-ternary

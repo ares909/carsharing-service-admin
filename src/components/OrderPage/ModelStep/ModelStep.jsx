@@ -55,6 +55,14 @@ const ModelStep = () => {
         }
     }, [formData.car.name]);
 
+    useEffect(() => {
+        if (!formData.formLength.timeDate || !formData.formRate) {
+            dispatch(validityAction({ totalValid: false }));
+        } else {
+            dispatch(validityAction({ totalValid: true }));
+        }
+    }, [formData.formLength.timeDate, formData.formRate]);
+
     return (
         <form className={styles.modelForm}>
             {

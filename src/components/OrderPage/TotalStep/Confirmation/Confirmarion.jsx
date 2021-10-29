@@ -1,7 +1,6 @@
 import React from "react";
 import classNames from "classnames";
 import { useLocation, useHistory } from "react-router";
-
 import Button from "../../../Common/UI/Button.jsx";
 import styles from "./Confirmation.module.scss";
 
@@ -34,8 +33,11 @@ const Confirmation = ({ toggle, isOpened, onSubmit, address }) => {
         <section className={className}>
             <div className={wrapper}>
                 <div className={styles.container}>
-                    <Button name="Подтвердить" onClick={handleSubmit} />
-                    <Button name="Вернуться" onClick={handleClose} />
+                    <h2 className={styles.containerTitle}>Подтвердить заказ</h2>
+                    <div className={styles.buttonContainer}>
+                        <Button className={styles.confirmButton} name="Подтвердить" onClick={handleSubmit} />
+                        <Button className={styles.cancelButton} name="Вернуться" onClick={handleClose} />
+                    </div>
                 </div>
             </div>
         </section>

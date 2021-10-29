@@ -30,7 +30,17 @@ const useDateFormat = () => {
         return h;
     };
 
-    return [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours];
+    const stringToLocale = (time) => {
+        return time.toLocaleString("ru-RU", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+        });
+    };
+
+    return [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale];
 };
 
 export default useDateFormat;

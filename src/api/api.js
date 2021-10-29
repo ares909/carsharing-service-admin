@@ -180,3 +180,31 @@ export const postNewOrder = async (order) => {
         return error;
     }
 };
+
+export const putOrder = async (order) => {
+    try {
+        const response = await axios.put(
+            `${baseUrl}/db/order/${order.id}`,
+            {
+                orderStatusId: order.statusId,
+            },
+            {
+                headers: headersInfo,
+            },
+        );
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const getOrderById = async (id) => {
+    try {
+        const response = await axios.get(`${baseUrl}/db/order/${id}`, {
+            headers: headersInfo,
+        });
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+};

@@ -68,6 +68,21 @@ $GrayLight: #eeeeee;
     }
 }
 
+@mixin hover-button_red {
+    transition: opacity 0.1s ease 0s;
+
+    &:hover {
+        background: linear-gradient(90deg, #7b0c3b 2.61%, #493013 112.6%);
+    }
+
+    &:active {
+        background: linear-gradient(90deg, #7b0c3b 2.61%, #493013 112.6%);
+    }
+    &:focus {
+        background: linear-gradient(90deg, #493013 2.61%, #493013 112.6%);
+    }
+}
+
 @mixin hover-arrow-button {
     &:before {
         content: "";

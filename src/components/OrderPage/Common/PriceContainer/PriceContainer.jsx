@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import styles from "./PriceContainer.module.scss";
 
 const PriceContainer = ({ price }) => {
-    const selectedCar = useSelector((state) => state.form.selectedCar);
-    if (selectedCar) {
+    const selectedCar = useSelector((state) => state.api.selectedCar);
+    if (selectedCar || price) {
         return (
             <div className={styles.priceContainer}>
                 <p className={styles.priceTitle}>Цена: </p>
