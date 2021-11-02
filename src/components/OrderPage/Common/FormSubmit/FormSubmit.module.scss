@@ -7,6 +7,25 @@
     max-width: 287px;
     padding: 26px 0 0 32px;
     height: calc(100% - 26px);
+    position: fixed;
+    right: 64px;
+    background: rgba(255, 255, 255, 1);
+
+    @media screen and (min-width: 1441px) {
+        position: fixed;
+        right: calc((100vw/2) - 64px - 800px + 287px - 64px);
+        // margin-left: auto;
+        // margin-right: auto;
+    }
+
+    @media screen and (min-width: 1024px) {
+        z-index: 2;
+    }
+
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        right: 32px;
+        z-index: 2;
+    }
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         justify-self: flex-end;
@@ -32,11 +51,12 @@
 }
 
 .submitMobile {
-    @extend .submitContainer;
+    // @extend .submitContainer;
 
-    position: relative;
+    // position: relative;
 
     @media screen and (min-width: 0px) and (max-width: 550px) {
+        right: 0;
         height: auto;
         display: none;
         position: fixed;
@@ -51,19 +71,21 @@
         border-left: none;
     }
     @media screen and (min-width: 551px) and (max-width: 767px) {
+        right: 0;
         height: auto;
         display: none;
         position: fixed;
         background-color: white;
         bottom: 0px;
         padding: 10px 64px 10px;
-        min-width: calc(100vw - 128px - 32px);
+        min-width: calc(100% - 128px);
         border-top: 1px solid #eeeeee;
         margin: 0 auto 0;
         // min-height: 30%;
         border-left: none;
     }
     @media screen and (min-width: 768px) and (max-width: 1023px) {
+        right: 0;
         height: auto;
         border-top: none;
         justify-self: flex-end;
@@ -174,7 +196,7 @@
     @media screen and (min-width: 551px) and (max-width: 767px) {
         position: absolute;
         top: 7px;
-        right: 16%;
+        right: 16px;
         // background-color: none;
         // background-color: none;
     }
@@ -206,24 +228,24 @@
         font-size: 14px;
         line-height: 16px;
     }
-    @media screen and (min-width: 0) and (max-width: 550px) {
-        min-width: 95%;
-        max-width: 95%;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        min-width: 300px;
+        max-width: 300px;
         border-radius: 8px;
         align-self: center;
         font-size: 12px;
         line-height: 14px;
         padding: 10px 6px;
     }
-    @media screen and (min-width: 551px) and (max-width: 767px) {
-        // padding: 10px 6px;
-        min-width: 65vw;
-        border-radius: 8px;
-        // margin: 0 16px 10px;
-        align-self: center;
-        font-size: 12px;
-        line-height: 14px;
-    }
+    // @media screen and (min-width: 551px) and (max-width: 767px) {
+    //     // padding: 10px 6px;
+    //     min-width: 65vw;
+    //     border-radius: 8px;
+    //     // margin: 0 16px 10px;
+    //     align-self: center;
+    //     font-size: 12px;
+    //     line-height: 14px;
+    // }
 }
 
 .formButtonRed {

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import ModelCard from "./ModelCard/ModelCard.jsx";
 import Radio from "../../Common/UI/Radio/Radio.jsx";
+import { apiData, formData, validationState } from "../../../store/selectors/selectors";
 import { apiAction, fetchCars, fetchCategories, resetApiCarExtra } from "../../../store/slices/apiSlice";
 import { formAction, resetExtra } from "../../../store/slices/formSlice";
 import { validityAction } from "../../../store/slices/validationSlice";
@@ -12,21 +14,21 @@ import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
 
 const ModelStep = () => {
     const dispatch = useDispatch();
+    const { push } = useHistory();
     const [isOpened, toggle] = useModal();
-    const apiData = useSelector((state) => state.api);
-    const formData = useSelector((state) => state.form);
+    const { selectedCar, filteredCars, cars, categories, status } = useSelector(apiData);
+    const { formRate, formLength, car } = useSelector(formData);
+    const { locationValid } = useSelector(validationState);
     const [checked, check] = useCheckboxFilter();
-    const [pickedCar, setPickedCar] = useState({ car: apiData.selectedCar });
+    const [pickedCar, setPickedCar] = useState({ car: selectedCar });
 
-    const hadleCardClick = (car) => {
-        dispatch(apiAction({ selectedCar: car }));
-        dispatch(formAction({ car: { name: car.name, id: car.id } }));
+    const hadleCardClick = (item) => {
+        dispatch(apiAction({ selectedCar: item }));
+        dispatch(formAction({ car: { name: item.name, id: item.id } }));
         dispatch(resetExtra());
         dispatch(resetApiCarExtra());
-        setPickedCar({ ...pickedCar, car });
-        if (!isOpened) {
-            toggle();
-        }
+        setPickedCar({ ...pickedCar, car: item });
+        if (!isOpened) toggle();
     };
 
     const handleCheck = (value) => {
@@ -34,44 +36,50 @@ const ModelStep = () => {
     };
 
     useEffect(() => {
-        if (apiData.cars.status === "idle") {
+        if (locationValid === false) {
+            push("/order");
+        }
+    }, [locationValid]);
+
+    useEffect(() => {
+        if (cars.status === "idle") {
             dispatch(fetchCars());
         }
-    }, [apiData.cars.status]);
+    }, [cars.status]);
 
     useEffect(() => {
-        if (apiData.categories.status === "idle") {
+        if (categories.status === "idle") {
             dispatch(fetchCategories());
         }
-    }, [apiData.categories.status]);
+    }, [categories.status]);
 
     useEffect(() => {
-        if (!formData.car.name) {
+        if (!car.name) {
             dispatch(validityAction({ modelValid: false }));
             dispatch(validityAction({ extraValid: false }));
         } else {
             dispatch(validityAction({ modelValid: true }));
             dispatch(validityAction({ extraValid: true }));
         }
-    }, [formData.car.name]);
+    }, [car.name]);
 
     useEffect(() => {
-        if (!formData.formLength.timeDate || !formData.formRate) {
+        if (!formLength.timeDate || !formRate) {
             dispatch(validityAction({ totalValid: false }));
         } else {
             dispatch(validityAction({ totalValid: true }));
         }
-    }, [formData.formLength.timeDate, formData.formRate]);
+    }, [formLength.timeDate, formRate]);
 
     return (
         <form className={styles.modelForm}>
             {
                 // eslint-disable-next-line no-nested-ternary
-                apiData.cars.data.length > 0 ? (
+                cars.data.length > 0 && (
                     <div className={styles.modelFormList}>
                         <div className={styles.checkboxContainer}>
                             <div className={styles.box}>
-                                {apiData.categories.data.map((category) => (
+                                {categories.data.map((category) => (
                                     <Radio
                                         key={category.id}
                                         value={category.name}
@@ -84,31 +92,32 @@ const ModelStep = () => {
                             </div>
                         </div>
                         <div className={styles.modelContainer}>
-                            {apiData.filteredCars.length !== 0
-                                ? apiData.filteredCars.map((car) => (
+                            {filteredCars.length !== 0
+                                ? filteredCars.map((item) => (
                                       <ModelCard
-                                          onClick={hadleCardClick}
-                                          key={car.id}
-                                          car={car}
+                                          onClick={() => hadleCardClick(item)}
+                                          key={item.id}
+                                          car={item}
                                           pickedCar={pickedCar}
                                       />
                                   ))
-                                : apiData.cars.data.map((car) => (
+                                : cars.data.map((item) => (
                                       <ModelCard
-                                          onClick={hadleCardClick}
-                                          key={car.id}
-                                          car={car}
+                                          onClick={() => hadleCardClick(item)}
+                                          key={item.id}
+                                          car={item}
                                           pickedCar={pickedCar}
                                       />
                                   ))}
                         </div>
                     </div>
-                ) : apiData.cars.status === "loading" ? (
-                    <Preloader />
-                ) : (
-                    <div className={styles.textMessage}>По данному адресу нет доступных авто</div>
                 )
             }
+            {cars.status === "loading" && status !== "rejected" && <Preloader />}
+            {status === "rejected" && (
+                <div className={styles.textMessage}>Произошла ошибка при загрузке данных с сервера</div>
+            )}
+            {cars.length === 0 && <div className={styles.textMessage}>По данному адресу нет доступных авто</div>}
         </form>
     );
 };

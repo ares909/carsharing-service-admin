@@ -1,29 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import { apiData, formData } from "../store/selectors/selectors";
 import {
-    apiAction,
     fetchPoints,
-    resetPoints,
     fetchGeoData,
     fetchGeoDataPoints,
     fetchChosenPoint,
-    resetChosenPoint,
-    resetSelectedCar,
-    resetApiCarExtra,
+    resetApiData,
+    resetModelData,
 } from "../store/slices/apiSlice";
 
-import { formAction, resetExtra } from "../store/slices/formSlice";
+import { formAction, resetForm, resetModel, resetPoint } from "../store/slices/formSlice";
 
 const useAutocomplete = () => {
     const dispatch = useDispatch();
-    const apiData = useSelector((state) => state.api);
-    const formData = useSelector((state) => state.form);
+    const { cities, points, geodata } = useSelector(apiData);
+    const { city, point } = useSelector(formData);
 
     const onCityChange = (option) => {
         if (option) {
-            if (option.value !== formData.city.name) dispatch(resetPoints());
-            dispatch(formAction({ city: "", point: "" }));
+            if (option.value !== city.name) dispatch(resetApiData());
+            dispatch(resetForm());
             dispatch(formAction({ city: { name: option.value, id: option.id } }));
         }
     };
@@ -31,46 +28,39 @@ const useAutocomplete = () => {
     const onPointChange = (option) => {
         if (option) {
             dispatch(formAction({ point: { name: option.value, id: option.id } }));
-
-            dispatch(formAction({ car: "" }));
-            dispatch(resetSelectedCar());
-            dispatch(resetExtra());
-            dispatch(resetApiCarExtra());
+            dispatch(resetModel());
+            dispatch(resetModelData());
         }
     };
 
     const onReset = (e) => {
         e.preventDefault(e);
         if (e.currentTarget.name === "city") {
-            dispatch(formAction({ city: "", point: "" }));
-            dispatch(resetPoints());
-            dispatch(resetSelectedCar());
-
-            // dispatch(rese)
+            dispatch(resetApiData());
+            dispatch(resetForm());
         } else {
-            dispatch(formAction({ point: "" }));
-            dispatch(resetChosenPoint());
-            dispatch(resetSelectedCar());
+            dispatch(resetPoint());
+            dispatch(resetModelData());
         }
     };
 
     useEffect(() => {
-        if (formData.city.name && apiData.points.status === "idle") {
-            dispatch(fetchPoints(formData.city.id));
-            dispatch(fetchGeoData(formData.city.name));
+        if (city.name && points.status === "idle") {
+            dispatch(fetchPoints(city.id));
+            dispatch(fetchGeoData(city.name));
         }
-    }, [formData.city.name, apiData.points.status]);
+    }, [city.name, points.status]);
 
     useEffect(() => {
-        if (formData.point.name) dispatch(fetchChosenPoint(`${formData.city.name}, ${formData.point.name}`));
-    }, [formData.point.name]);
+        if (point.name) dispatch(fetchChosenPoint(`${city.name}, ${point.name}`));
+    }, [point.name]);
 
     useEffect(() => {
-        if (formData.city.name && apiData.points.data && !apiData.geodata.points)
-            apiData.points.data.forEach((item) => {
+        if (city.name && points.data && !geodata.points)
+            points.data.forEach((item) => {
                 dispatch(fetchGeoDataPoints(`${item.cityId.name}, ${item.address}`));
             });
-    }, [formData.city.name, apiData.points.data]);
+    }, [city.name, points.data]);
 
     return {
         onCityChange,

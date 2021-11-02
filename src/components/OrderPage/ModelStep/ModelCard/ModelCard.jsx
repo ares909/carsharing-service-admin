@@ -6,16 +6,14 @@ import styles from "./ModelCard.module.scss";
 
 const ModelCard = ({ car, onClick, pickedCar }) => {
     const [convertNumber, convertCarNumber] = useNumberFormat();
-    const handleClick = () => {
-        onClick(car);
-    };
+
     const conteinerClassName = classNames({
         [`${styles.cardContainer}`]: true,
         [`${styles.cardContainerActive}`]: pickedCar.car.id === car.id,
     });
 
     return (
-        <div onClick={handleClick} className={conteinerClassName}>
+        <div onClick={onClick} className={conteinerClassName}>
             <div className={styles.textContainer}>
                 <div className={styles.cardModelText}>
                     {car.name.includes(",") ? car.name.split(" ").slice(1).join(" ") : car.name}

@@ -57,8 +57,36 @@ export const formSlice = createSlice({
                 price: initialState.price,
             };
         },
+        resetPoint(state) {
+            return {
+                ...state,
+                point: initialState.point,
+                car: initialState.car,
+                formColor: initialState.formColor,
+                formLength: initialState.formLength,
+                formRate: initialState.formRate,
+                isFullTank: initialState.isFullTank,
+                isNeedChildChair: initialState.isNeedChildChair,
+                isRightWheel: initialState.isRightWheel,
+                price: initialState.price,
+            };
+        },
+
+        resetModel(state) {
+            return {
+                ...state,
+                car: initialState.car,
+                formColor: initialState.formColor,
+                formLength: initialState.formLength,
+                formRate: initialState.formRate,
+                isFullTank: initialState.isFullTank,
+                isNeedChildChair: initialState.isNeedChildChair,
+                isRightWheel: initialState.isRightWheel,
+                price: initialState.price,
+            };
+        },
     },
 });
 
-export const { formAction, resetForm, resetExtra } = formSlice.actions;
+export const { formAction, resetForm, resetModel, resetExtra, resetPoint } = formSlice.actions;
 export default formSlice.reducer;

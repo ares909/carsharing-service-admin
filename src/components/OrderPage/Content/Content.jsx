@@ -16,15 +16,10 @@ import useModal from "../../../hooks/useModal";
 import styles from "./Content.module.scss";
 
 const Content = ({ toggle }) => {
-    const apiData = useSelector((state) => state.api);
-    const formData = useSelector((state) => state.form);
-    const { orderId } = useParams();
     const validationState = useSelector((state) => state.validation);
     const [isFormOpened, openForm] = useModal();
     const handleModalClick = () => {
-        if (!isFormOpened) {
-            openForm();
-        }
+        if (!isFormOpened) openForm();
     };
     const modalButtonClassName = classNames({
         [`${styles.modalButton}`]: true,
@@ -43,6 +38,7 @@ const Content = ({ toggle }) => {
                 <Header toggle={toggle} />
                 <NavBar data={navButtonsForm} type="form" />
             </div>
+
             <div className={styles.formBox}>
                 <Switch>
                     <Route exact path={`${match.url}`} component={LocationStep} />

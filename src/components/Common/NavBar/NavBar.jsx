@@ -2,12 +2,14 @@ import React from "react";
 import { NavLink, useLocation, useParams } from "react-router-dom";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
+import { apiData } from "../../../store/selectors/selectors";
 import navArrow from "../../../images/navbar/navArrow.svg";
 import styles from "./Navbar.module.scss";
 
 const NavBar = ({ data, type }) => {
     const validationState = useSelector((state) => state.validation);
     const location = useLocation();
+    const { order } = useSelector(apiData);
     const orderLinkClassName = classNames({
         [`${styles.formLinkActive}`]: location.pathname === "/order",
         [`${styles.formLink}`]: location.pathname !== "/order" && validationState.locationValid === true,
@@ -32,8 +34,6 @@ const NavBar = ({ data, type }) => {
         [`${styles.formLinkDisabled}`]: location.pathname !== "/order/total" && validationState.totalValid === false,
     });
 
-    const apiData = useSelector((state) => state.api);
-
     switch (type) {
         case "horizontal":
             return (
@@ -54,8 +54,8 @@ const NavBar = ({ data, type }) => {
         case "form":
             return (
                 <nav className={styles.formNavbar}>
-                    {apiData.order.orderId && apiData.order.orderId !== "undefined" ? (
-                        <div className={styles.orderNumber}>{`Заказ №${apiData.order.orderId}`}</div>
+                    {order.orderId && location.pathname === `/order/confirmed/${order.orderId}` ? (
+                        <div className={styles.orderNumber}>{`Заказ №${order.orderId}`}</div>
                     ) : (
                         <div className={styles.formNavbarContainer}>
                             <NavLink exact className={orderLinkClassName} to={{ pathname: "/order" }}>

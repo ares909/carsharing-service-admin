@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+import { apiData, formData, validationState } from "../../../store/selectors/selectors";
 import { resetFilteredCars, fetchStatuses } from "../../../store/slices/apiSlice";
 import useNumberFormat from "../../../hooks/useNumberFormat";
 import useDateFormat from "../../../hooks/useDateFormat";
@@ -8,27 +10,35 @@ import styles from "./TotalStep.module.scss";
 
 const TotalStep = () => {
     const dispatch = useDispatch();
+    const { push } = useHistory();
     const [convertNumber, convertCarNumber] = useNumberFormat();
     const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale] = useDateFormat();
-    const apiData = useSelector((state) => state.api);
-    const formData = useSelector((state) => state.form);
+    const { selectedCar, order } = useSelector(apiData);
+    const { formLength, isFullTank } = useSelector(formData);
+    const { locationValid } = useSelector(validationState);
     const [orderData, setOrderData] = useState({ tank: "", date: "", number: "" });
 
     useEffect(() => {
-        if (formData.formLength.start && apiData.selectedCar) {
-            const tank = formData.isFullTank.value ? 100 : apiData.selectedCar.tank;
-            const date = stringToLocale(formData.formLength.start);
-            const number = convertCarNumber(apiData.selectedCar.number);
+        if (locationValid === false) {
+            push("/order");
+        }
+    }, [locationValid]);
+
+    useEffect(() => {
+        if (formLength.start && selectedCar) {
+            const tank = isFullTank.value ? 100 : selectedCar.tank;
+            const date = stringToLocale(formLength.start);
+            const number = convertCarNumber(selectedCar.number);
 
             setOrderData({ tank, date, number });
         }
-    }, [formData.formLength.start && apiData.selectedCar]);
+    }, [formLength.start && selectedCar]);
 
     useEffect(() => {
-        if (apiData.order.status === "idle") {
+        if (order.status === "idle") {
             dispatch(fetchStatuses());
         }
-    }, [apiData.order.status]);
+    }, [order.status]);
 
     useEffect(() => {
         dispatch(resetFilteredCars());
@@ -38,7 +48,7 @@ const TotalStep = () => {
         <form className={styles.totalForm}>
             <div className={styles.totalContainer}>
                 <div className={styles.textContainer}>
-                    <h2 className={styles.catTitle}>{apiData.selectedCar.name}</h2>
+                    <h2 className={styles.catTitle}>{selectedCar.name}</h2>
                     <div className={styles.cardNumber}>{orderData.number}</div>
                     <p className={styles.cardTextBold}>
                         Топливо
@@ -55,10 +65,10 @@ const TotalStep = () => {
                         className={styles.cardImage}
                         src={
                             // eslint-disable-next-line no-nested-ternary
-                            apiData.selectedCar
-                                ? apiData.selectedCar.thumbnail.path.includes("files")
-                                    ? imageUrl + apiData.selectedCar.thumbnail.path
-                                    : apiData.selectedCar.thumbnail.path
+                            selectedCar
+                                ? selectedCar.thumbnail.path.includes("files")
+                                    ? imageUrl + selectedCar.thumbnail.path
+                                    : selectedCar.thumbnail.path
                                 : ""
                         }
                     />

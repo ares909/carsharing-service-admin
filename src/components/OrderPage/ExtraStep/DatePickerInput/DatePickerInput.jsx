@@ -3,6 +3,7 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import ru from "date-fns/locale/ru";
 import { useSelector, useDispatch } from "react-redux";
 import classNames from "classnames";
+import { formData } from "../../../../store/selectors/selectors";
 import { formAction } from "../../../../store/slices/formSlice";
 import useDateFormat from "../../../../hooks/useDateFormat";
 import "react-datepicker/src/stylesheets/datepicker.scss";
@@ -11,10 +12,7 @@ import styles from "./DatePickerInput.module.scss";
 
 const DatePickerInput = () => {
     const dispatch = useDispatch();
-    const isFullTank = useSelector((state) => state.form.isFullTank);
-    const isNeedChildChair = useSelector((state) => state.form.isNeedChildChair);
-    const isRightWheel = useSelector((state) => state.form.isRightWheel);
-    const formLength = useSelector((state) => state.form.formLength);
+    const { isFullTank, isNeedChildChair, isRightWheel, formLength } = useSelector(formData);
     registerLocale("ru", ru);
     const [startDate, setStartDate] = useState(formLength.start);
     const [endDate, setEndDate] = useState(formLength.end);
@@ -23,7 +21,8 @@ const DatePickerInput = () => {
         [`react-datepicker_disabled`]: !startDate,
     });
 
-    const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale] = useDateFormat();
+    const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays] =
+        useDateFormat();
 
     useEffect(() => {
         if (startDate && endDate) {
@@ -38,6 +37,7 @@ const DatePickerInput = () => {
                         timeDate: secondsToDhms(end - start),
                         hours: secondsToHours(end - start),
                         minutes: secondsToMinutes(end - start),
+                        days: secondsToDays(end - start),
                         start: startDate,
                         end: endDate,
                     },

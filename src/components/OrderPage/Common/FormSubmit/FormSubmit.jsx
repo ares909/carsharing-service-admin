@@ -2,55 +2,59 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import classNames from "classnames";
 import { useHistory, useLocation, useParams } from "react-router";
-
 import useNumberFormat from "../../../../hooks/useNumberFormat";
 import useDateFormat from "../../../../hooks/useDateFormat";
 import Button from "../../../Common/UI/Button.jsx";
 import crossButtoBlack from "../../../Common/UI/CrossButton/CrossButtonBlack.jsx";
 import OrderContainer from "../OrderContainer/OrderContainer.jsx";
 import PriceContainer from "../PriceContainer/PriceContainer.jsx";
-import useModal from "../../../../hooks/useModal";
-import styles from "./FormSubmit.module.scss";
 import Confirmation from "../../TotalStep/Confirmation/Confirmarion.jsx";
+import { apiData, formData, validationState } from "../../../../store/selectors/selectors";
 import { postOrder, changeOrder, cancelOrder, resetApiData } from "../../../../store/slices/apiSlice";
 import { resetExtra, resetForm } from "../../../../store/slices/formSlice";
+import useModal from "../../../../hooks/useModal";
+import styles from "./FormSubmit.module.scss";
 
 const FormSubmit = ({ isFormOpened, openForm }) => {
     const dispatch = useDispatch();
+    const { statuses, selectedCar, order, colors } = useSelector(apiData);
+    const { formLength, isFullTank, isRightWheel, isNeedChildChair, city, point, formRate, car, price, formColor } =
+        useSelector(formData);
+
+    const formValidation = useSelector(validationState);
+
     const [convertNumber, convertCarNumber] = useNumberFormat();
-    const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale] = useDateFormat();
+    const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays] =
+        useDateFormat();
     const location = useLocation();
     const [confOpened, toggleConf] = useModal();
     const { push } = useHistory();
 
-    const apiData = useSelector((state) => state.api);
-    const url = `/order/confirmed/${apiData.order.orderId}`;
-    const formData = useSelector((state) => state.form);
-    const validationState = useSelector((state) => state.validation);
+    const url = `/order/confirmed/${order.orderId}`;
     const handleNewOrder = () => {
         dispatch(
             postOrder({
-                orderStatusId: apiData.statuses.data[0].id,
-                cityId: formData.city.id,
-                pointId: formData.point.id,
-                carId: formData.car.id,
-                color: formData.formColor,
-                dateFrom: formData.formLength.timeSecStart,
-                dateTo: formData.formLength.timeSecEnd,
-                rateId: formData.formRate.id,
-                price: formData.price,
-                isFullTank: formData.isFullTank.value,
-                isNeedChildChair: formData.isNeedChildChair.value,
-                isRightWheel: formData.isRightWheel.value,
+                orderStatusId: statuses.data[0].id,
+                cityId: city.id,
+                pointId: point.id,
+                carId: car.id,
+                color: formColor,
+                dateFrom: formLength.timeSecStart,
+                dateTo: formLength.timeSecEnd,
+                rateId: formRate.id,
+                price,
+                isFullTank: isFullTank.value,
+                isNeedChildChair: isNeedChildChair.value,
+                isRightWheel: isRightWheel.value,
             }),
         );
     };
 
     const handleConfirmOrder = () => {
-        dispatch(changeOrder({ id: apiData.order.orderId, statusId: apiData.statuses.data[1].id }));
+        dispatch(changeOrder({ id: order.orderId, statusId: statuses.data[1].id }));
     };
     const handleCancelOrder = () => {
-        dispatch(cancelOrder({ id: apiData.order.orderId, statusId: apiData.statuses.data[2].id }));
+        dispatch(cancelOrder({ id: order.orderId, statusId: statuses.data[2].id }));
         dispatch(resetApiData());
         dispatch(resetForm());
     };
@@ -58,7 +62,7 @@ const FormSubmit = ({ isFormOpened, openForm }) => {
     let formName;
     let address;
     let handleSubmit;
-    let price;
+    let formPrice;
     switch (location.pathname) {
         case "/order/model":
             buttonName = "Дополнительно";
@@ -68,10 +72,11 @@ const FormSubmit = ({ isFormOpened, openForm }) => {
                 push(address);
                 openForm();
             };
-            price = apiData.selectedCar
-                ? `от ${convertNumber(apiData.selectedCar.priceMin)} до  ${convertNumber(
-                      apiData.selectedCar.priceMax,
-                  )} ₽`
+            // eslint-disable-next-line no-nested-ternary
+            formPrice = price
+                ? `${convertNumber(price)} ₽`
+                : selectedCar
+                ? `от ${convertNumber(selectedCar.priceMin)} до  ${convertNumber(selectedCar.priceMax)} ₽`
                 : "";
 
             break;
@@ -84,18 +89,18 @@ const FormSubmit = ({ isFormOpened, openForm }) => {
                 push(address);
                 openForm();
             };
-            price = formData.price ? `${convertNumber(formData.price)} ₽` : "";
+            formPrice = price ? `${convertNumber(price)} ₽` : "";
             break;
 
         case "/order/total":
             buttonName = "Заказать";
             formName = "totalValid";
-            address = `/order/confirmed/${apiData.order.orderId}`;
+            address = `/order/confirmed/${order.orderId}`;
             handleSubmit = () => {
                 handleNewOrder();
                 toggleConf();
             };
-            price = formData.price ? `${convertNumber(formData.price)} ₽` : "";
+            formPrice = price ? `${convertNumber(price)} ₽` : "";
             break;
 
         case url:
@@ -105,11 +110,8 @@ const FormSubmit = ({ isFormOpened, openForm }) => {
             handleSubmit = () => {
                 handleCancelOrder();
                 push(address);
-
-                // dispatch(resetd)
-                // toggleConf();
             };
-            price = apiData.order.data.price ? `${convertNumber(apiData.order.data.price)} ₽` : "";
+            formPrice = order.data.price ? `${convertNumber(order.data.price)} ₽` : "";
             break;
 
         default:
@@ -120,10 +122,11 @@ const FormSubmit = ({ isFormOpened, openForm }) => {
                 push(address);
                 openForm();
             };
-            price = apiData.selectedCar
-                ? `от ${convertNumber(apiData.selectedCar.priceMin)} до  ${convertNumber(
-                      apiData.selectedCar.priceMax,
-                  )} ₽`
+            // eslint-disable-next-line no-nested-ternary
+            formPrice = price
+                ? `${convertNumber(price)} ₽`
+                : selectedCar
+                ? `от ${convertNumber(selectedCar.priceMin)} до  ${convertNumber(selectedCar.priceMax)} ₽`
                 : "";
 
             break;
@@ -131,8 +134,8 @@ const FormSubmit = ({ isFormOpened, openForm }) => {
 
     const buttonClassName = classNames({
         [`${styles.formButton}`]: true,
-        [`${styles.formButtonRed}`]: location.pathname === `/order/confirmed/${apiData.order.orderId}`,
-        [`${styles.formButtonDisabled}`]: !validationState[formName],
+        [`${styles.formButtonRed}`]: location.pathname === `/order/confirmed/${order.orderId}`,
+        [`${styles.formButtonDisabled}`]: !formValidation[formName],
     });
 
     const className = classNames({
@@ -143,33 +146,36 @@ const FormSubmit = ({ isFormOpened, openForm }) => {
 
     if (location.pathname !== url) {
         return (
-            formData.city &&
-            formData.point && (
+            city &&
+            point && (
                 <div className={className}>
                     <Button type="button" toggle={openForm} className={styles.crossButton}>
                         {crossButtoBlack}
                     </Button>
                     <h3 className={styles.submitContainerHeader}>Ваш заказ:</h3>
                     <div className={styles.orderStatusBox}>
-                        <OrderContainer name="Пункт выдачи" data={`${formData.city.name}, \n ${formData.point.name}`} />
-                        <OrderContainer name="Модель" data={`${formData.car.name}`} />
-                        <OrderContainer name="Цвет" data={apiData.colors.length > 1 ? `${formData.formColor}` : ""} />
-                        <OrderContainer name="Длительность аренды" data={`${formData.formLength.timeDate}`} />
-                        <OrderContainer name="Тариф" data={`${formData.formRate.name}`} />
+                        <OrderContainer name="Пункт выдачи" data={`${city.name}, \n ${point.name}`} />
+                        <OrderContainer name="Модель" data={car.name ? `${car.name}` : ""} />
+                        <OrderContainer name="Цвет" data={colors.length > 1 ? `${formColor}` : ""} />
+                        <OrderContainer
+                            name="Длительность аренды"
+                            data={formLength.timeDate ? `${formLength.timeDate}` : ""}
+                        />
+                        <OrderContainer name="Тариф" data={formRate.name ? `${formRate.name}` : ""} />
                         <OrderContainer
                             name="Полный бак"
-                            data={formData.isFullTank.value === true ? `${formData.isFullTank.form}` : ""}
+                            data={isFullTank.value === true ? `${isFullTank.form}` : ""}
                         />
                         <OrderContainer
                             name="Детское кресло"
-                            data={formData.isNeedChildChair.value === true ? `${formData.isNeedChildChair.form}` : ""}
+                            data={isNeedChildChair.value === true ? `${isNeedChildChair.form}` : ""}
                         />
                         <OrderContainer
                             name="Правый руль"
-                            data={formData.isRightWheel.value === true ? `${formData.isRightWheel.form}` : ""}
+                            data={isRightWheel.value === true ? `${isRightWheel.form}` : ""}
                         />
                     </div>
-                    <PriceContainer price={price} />
+                    <PriceContainer price={formPrice} />
                     <Confirmation
                         isOpened={confOpened}
                         toggle={toggleConf}
@@ -178,7 +184,7 @@ const FormSubmit = ({ isFormOpened, openForm }) => {
                     />
 
                     <Button
-                        disabled={!validationState[formName]}
+                        disabled={!formValidation[formName]}
                         className={buttonClassName}
                         type="button"
                         name={buttonName}
@@ -189,7 +195,7 @@ const FormSubmit = ({ isFormOpened, openForm }) => {
         );
     }
 
-    return apiData.order.data.carId ? (
+    return order.data.carId ? (
         <div className={className}>
             <Button type="button" toggle={openForm} className={styles.crossButton}>
                 {crossButtoBlack}
@@ -198,23 +204,23 @@ const FormSubmit = ({ isFormOpened, openForm }) => {
             <div className={styles.orderStatusBox}>
                 <OrderContainer
                     name="Пункт выдачи"
-                    data={`${apiData.order.data.cityId.name}, \n ${apiData.order.data.pointId.address}`}
+                    data={`${order.data.cityId.name}, \n ${order.data.pointId.address}`}
                 />
-                <OrderContainer name="Модель" data={`${apiData.order.data.carId.name}`} />
-                <OrderContainer name="Цвет" data={`${apiData.order.data.color}`} />
+                <OrderContainer name="Модель" data={`${order.data.carId.name}`} />
+                <OrderContainer name="Цвет" data={`${order.data.color}`} />
                 <OrderContainer
                     name="Длительность аренды"
-                    data={`${secondsToDhms(apiData.order.data.dateTo - apiData.order.data.dateFrom)}`}
+                    data={`${secondsToDhms(order.data.dateTo - order.data.dateFrom)}`}
                 />
-                <OrderContainer name="Тариф" data={`${apiData.order.data.rateId.rateTypeId.name}`} />
-                <OrderContainer name="Полный бак" data={apiData.order.data.isFullTank === true ? "Да" : ""} />
-                <OrderContainer name="Детское кресло" data={apiData.order.data.isNeedChildChair === true ? "Да" : ""} />
-                <OrderContainer name="Правый руль" data={apiData.order.data.isRightWheel === true ? "Да" : ""} />
+                <OrderContainer name="Тариф" data={`${order.data.rateId.rateTypeId.name}`} />
+                <OrderContainer name="Полный бак" data={order.data.isFullTank === true ? "Да" : ""} />
+                <OrderContainer name="Детское кресло" data={order.data.isNeedChildChair === true ? "Да" : ""} />
+                <OrderContainer name="Правый руль" data={order.data.isRightWheel === true ? "Да" : ""} />
             </div>
-            <PriceContainer price={`${convertNumber(apiData.order.data.price)} ₽`} />
+            <PriceContainer price={`${convertNumber(order.data.price)} ₽`} car={selectedCar} />
 
             <Button
-                disabled={!validationState[formName]}
+                disabled={!formValidation[formName]}
                 className={buttonClassName}
                 type="button"
                 name={buttonName}

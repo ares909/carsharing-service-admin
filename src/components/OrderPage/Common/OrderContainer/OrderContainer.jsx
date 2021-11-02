@@ -7,7 +7,7 @@ const OrderContainer = ({ children, data, name }) => {
         [`${styles.text}`]: true,
         [`${styles.textLowerFont}`]: data.length > 30,
     });
-    if (data !== "undefined" && data !== "") {
+    if (data) {
         return (
             <div className={styles.pointContainer}>
                 <span className={styles.point}>{name}</span>

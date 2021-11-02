@@ -22,11 +22,9 @@ const Confirmation = ({ toggle, isOpened, onSubmit, address }) => {
     };
 
     const handleSubmit = () => {
-        if (isOpened) {
-            toggle();
-            onSubmit();
-            push(address);
-        }
+        if (isOpened) toggle();
+        onSubmit();
+        push(address);
     };
 
     return (

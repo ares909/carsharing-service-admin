@@ -182,7 +182,7 @@ export const fetchStatuses = createAsyncThunk("api/fetchStatuses", (_, { rejectW
 
 const setError = (state, action) => {
     state.status = "rejected";
-    state.error = action.payload;
+    state.error = action.error.message;
 };
 
 export const apiSlice = createSlice({
@@ -278,17 +278,23 @@ export const apiSlice = createSlice({
         resetApiData(state) {
             return {
                 ...state,
-                cities: initialState.cities,
                 points: initialState.points,
-                cars: initialState.cars,
                 selectedCar: initialState.selectedCar,
-                categories: initialState.categories,
                 order: initialState.order,
                 filteredCars: initialState.filteredCars,
                 colors: initialState.colors,
-                rates: initialState.rates,
-                statuses: initialState.statuses,
                 geodata: initialState.geodata,
+            };
+        },
+
+        resetModelData(state) {
+            return {
+                ...state,
+                selectedCar: initialState.selectedCar,
+                order: initialState.order,
+                filteredCars: initialState.filteredCars,
+                colors: initialState.colors,
+                geodata: { city: state.geodata.city, points: state.geodata.points, point: initialState.geodata.point },
             };
         },
     },
@@ -299,12 +305,12 @@ export const apiSlice = createSlice({
         },
 
         [fetchRates.fulfilled]: (state, action) => {
-            state.rates.data = action.payload.data.slice(0, 2);
+            state.rates.data = action.payload.data.slice(0, 4);
             // eslint-disable-next-line prefer-destructuring
             state.formRate = {
-                name: action.payload.data.slice(0, 2)[0].rateTypeId.name,
-                id: action.payload.data.slice(0, 2)[0].id,
-                price: action.payload.data.slice(0, 2)[0].price,
+                name: action.payload.data[0].rateTypeId.name,
+                id: action.payload.data[0].id,
+                price: action.payload.data[0].price,
             };
 
             state.rates.status = "succeeded";
@@ -372,6 +378,9 @@ export const apiSlice = createSlice({
         [fetchPoints.pending]: (state) => {
             state.points.status = "loading";
         },
+        [fetchRates.pending]: (state) => {
+            state.rates.status = "loading";
+        },
         [fetchCars.pending]: (state) => {
             state.cars.status = "loading";
         },
@@ -395,5 +404,6 @@ export const {
     filterOrder,
     resetApiCarExtra,
     resetApiData,
+    resetModelData,
 } = apiSlice.actions;
 export default apiSlice.reducer;

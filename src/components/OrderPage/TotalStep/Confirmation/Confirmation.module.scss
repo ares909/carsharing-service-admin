@@ -2,12 +2,24 @@
 .popupMenu {
     display: none;
     position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    // top: 0;
+    // bottom: 0;
+    // left: 0;
+    // right: 0;
     // background: rgba(255, 255, 255, 0.9);
-    z-index: 4;
+    // z-index: 4;
+
+    // display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto 0;
+    height: 100%;
+    z-index: 10;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    background: rgba(255, 255, 255, 0.9);
 }
 
 .container {
@@ -17,7 +29,7 @@
     min-width: 405px;
     max-width: 405px;
     margin: auto;
-    // position: absolute;
+    position: relative;
     @media screen and (min-width: 768px) and (max-width: 1439px) {
         margin: auto;
     }
@@ -51,7 +63,7 @@
 }
 
 .wrapper {
-    background: rgba(255, 255, 255, 0.9);
+    
     min-width: calc(100% - 688px);
     display: flex;
     flex-direction: column;

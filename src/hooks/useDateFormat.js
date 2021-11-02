@@ -9,8 +9,8 @@ const useDateFormat = () => {
         const h = Math.floor((seconds % (3600 * 24)) / 3600);
         const m = Math.floor((seconds % 3600) / 60);
 
-        const dDisplay = d > 0 ? `${d}д` : "";
-        const hDisplay = h > 0 && h < 24 ? `${h}ч` : "";
+        const dDisplay = d > 0 ? `${d}д ` : "";
+        const hDisplay = h > 0 && h < 24 ? `${h}ч ` : "";
         const mDisplay = m > 0 && m < 60 ? `${m}м` : "";
 
         return dDisplay + hDisplay + mDisplay;
@@ -30,6 +30,12 @@ const useDateFormat = () => {
         return h;
     };
 
+    const secondsToDays = (time) => {
+        const seconds = Number(time) / 1000;
+        const d = Math.ceil(seconds / (3600 * 24));
+        return d;
+    };
+
     const stringToLocale = (time) => {
         return time.toLocaleString("ru-RU", {
             day: "2-digit",
@@ -40,7 +46,7 @@ const useDateFormat = () => {
         });
     };
 
-    return [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale];
+    return [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays];
 };
 
 export default useDateFormat;

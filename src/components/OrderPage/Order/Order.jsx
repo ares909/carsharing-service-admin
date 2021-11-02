@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
+import { apiData, formData } from "../../../store/selectors/selectors";
 import { formAction } from "../../../store/slices/formSlice";
 import { validityAction } from "../../../store/slices/validationSlice";
 import { resetFilteredCars, fetchOrder, fetchStatuses } from "../../../store/slices/apiSlice";
@@ -15,40 +16,40 @@ const Order = () => {
     const [convertNumber, convertCarNumber] = useNumberFormat();
     const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale] = useDateFormat();
     const { orderId } = useParams();
-    const apiData = useSelector((state) => state.api);
+    const { order, status } = useSelector(apiData);
 
     useEffect(() => {
-        if (apiData.order.status === "idle") {
+        if (order.status === "idle") {
             dispatch(fetchOrder(orderId));
             dispatch(formAction({ queryParam: orderId }));
         }
-    }, [apiData.order.status]);
+    }, [order.status]);
 
     useEffect(() => {
-        if (apiData.order.data.carId) {
+        if (order.data.carId) {
             dispatch(validityAction({ totalValid: true }));
         } else {
             dispatch(validityAction({ totalValid: false }));
         }
-    }, [apiData.order.data.carId]);
+    }, [order.data.carId]);
 
     useEffect(() => {
-        if (apiData.order.status === "idle") {
+        if (order.status === "idle") {
             dispatch(fetchStatuses());
         }
-    }, [apiData.order.status]);
+    }, [order.status]);
 
     const [orderData, setOrderData] = useState({ tank: "", date: "", number: "" });
 
     useEffect(() => {
-        if (apiData.order.data.carId) {
-            const tank = apiData.order.data.isFullTank ? 100 : apiData.order.data.carId.tank;
-            const date = stringToLocale(new Date(apiData.order.data.dateFrom));
-            const number = convertCarNumber(apiData.order.data.carId.number);
+        if (order.data.carId) {
+            const tank = order.data.isFullTank ? 100 : order.data.carId.tank;
+            const date = stringToLocale(new Date(order.data.dateFrom));
+            const number = convertCarNumber(order.data.carId.number);
 
             setOrderData({ tank, date, number });
         }
-    }, [apiData.order.data.carId]);
+    }, [order.data.carId]);
 
     useEffect(() => {
         dispatch(resetFilteredCars());
@@ -56,11 +57,11 @@ const Order = () => {
 
     return (
         <form className={styles.totalForm}>
-            {apiData.order.status === "succeeded" ? (
+            {order.status === "succeeded" && (
                 <div className={styles.totalContainer}>
                     <div className={styles.textContainer}>
                         <h1 className={styles.orderTitle}>Ваш заказ подтверждён</h1>
-                        <h2 className={styles.catTitle}>{apiData.order.data.carId.name}</h2>
+                        <h2 className={styles.catTitle}>{order.data.carId.name}</h2>
                         <div className={styles.cardNumber}>{orderData.number}</div>
                         <p className={styles.cardTextBold}>
                             Топливо{" "}
@@ -76,16 +77,16 @@ const Order = () => {
                         <img
                             className={styles.cardImage}
                             src={
-                                apiData.order.data.carId.thumbnail.path.includes("files")
-                                    ? imageUrl + apiData.order.data.carId.thumbnail.path
-                                    : apiData.order.data.carId.thumbnail.path
+                                order.data.carId.thumbnail.path.includes("files")
+                                    ? imageUrl + order.data.carId.thumbnail.path
+                                    : order.data.carId.thumbnail.path
                             }
                         />
                     </div>
                 </div>
-            ) : (
-                <Preloader />
-            )}
+            )}{" "}
+            {status === "rejected" && !order.data && <h1 className={styles.orderTitle}>Произошла ошибка на сервере</h1>}
+            {order.status === "loading" && <Preloader />}
         </form>
     );
 };
