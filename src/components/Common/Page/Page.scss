@@ -1,3 +1,9 @@
+$MainAccent: #0ec261;
+$MainBlack: #121212;
+
+$GrayDark: #999999;
+$GrayLight: #eeeeee;
+
 @mixin white-text {
     color: white;
 }
@@ -59,6 +65,21 @@
     }
     &:focus {
         background: linear-gradient(90deg, #076432 2.61%, #013c27 112.6%);
+    }
+}
+
+@mixin hover-button_red {
+    transition: opacity 0.1s ease 0s;
+
+    &:hover {
+        background: linear-gradient(90deg, #7b0c3b 2.61%, #493013 112.6%);
+    }
+
+    &:active {
+        background: linear-gradient(90deg, #7b0c3b 2.61%, #493013 112.6%);
+    }
+    &:focus {
+        background: linear-gradient(90deg, #493013 2.61%, #493013 112.6%);
     }
 }
 

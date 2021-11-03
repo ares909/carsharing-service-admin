@@ -9,12 +9,27 @@ const initialState = {
     error: "",
 };
 
-export const handleAuth = createAsyncThunk("auth/authSlice", () => {
-    return authorize();
+const setError = (state, action) => {
+    state.status = "rejected";
+    state.error = action.error.message;
+};
+
+export const handleAuth = createAsyncThunk("auth/authSlice", ({ rejectWithValue }) => {
+    try {
+        return authorize();
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
 });
 
-export const handleRefresh = createAsyncThunk("auth/authSlice", (token) => {
-    return refreshToken(token);
+export const handleRefresh = createAsyncThunk("auth/authSlice", (token, { rejectWithValue }) => {
+    try {
+        return refreshToken(token);
+    } catch (error) {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("token");
+        return rejectWithValue(error.message);
+    }
 });
 
 export const authSlice = createSlice({
@@ -32,13 +47,7 @@ export const authSlice = createSlice({
             state.userId = action.payload.user_id;
             state.error = action.payload.message;
         },
-        [handleAuth.rejected]: (state, action) => {
-            state.status = "failed";
-            state.error = action.payload.message;
-        },
-        [handleRefresh.pending]: (state) => {
-            state.status = "loading";
-        },
+        [handleAuth.rejected]: setError,
         [handleRefresh.fulfilled]: (state, action) => {
             state.status = action.payload.message ? "failed" : "autorized";
             state.token = action.payload.access_token;
@@ -46,10 +55,7 @@ export const authSlice = createSlice({
             state.userId = action.payload.user_id;
             state.error = action.payload.message;
         },
-        [handleRefresh.rejected]: (state, action) => {
-            state.status = "failed";
-            state.error = action.payload.message;
-        },
+        [handleRefresh.rejected]: setError,
     },
 });
 

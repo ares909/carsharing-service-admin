@@ -4,31 +4,22 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    // padding: 32px 0 48px;
-    margin: 0 auto 0;
-    min-width: 1248px;
     height: 100%;
     position: relative;
 
     @media screen and (min-width: 1024px) and (max-width: 1439px) {
-        margin: 0 auto 0;
-        min-width: calc(100vw - 64px - 64px);
+        // margin: 0 auto 0;
     }
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {
-        min-width: calc(100vw - 86px - 48px);
         justify-content: space-between;
     }
     @media screen and (min-width: 426px) and (max-width: 767px) {
         flex-direction: column;
-        min-width: calc(100vw - 32px);
-        max-width: calc(100vw - 32px);
     }
 
     @media screen and (min-width: 0px) and (max-width: 425px) {
         flex-direction: column;
-        min-width: 100vw;
-        max-width: 100vw;
     }
 }
 
@@ -69,12 +60,18 @@
         min-width: calc(100vw - 10px);
         border-radius: 0px;
         align-self: center;
+        font-size: 12px;
+        line-height: 14px;
+        padding: 10px 6px;
     }
     @media screen and (min-width: 426px) and (max-width: 767px) {
+        padding: 10px 6px;
         min-width: 100%;
         border-radius: 8px;
         margin: 0 16px 10px;
         align-self: center;
+        font-size: 12px;
+        line-height: 14px;
     }
 }
 
@@ -212,51 +209,4 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: clip;
-
-    content: ". . . . . . . . . . . . . . . . . . . . " ". . . . . . . . . . . . . . . . . . . . "
-        ". . . . . . . . . . . . . . . . . . . . " ". . . . . . . . . . . . . . . . . . . . ";
-
-    @media screen and (min-width: 768px) and (max-width: 1023px) {
-        font-size: 10px;
-        line-height: 12px;
-        display: none;
-    }
-}
-
-.submitHeader {
-    margin: 0 0 26px;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 21px;
-    text-align: right;
-    @media screen and (min-width: 0px) and (max-width: 767px) {
-        align-self: center;
-        margin-bottom: 5px;
-    }
-}
-
-.priceContainer {
-    margin-bottom: 32px;
-    display: flex;
-    flex-direction: row;
-    @media screen and (min-width: 0px) and (max-width: 767px) {
-        margin-bottom: 15px;
-    }
-}
-
-.price {
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 16px;
-    align-self: center;
-    margin: 0 1px 0 0;
-    @media screen and (min-width: 768px) and (max-width: 1023px) {
-        font-size: 12px;
-        line-height: 12px;
-    }
-}
-
-.priceTitle {
-    @extend .price;
-    font-weight: 500;
 }

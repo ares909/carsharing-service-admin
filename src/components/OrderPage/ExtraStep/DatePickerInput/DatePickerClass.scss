@@ -1,0 +1,121 @@
+@import "../../../Common/Page/Page.scss";
+.react-datepicker {
+    &_disabled {
+        background-color: #eeee;
+    }
+    &-wrapper {
+        font-family: "Roboto", sans-serif;
+        position: relative;
+        width: 220px;
+    }
+
+    &__input-container {
+        
+    }
+
+    &__input-container input {
+        font-family: "Roboto", sans-serif;
+        width: 220px;
+        border: none;
+        padding: 0;
+        padding: 0 8px 3px;
+        border-bottom: 1px solid gray;
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 16px;
+        outline: none;
+        border-radius: 0;
+        @media screen and (min-width: 0) and (max-width: 424px) {
+            width: 200px;
+            font-size: 10px;
+            line-height: 12px;
+        }
+        @media screen and (min-width: 425px) and (max-width: 767px) {
+            width: 200px;
+            font-size: 12px;
+            line-height: 14px;
+        }
+    }
+
+    &__month-container {
+        
+        @media screen and (min-width: 0) and (max-width: 424px) {
+            width: 200px;
+            font-size: 10px;
+            line-height: 12px;
+        }
+    }
+
+    &__time-container {
+        
+        @media screen and (min-width: 0) and (max-width: 424px) {
+            width: 70px;
+            font-size: 10px;
+            line-height: 12px;
+        }
+    }
+    &__day {
+        
+        &:hover {
+            background-color: $MainAccent;
+            color: white;
+            opacity: 0.6;
+        }
+    }
+
+    &__day--today {
+        // background-color:inherit;
+        // color: inherit;
+        font-weight: inherit;
+        &:hover {
+            background-color: $MainAccent;
+            color: white;
+        }
+    }
+    &__day--in-range {
+        background-color: inherit;
+        color: inherit;
+    }
+
+    &__day--in-selecting-range {
+        background-color: inherit;
+        color: inherit;
+        // color: #ccc;
+        // &:hover {
+        //     background-color: inherit;
+        //     // color: black;
+        //     // opacity: 0.6;
+        // }
+    }
+    
+
+
+    &__day--selected {
+        background-color: $MainAccent;
+        color: white;
+        font-weight: 400;
+    }
+
+    &__time-list-item--selected {
+        background-color: $MainAccent !important;
+    }
+
+    &__time-list-item {
+        &:hover {
+            background-color: $MainAccent !important;
+            opacity: 0.6;
+            color: white;
+        }
+    }
+}
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
+    @media screen and (min-width: 0) and (max-width: 424px) {
+        width: 70px;
+        font-size: 10px;
+        line-height: 12px;
+        
+    }
+}
+
+

@@ -11,19 +11,97 @@
     font-size: 14px;
     line-height: 16px;
     max-width: 225px;
-    @media screen and (min-width: 0px) and (max-width: 767px) {
-        font-size: 11px;
-        line-height: 11px;
+    @media screen and (min-width: 0px) and (max-width: 320px) {
+        font-size: 10px;
+        line-height: 10px;
         min-width: 200px;
         max-width: 200px;
+    }
+
+    @media screen and (min-width: 321px) and (max-width: 767px) {
+        font-size: 12px;
+        line-height: 14px;
+        min-width: 200px;
+        max-width: 200px;
+    }
+    [class*="-control"] {
+        min-height: 25px;
+        border: none;
+        border-radius: 0;
+        width: 225px;
+        border-bottom: 1px solid gray;
+        outline: none;
+        box-shadow: none;
+        border-color: gray;
+        &:hover {
+            border-color: gray;
+        }
+        @media screen and (min-width: 0px) and (max-width: 767px) {
+            width: 200px;
+            min-height: 20px;
+        }
+    }
+    [class*="-ValueContainer"] {
+        padding: 0;
+        // background: state.isDisabled ? "#eeeeee" : "none",
+        color: gray;
+        padding: 0 8px 0;
+        @media screen and (min-width: 0px) and (max-width: 767px) {
+            padding: 0 4px 0;
+        }
+    }
+    [class*="-option"] {
+        color: gray;
+        padding: 8px;
+        background-color: white;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 16px;
+        @media screen and (min-width: 0px) and (max-width: 320px) {
+            font-size: 10px;
+            line-height: 10px;
+        }
+        @media screen and (min-width: 321px) and (max-width: 767px) {
+            font-size: 12px;
+            line-height: 14px;
+        }
+        &:hover {
+            color: #0ec261;
+        }
+        &:active {
+            background-color: white;
+            opacity: 1;
+        }
+    }
+    [class*="-IndicatorsContainer"] {
+        display: none;
+    }
+
+    [class*="-indicators"] {
+        display: none;
+    }
+    [class*="indicators"] {
+        display: none;
+    }
+    [class*="-singleValue"] {
+        margin: 0;
+        padding: 0;
+        // padding: 3px 8px 3px;
+    }
+    [class*="-placeholder"] {
+        margin: 0;
+        padding: 0;
+        // padding: 3px 8px 3px;
+    }
+    [class*="-Input"] {
+        margin: 0;
+        padding: 0;
     }
 }
 
 input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
 }
-
-
 
 .inputContainer {
     display: flex;
@@ -32,6 +110,22 @@ input[type="search"]::-webkit-search-cancel-button {
     align-self: center;
     &:last-of-type {
         margin-bottom: 0;
+    }
+    @media screen and (min-width: 425px) and (max-width: 425px) {
+        font-size: 12px;
+        line-height: 14px;
+        margin-right: 5px;
+        min-width: 91px;
+        margin-left: 50px;
+    }
+
+    @media screen and (min-width: 426px) and (max-width: 767px) {
+        font-size: 12px;
+        line-height: 14px;
+        margin-right: 5px;
+        min-width: 91px;
+        justify-content: center;
+        // margin-left: 65px;
     }
 }
 
@@ -44,9 +138,15 @@ input[type="search"]::-webkit-search-cancel-button {
     min-width: 91px;
     text-align: right;
     margin-right: 8px;
-    @media screen and (min-width: 0px) and (max-width: 767px) {
-        font-size: 11px;
-        line-height: 11px;
+    @media screen and (min-width: 0px) and (max-width: 320px) {
+        font-size: 10px;
+        line-height: 10px;
+        margin-right: 5px;
+        min-width: 91px;
+    }
+    @media screen and (min-width: 321px) and (max-width: 767px) {
+        font-size: 12px;
+        line-height: 14px;
         margin-right: 5px;
         min-width: 91px;
     }
@@ -71,8 +171,20 @@ input[type="search"]::-webkit-search-cancel-button {
     border: none;
     padding: 0;
     left: 310px;
-    @media screen and (min-width: 0px) and (max-width: 767px) {
+    @media screen and (min-width: 0px) and (max-width: 424px) {
         left: 280px;
     }
-}
 
+    @media screen and (min-width: 425px) and (max-width: 425px) {
+        left: 330px;
+    }
+
+
+    @media screen and (min-width: 426px) and (max-width: 767px) {
+        left: 350px;
+        position: static;
+        margin-left: -10px;
+        z-index: 1;
+
+    }
+}

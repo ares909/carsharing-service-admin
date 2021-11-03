@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { useLocation } from "react-router";
 import Navbar from "../NavBar/NavBar.jsx";
-import crossButton from "./CrossButton.jsx";
+import crossButton from "../UI/CrossButton/CrossButton.jsx";
 import Button from "../UI/Button.jsx";
 import { navButtonsVertical, navButtonsHorizontal } from "../NavBar/NavButtons.jsx";
 import styles from "./PopupMenu.module.scss";

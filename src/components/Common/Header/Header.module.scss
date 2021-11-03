@@ -3,33 +3,35 @@
 .header {
     margin: 0;
     padding: 0;
+    
     @media screen and (min-width: 0) and (max-width: 767px) {
         margin: 16px 16px 0px;
+        
     }
 }
 
 .formHeader {
     @extend .header;
-    margin: 32px 64px 0;
+    margin: 0  64px 0;
     min-width: calc(100vw - 64px - 128px);
     @media screen and (min-width: 1441px) {
-        margin: 32px auto 0;
+        margin: 0 auto 0;
         min-width: 1248px;
         max-width: 1248px;
     }
     @media screen and (min-width: 1024px) and (max-width: 1439px) {
-        min-width: calc(100vw - 86px - 32px);
-        margin: 32px auto 0;
+        min-width: calc(100vw - 64px - 128px);
+        margin: 0 32px 0;
     }
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         min-width: calc(100vw - 86px - 64px);
-        margin: 32px auto 0;
+        margin: 0 32px 0;
     }
     @media screen and (min-width: 0) and (max-width: 767px) {
         min-width: calc(100vw - 32px);
         max-width: calc(100vw - 32px);
-        margin: 16px 16px 0px;
+        margin: 0 16px 0px;
     }
 }
 .container {

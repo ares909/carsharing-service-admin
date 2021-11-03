@@ -1,0 +1,97 @@
+@import "../../../Common/Page/Page.scss";
+
+.inputContainer {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 13px;
+    align-self: center;
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+    @media screen and (min-width: 0) and (max-width: 424px) {
+        font-size: 12px;
+        line-height: 14px;
+        margin-right: 5px;
+        min-width: 91px;
+        // margin-left: 50px;
+    }
+
+    @media screen and (min-width: 425px) and (max-width: 767px) {
+        font-size: 12px;
+        line-height: 14px;
+        margin-right: 5px;
+        min-width: 91px;
+        // margin-left: auto;
+    }
+}
+
+.inputLabel {
+    @include black-text;
+    align-self: center;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    min-width: 18px;
+    text-align: right;
+    margin-right: 8px;
+    @media screen and (min-width: 0px) and (max-width: 424px) {
+        font-size: 10px;
+        line-height: 10px;
+        margin-right: 5px;
+        min-width: 12px;
+    }
+    @media screen and (min-width: 425px) and (max-width: 767px) {
+        font-size: 12px;
+        line-height: 14px;
+        margin-right: 5px;
+        min-width: 12px;
+    }
+}
+
+.datePickerWrapper input {
+    width: 220px;
+    border: none;
+    padding: 0;
+    padding: 0 8px 3px;
+    border-bottom: 1px solid gray;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    outline: none;
+    @media screen and (min-width: 0) and (max-width: 424px) {
+        width: 200px;
+        font-size: 10px;
+        line-height: 12px;
+    }
+    @media screen and (min-width: 425px) and (max-width: 767px) {
+        width: 200px;
+        font-size: 12px;
+        line-height: 14px;
+    }
+
+    // background-color: white;
+}
+
+.inputCrossButton {
+    position: absolute;
+    cursor: pointer;
+    align-self: center;
+    width: 8px;
+    height: 8px;
+    padding-left: -30px;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    background-image: url("../../../../images/autocomplete/inputCrossButton.svg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: white;
+    border: none;
+    padding: 0;
+    left: 245px;
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        left: 235px;
+    }
+}

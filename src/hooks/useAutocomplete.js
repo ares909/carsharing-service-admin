@@ -1,93 +1,66 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { fetchPoints, resetPoints } from "../store/slices/pointSlice";
-// import { fetchGeoData, resetGeodata } from "../store/slices/geodataSlice";
-// import { fetchGeoDataPoints, resetGeodataPoints } from "../store/slices/geodataPointsSlice";
+import { apiData, formData } from "../store/selectors/selectors";
 import {
-    formAction,
     fetchPoints,
-    resetPoints,
-    fetchOrder,
     fetchGeoData,
     fetchGeoDataPoints,
     fetchChosenPoint,
-    resetChosenPoint,
-} from "../store/slices/formSlice";
+    resetApiData,
+    resetModelData,
+} from "../store/slices/apiSlice";
+
+import { formAction, resetForm, resetModel, resetPoint } from "../store/slices/formSlice";
 
 const useAutocomplete = () => {
     const dispatch = useDispatch();
-    const points = useSelector((state) => state.form.points.data);
-    const pointsStatus = useSelector((state) => state.form.points.status);
-    const geodata = useSelector((state) => state.form.geodata);
-    const stateForm = useSelector((state) => state.form);
-    const city = useSelector((state) => state.form.city);
-    const chosenPoint = useSelector((state) => state.form.point);
-    const initialState = {
-        city: city.name,
-        point: chosenPoint.name,
-    };
-    const [state, setState] = useState(initialState);
+    const { cities, points, geodata } = useSelector(apiData);
+    const { city, point } = useSelector(formData);
 
     const onCityChange = (option) => {
         if (option) {
-            if (option.value !== stateForm.city.name) dispatch(resetPoints());
-            dispatch(formAction({ city: "", point: "" }));
+            if (option.value !== city.name) dispatch(resetApiData());
+            dispatch(resetForm());
             dispatch(formAction({ city: { name: option.value, id: option.id } }));
-        } else {
-            setState({ ...state, city: "", point: "" });
-            // dispatch(formAction({ city: {}, point: {} }));
         }
     };
 
     const onPointChange = (option) => {
         if (option) {
             dispatch(formAction({ point: { name: option.value, id: option.id } }));
-            setState({ ...state, point: { name: option.value, id: option.id } });
-        } else {
-            // dispatch(formAction({ point: "" }));
-            // dispatch(resetChosenPoint());
-            setState({ ...state, point: "" });
+            dispatch(resetModel());
+            dispatch(resetModelData());
         }
     };
 
     const onReset = (e) => {
         e.preventDefault(e);
         if (e.currentTarget.name === "city") {
-            dispatch(formAction({ city: "", point: "" }));
-            dispatch(resetPoints());
-            // dispatch(rese)
+            dispatch(resetApiData());
+            dispatch(resetForm());
         } else {
-            dispatch(formAction({ point: "" }));
-            dispatch(resetChosenPoint());
+            dispatch(resetPoint());
+            dispatch(resetModelData());
         }
     };
 
     useEffect(() => {
-        if (city.name && pointsStatus === "idle") {
+        if (city.name && points.status === "idle") {
             dispatch(fetchPoints(city.id));
             dispatch(fetchGeoData(city.name));
         }
-    }, [city.name, pointsStatus]);
+    }, [city.name, points.status]);
 
     useEffect(() => {
-        if (chosenPoint.name) dispatch(fetchChosenPoint(`${city.name}, ${chosenPoint.name}`));
-    }, [chosenPoint.name]);
+        if (point.name) dispatch(fetchChosenPoint(`${city.name}, ${point.name}`));
+    }, [point.name]);
 
     useEffect(() => {
-        if (city.name && points && !geodata.points)
-            points.forEach((item) => {
+        if (city.name && points.data && !geodata.points)
+            points.data.forEach((item) => {
                 dispatch(fetchGeoDataPoints(`${item.cityId.name}, ${item.address}`));
             });
-    }, [city.name, points]);
-
-    useEffect(() => {
-        if (stateForm.point.name) {
-            // dispatch(fetchSinglePoint(point.id));
-            // dispatch(fetchGeoData(`${city.name}, ${point.name}`));
-            dispatch(fetchOrder({ cityId: stateForm.city.id, pointId: stateForm.point.id }));
-            // dispatch(fetchGeoDataPoints(`${point.cityId.name}, ${point.address}`));
-        }
-    }, [stateForm.point.name]);
+    }, [city.name, points.data]);
 
     return {
         onCityChange,

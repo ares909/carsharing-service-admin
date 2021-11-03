@@ -11,14 +11,14 @@ import styles from "./MainPage.module.scss";
 const MainPage = () => {
     const dispatch = useDispatch();
     const authStatus = useSelector((state) => state.auth.status);
-    const refreshToken = JSON.parse(localStorage.getItem("access_token"));
+    const refreshToken = JSON.parse(localStorage.getItem("token"));
     useEffect(() => {
         if (authStatus === "idle" && !refreshToken) {
             dispatch(handleAuth());
         } else if (authStatus === "idle" && refreshToken) {
             dispatch(handleRefresh(refreshToken));
         }
-    }, [authStatus, dispatch]);
+    }, [authStatus, dispatch, refreshToken]);
 
     const [isOpened, toggle] = useModal();
 

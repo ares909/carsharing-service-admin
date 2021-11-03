@@ -1,14 +1,36 @@
+@import "../../../Common/Page/Page.scss";
 .submitContainer {
     border-left: 1px solid #eeeeee;
     display: flex;
     flex-direction: column;
     min-width: 287px;
     max-width: 287px;
-    padding: 26px 0 48px 32px;
+    padding: 26px 0 0 32px;
+    height: calc(100% - 26px);
+    position: fixed;
+    right: 64px;
+    background: rgba(255, 255, 255, 1);
+
+    @media screen and (min-width: 1441px) {
+        position: fixed;
+        right: calc((100vw/2) - 64px - 800px + 287px - 64px);
+        // margin-left: auto;
+        // margin-right: auto;
+    }
+
+    @media screen and (min-width: 1024px) {
+        z-index: 2;
+    }
+
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        right: 32px;
+        z-index: 2;
+    }
+
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         justify-self: flex-end;
-        min-width: 210px;
-        max-width: 210px;
+        min-width: 287px;
+        max-width: 287px;
         padding: 26px 10px 48px;
         align-items: flex-end;
     }
@@ -28,6 +50,72 @@
     }
 }
 
+.submitMobile {
+    // @extend .submitContainer;
+
+    // position: relative;
+
+    @media screen and (min-width: 0px) and (max-width: 550px) {
+        right: 0;
+        height: auto;
+        display: none;
+        position: fixed;
+        background-color: white;
+        bottom: 0px;
+        padding: 10px 0 10px;
+        border-radius: 6px;
+        min-width: 100%;
+        border-top: 1px solid #eeeeee;
+        margin: 0 auto 0;
+        // min-height: 30%;
+        border-left: none;
+    }
+    @media screen and (min-width: 551px) and (max-width: 767px) {
+        right: 0;
+        height: auto;
+        display: none;
+        position: fixed;
+        background-color: white;
+        bottom: 0px;
+        padding: 10px 64px 10px;
+        min-width: calc(100% - 128px);
+        border-top: 1px solid #eeeeee;
+        margin: 0 auto 0;
+        // min-height: 30%;
+        border-left: none;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        right: 0;
+        height: auto;
+        border-top: none;
+        justify-self: flex-end;
+        min-width: 287px;
+        max-width: 287px;
+        right: 0;
+        // padding: 26px 0 48px;
+        height: 100%;
+        align-items: flex-end;
+        display: none;
+        position: fixed;
+        background-color: white;
+        // top: 119px;
+        padding: 26px 32px 5px;
+        border-left: 1px solid #eeeeee;
+        // border-top: 1px solid #999999;
+        margin: 0 auto 0;
+        // min-height: 30%;
+    }
+}
+
+.submitMobileActive {
+    @extend .submitMobile;
+    display: flex;
+    flex-direction: column;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        z-index: 1;
+    }
+}
+
 .submitContainerHeader {
     margin: 0 0 26px;
     font-weight: 500;
@@ -37,6 +125,14 @@
     @media screen and (min-width: 0px) and (max-width: 767px) {
         align-self: center;
         margin-bottom: 5px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 320px) {
+        font-size: 10px;
+        line-height: 12px;
     }
 }
 
@@ -59,9 +155,113 @@
         font-size: 12px;
         line-height: 12px;
     }
+    @media screen and (min-width: 0px) and (max-width: 320px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
 }
 
 .priceTitle {
     @extend .price;
     font-weight: 500;
+    @media screen and (min-width: 0px) and (max-width: 320px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
+}
+
+.crossButton {
+    width: 16px;
+    height: 16px;
+    // margin-left: 16px;
+
+    cursor: pointer;
+    background-color: inherit;
+    border: none;
+    padding: 0;
+    z-index: 2;
+    :hover path {
+        stroke: #0ec261;
+    }
+    @media screen and (min-width: 1024px) {
+        display: none;
+    }
+
+    @media screen and (min-width: 0) and (max-width: 550px) {
+        position: absolute;
+        top: 7px;
+        right: 3%;
+        background-color: none;
+    }
+    @media screen and (min-width: 551px) and (max-width: 767px) {
+        position: absolute;
+        top: 7px;
+        right: 16px;
+        // background-color: none;
+        // background-color: none;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        position: absolute;
+        top: 29px;
+        left: 30px;
+        // left: 47%;
+    }
+}
+
+.formButton {
+    @include white-text;
+    @include hover-button;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    margin: 0;
+    max-width: 287px;
+    background: linear-gradient(90deg, #0ec261 2.61%, #039f67 112.6%);
+    border: none;
+    cursor: pointer;
+    background-blend-mode: darken;
+    border-radius: 8px;
+    padding: 15px 11px;
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        min-width: 100%;
+        font-size: 14px;
+        line-height: 16px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        min-width: 300px;
+        max-width: 300px;
+        border-radius: 8px;
+        align-self: center;
+        font-size: 12px;
+        line-height: 14px;
+        padding: 10px 6px;
+    }
+    // @media screen and (min-width: 551px) and (max-width: 767px) {
+    //     // padding: 10px 6px;
+    //     min-width: 65vw;
+    //     border-radius: 8px;
+    //     // margin: 0 16px 10px;
+    //     align-self: center;
+    //     font-size: 12px;
+    //     line-height: 14px;
+    // }
+}
+
+.formButtonRed {
+    @extend .formButton;
+    @include hover-button_red;
+    background: linear-gradient(90deg, #493013 0%, #7b0c3b 100%);
+}
+
+.formButtonDisabled {
+    @extend .formButton;
+    // @include hover-with-opacity;
+    background: #eeeeee;
+    // border-radius: 8px;
+    cursor: default;
+    &:hover {
+        background: #eeeeee;
+        opacity: inherit;
+    }
 }

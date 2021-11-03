@@ -7,15 +7,20 @@
     line-height: 16px;
     @include black-text;
     align-self: flex-end;
-    @media screen and (min-width: 768px) and (max-width: 1023px) {
+    @media screen and (min-width: 321px) and (max-width: 767px) {
         font-size: 12px;
         line-height: 14px;
     }
+    @media screen and (min-width: 0px) and (max-width: 320px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
+
 }
 
 .text {
-    display: inline-block;
-    max-width: 160px;
+    // inline-size: 150px;
+    // overflow-wrap: break-all;
     font-weight: 300;
     font-size: 14px;
     line-height: 16px;
@@ -26,12 +31,37 @@
     white-space: pre-line;
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-size: 14px;
+        line-height: 16px;
+        max-width: 150px;
+    }
+    @media screen and (min-width: 321px) and (max-width: 767px) {
         font-size: 12px;
         line-height: 14px;
-        max-width: 100px;
     }
+    @media screen and (min-width: 0px) and (max-width: 320px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
+    
 }
 
+.textLowerFont {
+    @extend .text;
+    white-space: pre-line;
+
+    font-size: 12px;
+    line-height: 14px;
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-size: 10px;
+        line-height: 12px;
+        max-width: 150px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 320px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
+}
 .textPart {
     @extend .text;
     margin: 0;
@@ -41,22 +71,36 @@
         font-size: 12px;
         line-height: 14px;
     }
+    @media screen and (min-width: 0px) and (max-width: 320px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
 }
 
 .pointContainer {
     display: flex;
     flex-direction: row;
-    margin-bottom: 32px;
+    margin-bottom: 16px;
     max-width: 287px;
-
+    &:last-of-type {
+        margin-bottom: 32px;
+        @media screen and (min-width: 0px) and (max-width: 767px) {
+            margin-bottom: 16px;
+        }
+    }
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         min-width: 10px;
         display: flex;
         flex-direction: row;
-        max-width: 100%;
+        // max-width: 100%;
     }
-    @media screen and (min-width: 0px) and (max-width: 425px) {
+    @media screen and (min-width: 0px) and (max-width: 550px) {
         margin: 0 auto 15px;
+        
+    }
+    @media screen and (min-width: 551px) and (max-width: 767px) {
+        align-self: center;
+        margin: 0 auto 16px;
     }
 }
 
