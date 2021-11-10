@@ -13,6 +13,7 @@ import {
     postNewOrder,
     putOrder,
     getOrderById,
+    getAllOrders,
 } from "../../api/api";
 
 const initialState = {
@@ -33,6 +34,7 @@ const initialState = {
 
     categories: { data: [{ id: "Все модели", name: "Все модели" }], status: "idle" },
     order: { data: [], status: "idle", orderId: "" },
+    ordersData: { data: [], status: "idle" },
     // cars: [],
     filteredCars: [],
     colors: [{ name: "Любой", value: "Любой" }],
@@ -78,6 +80,14 @@ export const fetchPoints = createAsyncThunk("api/fetchPoints", (cityId, { reject
 export const fetchOrder = createAsyncThunk("api/fetchOrder", (id, rejectWithValue) => {
     try {
         return getOrderById(id);
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
+
+export const fetchAllOrders = createAsyncThunk("api/fetchAllOrders", (id, rejectWithValue) => {
+    try {
+        return getAllOrders();
     } catch (error) {
         return rejectWithValue(error.message);
     }
@@ -351,6 +361,11 @@ export const apiSlice = createSlice({
             state.order.orderId = action.payload.data.id;
             state.order.status = "succeeded";
         },
+
+        [fetchAllOrders.fulfilled]: (state, action) => {
+            state.ordersData.data = action.payload.data;
+            state.ordersData.status = "succeeded";
+        },
         [fetchCar.fulfilled]: (state, action) => {
             state.selectedCar = action.payload.data;
         },
@@ -371,6 +386,7 @@ export const apiSlice = createSlice({
         [changeOrder.rejected]: setError,
         [fetchOrder.rejected]: setError,
         [cancelOrder.rejected]: setError,
+        [fetchAllOrders.rejected]: setError,
 
         [fetchCities.pending]: (state) => {
             state.points.status = "loading";
@@ -386,6 +402,9 @@ export const apiSlice = createSlice({
         },
         [fetchOrder.pending]: (state) => {
             state.order.status = "loading";
+        },
+        [fetchAllOrders.pending]: (state) => {
+            state.ordersData.status = "loading";
         },
     },
 });

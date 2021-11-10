@@ -15,17 +15,20 @@ const headersAuth = {
     Authorization: `Basic ${appSecret}`,
 };
 
-export const authorize = async () => {
-    const response = await axios.post(
-        `${baseUrl}/auth/login/oauth`,
-        { username, password },
-        {
-            headers: headersAuth,
-        },
-    );
+export const authorize = async (data) => {
+    const response = await axios.post(`${baseUrl}/auth/login/oauth`, data, {
+        headers: headersAuth,
+    });
 
     localStorage.setItem("token", JSON.stringify(response.data.refresh_token));
     localStorage.setItem("access_token", JSON.stringify(response.data.access_token));
+    return response.data;
+};
+
+export const register = async (data) => {
+    const response = await axios.post(`${baseUrl}/auth/register`, data, {
+        headers: headersAuth,
+    });
     return response.data;
 };
 
@@ -43,6 +46,11 @@ export const refreshToken = async (token) => {
 
 export const getCities = async () => {
     const response = await axios.get(`${baseUrl}/db/city`, { headers: headersInfo });
+    return response.data;
+};
+
+export const getAllOrders = async () => {
+    const response = await axios.get(`${baseUrl}/db/order`, { headers: headersInfo, params: { limit: 2000 } });
     return response.data;
 };
 

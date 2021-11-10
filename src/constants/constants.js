@@ -8,3 +8,4 @@ export const yandexApiKey = process.env.REACT_APP_YMAPS_API_KEY;
 export const yandexUrl = process.env.REACT_APP_YMAPS_URL;
 export const secondKey = process.env.REACT_APP_SEC_KEY;
 export const imageUrl = process.env.REACT_APP_BASE_URL_IMAGES;
+export const pageSize = 5;

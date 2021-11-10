@@ -1,0 +1,40 @@
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 15px;
+    &:last-of-type {
+        margin: 0;
+    }
+}
+
+.inputLabel {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    margin-bottom: 8.5px;
+}
+
+.input {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    border: 0.5px solid #becad6;
+    box-sizing: border-box;
+    border-radius: 3px;
+    padding: 8px 11px 8.5px;
+    outline-style: none;
+}
+
+.inputError {
+    @extend .input;
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: #c4183c;
+}
+.inputErrorMessage {
+    padding: 1px 5px 1px;
+    color: #c4183c;
+    font-size: 13px;
+    line-height: 15px;
+    margin-top: 5px;
+}

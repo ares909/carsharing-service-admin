@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import ModelCard from "./ModelCard/ModelCard.jsx";
 import Radio from "../../Common/UI/Radio/Radio.jsx";
+import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
 import { apiData, formData, validationState } from "../../../store/selectors/selectors";
 import { apiAction, fetchCars, fetchCategories, resetApiCarExtra } from "../../../store/slices/apiSlice";
 import { formAction, resetExtra } from "../../../store/slices/formSlice";
@@ -10,7 +11,6 @@ import { validityAction } from "../../../store/slices/validationSlice";
 import useModal from "../../../hooks/useModal";
 import useCheckboxFilter from "../../../hooks/useCheckboxFilter";
 import styles from "./ModelStep.module.scss";
-import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
 
 const ModelStep = () => {
     const dispatch = useDispatch();

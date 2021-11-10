@@ -1,0 +1,17 @@
+@import "../../../components//Common/Page/Page.scss";
+
+.adminContent {
+    height: 100%;
+    width: 100%;
+    background: $BackGroundAdmin;
+    display: flex;
+    flex-direction: row;
+    color: $DarkAdmin
+}
+
+.contentBox {
+    display: flex;
+    flex-direction: column;
+    min-width: calc(100% - 285px);
+    height: 100%;
+}
