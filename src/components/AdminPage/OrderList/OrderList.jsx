@@ -21,7 +21,7 @@ const OrderList = () => {
 
     useEffect(() => {
         if (!refreshToken) {
-            push("/admin");
+            push("/");
         } else if (refreshToken && ordersData.status === "idle") {
             dispatch(fetchAllOrders());
         }

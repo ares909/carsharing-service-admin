@@ -52,10 +52,10 @@ const Login = () => {
 
     useEffect(() => {
         if (status === "authorized" && refreshToken) {
-            push("./admin/orderlist");
+            push("/admin/orderlist");
         } else if (status === "idle" && refreshToken && !error) {
             dispatch(handleRefresh(refreshToken));
-            push("./admin/orderlist");
+            push("/admin/orderlist");
         }
     }, [status, refreshToken]);
 
