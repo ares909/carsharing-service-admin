@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 const useFilterList = () => {
-    const [filterItem, setFilterItem] = useState({ model: "", city: "", status: "", photo: "" });
+    const [filterItem, setFilterItem] = useState({ model: "", city: "", status: "" });
     const [filteredData, setFilteredData] = useState([]);
-    const { model, city, status, photo } = filterItem;
+    const { model, city, status } = filterItem;
 
     const onModelChange = (option) => {
         if (option) {
@@ -18,11 +18,6 @@ const useFilterList = () => {
     const onStatusChange = (option) => {
         if (option) {
             setFilterItem({ ...filterItem, status: option.value });
-        }
-    };
-    const onPhotoChange = (option) => {
-        if (option) {
-            setFilterItem({ ...filterItem, photo: option.value });
         }
     };
 
@@ -40,7 +35,7 @@ const useFilterList = () => {
         }
     };
 
-    return [onModelChange, cityChange, onStatusChange, onPhotoChange, filterData];
+    return [onModelChange, cityChange, onStatusChange, filterData, filterItem];
 };
 
 export default useFilterList;

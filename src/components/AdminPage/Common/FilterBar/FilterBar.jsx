@@ -30,23 +30,32 @@ const FilterBar = () => {
               .map((item, index) => ({ value: item, label: item, id: index }))
         : [];
 
-    const photoOptions = ["Да", "Нет"].map((item, index) => ({ value: item, label: item, id: index }));
-
-    const filterConfig = {
-        ignoreCase: true,
-        ignoreAccents: true,
-        trim: true,
-        matchFrom: "start",
-    };
-    const [onModelChange, cityChange, onStatusChange, onPhotoChange, filterData] = useFilterList();
+    const [onModelChange, cityChange, onStatusChange, filterData, filterItem] = useFilterList();
 
     return (
         <div className={styles.filterBar}>
             <div className={styles.filterContainer}>
-                <Filter name="model" placeholder="Модель" options={modelOptions} onChange={onModelChange} />
-                <Filter name="city" placeholder="Город" options={cityOptions} />
-                <Filter name="status" placeholder="Статус" options={statusOptions} />
-                <Filter name="photo" placeholder="С фото" options={photoOptions} />
+                <Filter
+                    name="model"
+                    placeholder="Модель"
+                    options={modelOptions}
+                    onChange={onModelChange}
+                    valueState={filterItem.model}
+                />
+                <Filter
+                    name="city"
+                    placeholder="Город"
+                    options={cityOptions}
+                    onChange={cityChange}
+                    valueState={filterItem.city}
+                />
+                <Filter
+                    name="status"
+                    placeholder="Статус"
+                    options={statusOptions}
+                    onChange={onStatusChange}
+                    valueState={filterItem.status}
+                />
             </div>
             <div>
                 <Button name="Применить" onClick={() => filterData(ordersData.data)} />
