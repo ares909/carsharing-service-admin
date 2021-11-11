@@ -111,7 +111,7 @@ const Login = () => {
                         <Button
                             name="Запросить доступ"
                             className={registerButtonClass}
-                            type="submit"
+                            type="button"
                             disabled={!isValid}
                             onClick={handleSubmit(handleRegisterUser)}
                         />

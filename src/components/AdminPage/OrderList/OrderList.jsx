@@ -7,6 +7,7 @@ import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
 import OrderCard from "./OrderCard/OrderCard.jsx";
 import styles from "./OrderList.module.scss";
 import { fetchAllOrders } from "../../../store/slices/apiSlice";
+import { handleRefresh } from "../../../store/slices/authSlice";
 import { pageSize } from "../../../constants/constants";
 
 import Pagination from "../Common/Pagination/Pagination.jsx";
@@ -15,18 +16,20 @@ import FilterBar from "../Common/FilterBar/FilterBar.jsx";
 const OrderList = () => {
     const dispatch = useDispatch();
     const { push } = useHistory();
+    const token = JSON.parse(localStorage.getItem("access_token"));
     const refreshToken = JSON.parse(localStorage.getItem("token"));
     const { error, user } = useSelector(authState);
     const { ordersData, status } = useSelector(apiData);
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        if (!refreshToken) {
+        if (!token) {
             push("/");
-        } else if (refreshToken && ordersData.status === "idle") {
-            dispatch(fetchAllOrders());
+        } else if (token && ordersData.status === "idle") {
+            dispatch(fetchAllOrders(token));
+            dispatch(handleRefresh(refreshToken));
         }
-    }, [refreshToken, ordersData.status]);
+    }, [ordersData.status, token]);
     // eslint-disable-next-line consistent-return
     const currentData = useMemo(() => {
         if (ordersData.data.length > 0) {

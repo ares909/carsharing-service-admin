@@ -49,8 +49,15 @@ export const getCities = async () => {
     return response.data;
 };
 
-export const getAllOrders = async () => {
-    const response = await axios.get(`${baseUrl}/db/order`, { headers: headersInfo, params: { limit: 2000 } });
+export const getAllOrders = async (token) => {
+    const response = await axios.get(`${baseUrl}/db/order`, {
+        headers: {
+            "X-Api-Factory-Application-Id": appId,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        params: { limit: 2000 },
+    });
     return response.data;
 };
 

@@ -85,9 +85,9 @@ export const fetchOrder = createAsyncThunk("api/fetchOrder", (id, rejectWithValu
     }
 });
 
-export const fetchAllOrders = createAsyncThunk("api/fetchAllOrders", (id, rejectWithValue) => {
+export const fetchAllOrders = createAsyncThunk("api/fetchAllOrders", (token, rejectWithValue) => {
     try {
-        return getAllOrders();
+        return getAllOrders(token);
     } catch (error) {
         return rejectWithValue(error.message);
     }
