@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/carsharing-service-admin/static/css/main.895b800c.chunk.css",
-    "main.js": "/carsharing-service-admin/static/js/main.b329ab02.chunk.js",
-    "main.js.map": "/carsharing-service-admin/static/js/main.b329ab02.chunk.js.map",
+    "main.js": "/carsharing-service-admin/static/js/main.3a3bea87.chunk.js",
+    "main.js.map": "/carsharing-service-admin/static/js/main.3a3bea87.chunk.js.map",
     "runtime-main.js": "/carsharing-service-admin/static/js/runtime-main.e96612f4.js",
     "runtime-main.js.map": "/carsharing-service-admin/static/js/runtime-main.e96612f4.js.map",
-    "static/js/2.b9fce5f8.chunk.js": "/carsharing-service-admin/static/js/2.b9fce5f8.chunk.js",
-    "static/js/2.b9fce5f8.chunk.js.map": "/carsharing-service-admin/static/js/2.b9fce5f8.chunk.js.map",
+    "static/js/2.3efd26fc.chunk.js": "/carsharing-service-admin/static/js/2.3efd26fc.chunk.js",
+    "static/js/2.3efd26fc.chunk.js.map": "/carsharing-service-admin/static/js/2.3efd26fc.chunk.js.map",
     "index.html": "/carsharing-service-admin/index.html",
     "static/css/main.895b800c.chunk.css.map": "/carsharing-service-admin/static/css/main.895b800c.chunk.css.map",
-    "static/js/2.b9fce5f8.chunk.js.LICENSE.txt": "/carsharing-service-admin/static/js/2.b9fce5f8.chunk.js.LICENSE.txt",
+    "static/js/2.3efd26fc.chunk.js.LICENSE.txt": "/carsharing-service-admin/static/js/2.3efd26fc.chunk.js.LICENSE.txt",
     "static/media/index.scss": "/carsharing-service-admin/static/media/Roboto-Regular.a8d6ac03.ttf",
     "static/media/adminLogo.02d5ddcf.svg": "/carsharing-service-admin/static/media/adminLogo.02d5ddcf.svg",
     "static/media/dropdownIcon.c50e2c80.svg": "/carsharing-service-admin/static/media/dropdownIcon.c50e2c80.svg",
@@ -19,8 +19,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.e96612f4.js",
-    "static/js/2.b9fce5f8.chunk.js",
+    "static/js/2.3efd26fc.chunk.js",
     "static/css/main.895b800c.chunk.css",
-    "static/js/main.b329ab02.chunk.js"
+    "static/js/main.3a3bea87.chunk.js"
   ]
 }
