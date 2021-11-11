@@ -1,0 +1,138 @@
+$MainAccent: #0ec261;
+$MainBlack: #121212;
+
+$GrayDark: #999999;
+$GrayLight: #eeeeee;
+$BackGroundAdmin: #F5F6F8;
+$BlueAdmin: #007BFF;
+$DarkAdmin: #3D5170;
+
+@mixin white-text {
+    color: white;
+}
+
+@mixin green-text {
+    color: #0ec261;
+}
+
+@mixin grey-text {
+    color: #999999;
+}
+
+@mixin black-text {
+    color: black;
+}
+
+@mixin hover-with-opacity {
+    transition: opacity 0.1s ease 0s;
+
+    &:hover {
+        opacity: 0.6;
+    }
+}
+
+@mixin hover-with-opacity-white {
+    transition: opacity 0.1s ease 0s;
+
+    &:hover {
+        background: white;
+        opacity: 0.8;
+    }
+}
+
+@mixin hover-text-green {
+    transition: opacity 0.1s ease 0s;
+
+    &:hover {
+        color: #0ec261;
+    }
+}
+
+@mixin hover-text-white {
+    transition: opacity 0.1s ease 0s;
+
+    &:hover {
+        color: white;
+    }
+}
+
+@mixin hover-button {
+    transition: opacity 0.1s ease 0s;
+
+    &:hover {
+        background: linear-gradient(90deg, #0b934a 2.61%, #026e47 112.6%);
+    }
+
+    &:active {
+        background: linear-gradient(90deg, #0b934a 2.61%, #026e47 112.6%);
+    }
+    &:focus {
+        background: linear-gradient(90deg, #076432 2.61%, #013c27 112.6%);
+    }
+}
+
+@mixin hover-button_red {
+    transition: opacity 0.1s ease 0s;
+
+    &:hover {
+        background: linear-gradient(90deg, #7b0c3b 2.61%, #493013 112.6%);
+    }
+
+    &:active {
+        background: linear-gradient(90deg, #7b0c3b 2.61%, #493013 112.6%);
+    }
+    &:focus {
+        background: linear-gradient(90deg, #493013 2.61%, #493013 112.6%);
+    }
+}
+
+@mixin hover-arrow-button {
+    &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #0ec261;
+        opacity: 0;
+        transition: opacity 0.1s ease 0s;
+    }
+
+    &:hover:before {
+        opacity: 0.2;
+    }
+}
+
+@mixin hover-circle {
+    transition: opacity 0.1s ease 0s;
+
+    &:hover {
+        color: white;
+        border: 1px solid #eeeeee;
+        box-sizing: border-box;
+        border-radius: 50%;
+    }
+    &:focus {
+        border: 1px solid #eeeeee;
+        box-sizing: border-box;
+        border-radius: 50%;
+        color: #0ec261;
+    }
+}
+
+@mixin hover-strokes {
+    transition: opacity 0.1s ease 0s;
+    :hover #outer {
+        stroke: #0ec261;
+    }
+}
+
+.page {
+    font-family: "Roboto", sans-serif;
+    height: 100%;
+    padding: 0;
+    background-color: white;
+    margin: 0 auto 0;
+}
