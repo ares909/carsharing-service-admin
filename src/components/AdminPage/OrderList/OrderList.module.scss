@@ -1,0 +1,31 @@
+.orderList {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+}
+
+.orderListTitle {
+    margin: 15px 0 15px;
+    font-weight: normal;
+    font-size: 29px;
+    line-height: 33px;
+}
+
+.orderBox {
+    max-height: 85%;
+    box-shadow: 0px 1px 0px rgba(90, 97, 105, 0.11), 0px 2px 4px rgba(90, 97, 105, 0.12),
+        0px 5px 5px rgba(90, 97, 105, 0.06), 0px 3.5px 35px rgba(90, 97, 105, 0.1);
+    border-radius: 9px;
+    background: #ffffff;
+    overflow: auto;
+    padding: 25px 0 25px;
+}
+
+.paginationBar {
+    min-width: calc(100% - 50px);
+    display: flex;
+    justify-content: center;
+    margin: 20px auto 0;
+}

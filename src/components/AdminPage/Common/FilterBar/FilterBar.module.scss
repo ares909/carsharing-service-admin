@@ -1,0 +1,15 @@
+.filterBar {
+    display: flex;
+    flex-direction: row;
+    // max-width: 55%;
+    align-self: center;
+    justify-content: space-between;
+    margin: 0 auto 15px;
+    max-width: 57%;
+    
+}
+
+.filterContainer {
+    display: flex;
+    flex-direction: row;
+}

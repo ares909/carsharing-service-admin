@@ -1,0 +1,145 @@
+@import "../../../components//Common/Page/Page.scss";
+
+.login {
+    height: 100vh;
+    width: 100vw;
+}
+
+.loginFormContainer {
+    margin: 167px auto 0;
+    min-width: 377px;
+    max-width: 377px;
+    @media screen and (min-width: 0px) and (max-width: 424px) {
+        min-width: 95%;
+        max-width: 95%;
+    }
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    padding: 19.5px 11px 20.5px;
+    background: #ffffff;
+    box-shadow: 0px 1px 0px rgba(90, 97, 105, 0.11), 0px 2px 4px rgba(90, 97, 105, 0.12),
+        0px 5px 5px rgba(90, 97, 105, 0.06), 0px 3.5px 35px rgba(90, 97, 105, 0.1);
+    border-radius: 9px;
+}
+
+.loginHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 16.5px;
+}
+
+.logoTitle {
+    font-weight: normal;
+    margin: 0;
+    font-size: 24px;
+    line-height: 28px;
+    align-self: center;
+    // @media screen and (min-width: 1024px) and (max-width: 1439px) {
+    //     font-size: 20px;
+    //     line-height: 24px;
+    // }
+    // @media screen and (min-width: 0) and (max-width: 320px) {
+    //     font-size: 14px;
+    //     line-height: 16px;
+    //     font-weight: 700;
+    // }
+
+    // @media screen and (min-width: 321px) and (max-width: 767px) {
+    //     font-size: 14px;
+    //     line-height: 16px;
+    //     font-weight: 700;
+    // }
+
+    // @media screen and (min-width: 768px) and (max-width: 1023px) {
+    //     font-size: 18px;
+    //     line-height: 21px;
+    //     font-weight: 700;
+    // }
+    // @media screen and (min-width: 1024px) and (max-width: 1439px) {
+    //     font-size: 20px;
+    //     line-height: 24px;
+    // }
+}
+
+.logoBox {
+    height: 44.5px;
+    width: 44.5px;
+    align-self: center;
+    margin-right: 11.5px;
+}
+
+.logoImage {
+    height: 44.5px;
+    width: 44.5px;
+    align-self: center;
+}
+
+.loginFormHeader {
+    font-weight: normal;
+    font-size: 17.5px;
+    line-height: 20px;
+    align-self: center;
+    text-align: center;
+    margin: 0 auto 35px;
+}
+
+.inputsBox {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.loginButton {
+    @include hover-with-opacity;
+    background-color: $BlueAdmin;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+    // max-width: 110px;
+    min-width: 110px;
+    font-size: 14px;
+    line-height: 16px;
+    padding: 7px 7px;
+    border-radius: 6px;
+}
+.loginButtonDisabled {
+    @extend .loginButton;
+    background-color: $GrayDark;
+    color: white;
+}
+
+.registerButton {
+    @extend .loginButton;
+    color: $BlueAdmin;
+    background-color: inherit;
+}
+
+.registerButtonDisabled {
+    @extend .registerButton;
+    color: $GrayDark;
+}
+
+.apiErrorMessage {
+    padding: 1px 5px 1px;
+    color: #c4183c;
+    font-size: 14px;
+    line-height: 16px;
+    margin-top: 5px;
+    align-self: center;
+    text-align: center; 
+}
+.successMessage {
+    @extend .apiErrorMessage;
+    color: $BlueAdmin;
+}
