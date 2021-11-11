@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Select, { createFilter } from "react-select";
 import { useSelector, useDispatch } from "react-redux";
 import { authState, apiData } from "../../../../store/selectors/selectors";
+import useFilterList from "../../../../hooks/useFilterList";
 import Button from "../../../Common/UI/Button.jsx";
 import styles from "./FilterBar.module.scss";
 import Filter from "./FilterElement/Filter.jsx";
@@ -37,17 +38,18 @@ const FilterBar = () => {
         trim: true,
         matchFrom: "start",
     };
+    const [onModelChange, cityChange, onStatusChange, onPhotoChange, filterData] = useFilterList();
 
     return (
         <div className={styles.filterBar}>
             <div className={styles.filterContainer}>
-                <Filter name="model" placeholder="Модель" options={modelOptions} />
+                <Filter name="model" placeholder="Модель" options={modelOptions} onChange={onModelChange} />
                 <Filter name="city" placeholder="Город" options={cityOptions} />
                 <Filter name="status" placeholder="Статус" options={statusOptions} />
                 <Filter name="photo" placeholder="С фото" options={photoOptions} />
             </div>
             <div>
-                <Button name="Применить" />
+                <Button name="Применить" onClick={() => filterData(ordersData.data)} />
                 <Button name="Сбросить" />
             </div>
         </div>

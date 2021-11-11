@@ -19,7 +19,7 @@ const AdminContent = () => {
                 <AdminHeader />
                 <Switch>
                     <Route exact path={`${match.url}`} component={Login} />
-                    <Route path={`${match.url}/orderlist`} component={OrderList} />
+                    <Route exact path={`${match.url}/orderlist`} component={OrderList} />
                 </Switch>
                 <AdminFooter />
             </div>

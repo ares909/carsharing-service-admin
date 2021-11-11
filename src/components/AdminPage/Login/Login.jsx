@@ -89,7 +89,7 @@ const Login = () => {
                             name="username"
                             id="username"
                             placeholder="Введите логин"
-                            label="Почта"
+                            label="Логин"
                             type="text"
                             register={register}
                             errors={errors}
