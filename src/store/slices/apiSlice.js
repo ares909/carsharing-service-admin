@@ -3,16 +3,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
     getCities,
     getPoints,
-    getPriceRange,
-    getGeoData,
     getCar,
     getRates,
     getCars,
     getCategories,
     getOrderStatuses,
-    postNewOrder,
-    putOrder,
-    getOrderById,
     getAllOrders,
 } from "../../api/api";
 
@@ -34,7 +29,16 @@ const initialState = {
 
     categories: { data: [{ id: "Все модели", name: "Все модели" }], status: "idle" },
     order: { data: [], status: "idle", orderId: "" },
-    ordersData: { data: [], status: "idle" },
+    ordersData: { data: [], status: "idle", count: 0 },
+    apiFilters: {
+        status: "idle",
+        filters: {},
+    },
+    filteredOrders: {
+        data: [],
+        status: "idle",
+    },
+
     // cars: [],
     filteredCars: [],
     colors: [{ name: "Любой", value: "Любой" }],
@@ -58,7 +62,8 @@ const initialState = {
         chosenPoint: "",
     },
 
-    error: null,
+    error: "",
+    status: "",
 };
 
 export const fetchCities = createAsyncThunk("api/fetchCities", (_, { rejectWithValue }) => {
@@ -77,50 +82,9 @@ export const fetchPoints = createAsyncThunk("api/fetchPoints", (cityId, { reject
     }
 });
 
-export const fetchOrder = createAsyncThunk("api/fetchOrder", (id, rejectWithValue) => {
+export const fetchAllOrders = createAsyncThunk("api/fetchAllOrders", ({ token, filters }, rejectWithValue) => {
     try {
-        return getOrderById(id);
-    } catch (error) {
-        return rejectWithValue(error.message);
-    }
-});
-
-export const fetchAllOrders = createAsyncThunk("api/fetchAllOrders", (token, rejectWithValue) => {
-    try {
-        return getAllOrders(token);
-    } catch (error) {
-        return rejectWithValue(error.message);
-    }
-});
-
-export const postOrder = createAsyncThunk("api/postOrder", (order, rejectWithValue) => {
-    try {
-        return postNewOrder(order);
-    } catch (error) {
-        return rejectWithValue(error.message);
-    }
-});
-
-export const changeOrder = createAsyncThunk("api/changeOrder", (order, rejectWithValue) => {
-    try {
-        return putOrder(order);
-    } catch (error) {
-        return rejectWithValue(error.message);
-    }
-});
-
-export const cancelOrder = createAsyncThunk("api/cancelOrder", (order, rejectWithValue) => {
-    try {
-        return putOrder(order);
-    } catch (error) {
-        return rejectWithValue(error.message);
-    }
-});
-
-export const fetchGeoData = createAsyncThunk("api/fetchGeoData", async (cityName, { rejectWithValue, dispatch }) => {
-    try {
-        const point = await getGeoData(cityName);
-        return dispatch(addCityPoint(point));
+        return getAllOrders({ token, filters });
     } catch (error) {
         return rejectWithValue(error.message);
     }
@@ -149,30 +113,6 @@ export const fetchCategories = createAsyncThunk("api/fetchCategories", (_, { rej
         return rejectWithValue(error.message);
     }
 });
-
-export const fetchGeoDataPoints = createAsyncThunk(
-    "api/fetchGeoDataPoints",
-    async (cityName, { rejectWithValue, dispatch }) => {
-        try {
-            const point = await getGeoData(cityName);
-            return dispatch(addPoints(point));
-        } catch (error) {
-            return rejectWithValue(error.message);
-        }
-    },
-);
-
-export const fetchChosenPoint = createAsyncThunk(
-    "api/fetchChosenPoint",
-    async (cityName, { rejectWithValue, dispatch }) => {
-        try {
-            const point = await getGeoData(cityName);
-            return dispatch(addChosenPoint(point));
-        } catch (error) {
-            return rejectWithValue(error.message);
-        }
-    },
-);
 
 export const fetchRates = createAsyncThunk("api/fetchRates", (_, { rejectWithValue }) => {
     try {
@@ -203,108 +143,29 @@ export const apiSlice = createSlice({
             return { ...state, ...action.payload };
         },
 
-        resetPoints(state) {
+        resetError(state) {
             return {
                 ...state,
-                points: initialState.points,
-                geodata: { city: initialState.geodata.city, points: initialState.geodata.points },
+                error: initialState.error,
+                status: initialState.status,
             };
         },
 
-        addCityPoint(state, action) {
-            state.geodata.city = action.payload.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos
-                .split(" ")
-                .reverse();
-        },
-
-        addPoints(state, action) {
-            state.geodata.points = [...state.geodata.points, action.payload.response.GeoObjectCollection];
-            // state.geodata.status = "succeeded";
-        },
-
-        addChosenPoint(state, action) {
-            state.geodata.point = action.payload.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos
-                .split(" ")
-                .reverse();
-        },
-
-        resetChosenPoint(state) {
+        resetApiFilters(state) {
             return {
                 ...state,
-                geodata: { city: state.geodata.city, points: state.geodata.points, point: initialState.geodata.point },
-            };
-        },
-        resetSelectedCar(state) {
-            return {
-                ...state,
-                selectedCar: initialState.selectedCar,
-            };
-        },
-        filterCars(state, action) {
-            return {
-                ...state,
-                filteredCars: state.cars.data.filter(
-                    (car) => car.categoryId !== null && car.categoryId.name === action.payload,
-                ),
+                apiFilters: initialState.apiFilters,
             };
         },
 
-        filterOrder(state, action) {
-            state.colors = [
-                ...initialState.colors,
-                ...state.selectedCar.colors.map((item) => ({
-                    name: item.split("")[0].toUpperCase() + item.split("").slice(1).join(""),
-                    value: item.split("")[0].toUpperCase() + item.split("").slice(1).join(""),
-                })),
-            ];
-        },
-
-        resetFilteredCars(state) {
-            return {
-                ...state,
-                filteredCars: initialState.filteredCars,
-            };
-        },
-
-        resetApiCarExtra(state) {
-            return {
-                ...state,
-                rates: initialState.rates,
-                price: initialState.price,
-                colors: initialState.colors,
-            };
-        },
         resetOrder(state) {
             return {
                 ...state,
-                order: {
-                    data: initialState.order.data,
-                    status: initialState.order.status,
-                    orderId: initialState.order.orderId,
+                ordersData: {
+                    data: initialState.ordersData.data,
+                    status: initialState.ordersData.status,
+                    count: initialState.ordersData.count,
                 },
-            };
-        },
-
-        resetApiData(state) {
-            return {
-                ...state,
-                points: initialState.points,
-                selectedCar: initialState.selectedCar,
-                order: initialState.order,
-                filteredCars: initialState.filteredCars,
-                colors: initialState.colors,
-                geodata: initialState.geodata,
-            };
-        },
-
-        resetModelData(state) {
-            return {
-                ...state,
-                selectedCar: initialState.selectedCar,
-                order: initialState.order,
-                filteredCars: initialState.filteredCars,
-                colors: initialState.colors,
-                geodata: { city: state.geodata.city, points: state.geodata.points, point: initialState.geodata.point },
             };
         },
     },
@@ -346,46 +207,24 @@ export const apiSlice = createSlice({
             state.categories.status = "succeeded";
         },
 
-        [postOrder.fulfilled]: (state, action) => {
-            state.order.orderId = action.payload.data.id;
-            // state.order.status = "succeeded";
-        },
-
-        [changeOrder.fulfilled]: (state, action) => {
-            state.order.orderId = action.payload.data.id;
-            // state.order.status = "cancelled";
-        },
-
-        [fetchOrder.fulfilled]: (state, action) => {
-            state.order.data = action.payload.data;
-            state.order.orderId = action.payload.data.id;
-            state.order.status = "succeeded";
-        },
-
         [fetchAllOrders.fulfilled]: (state, action) => {
-            state.ordersData.data = action.payload.data;
+            state.ordersData.data = action.payload.data.data;
+            state.ordersData.count = action.payload.data.count - 5;
             state.ordersData.status = "succeeded";
         },
         [fetchCar.fulfilled]: (state, action) => {
             state.selectedCar = action.payload.data;
         },
 
-        [cancelOrder.fulfilled]: (state, action) => {
-            state.order.data = initialState.order;
-        },
-
         [fetchCities.rejected]: setError,
         [fetchPoints.rejected]: setError,
-        [fetchGeoData.rejected]: setError,
+
         [fetchRates.rejected]: setError,
         [fetchCars.rejected]: setError,
-        [fetchGeoDataPoints.rejected]: setError,
-        [fetchChosenPoint.rejected]: setError,
+
         [fetchCar.rejected]: setError,
         [fetchStatuses.rejected]: setError,
-        [changeOrder.rejected]: setError,
-        [fetchOrder.rejected]: setError,
-        [cancelOrder.rejected]: setError,
+
         [fetchAllOrders.rejected]: setError,
 
         [fetchCities.pending]: (state) => {
@@ -400,29 +239,12 @@ export const apiSlice = createSlice({
         [fetchCars.pending]: (state) => {
             state.cars.status = "loading";
         },
-        [fetchOrder.pending]: (state) => {
-            state.order.status = "loading";
-        },
+
         [fetchAllOrders.pending]: (state) => {
             state.ordersData.status = "loading";
         },
     },
 });
 
-export const {
-    apiAction,
-    resetPoints,
-    addCityPoint,
-    addPoints,
-    addChosenPoint,
-    resetChosenPoint,
-    resetSelectedCar,
-    filterCars,
-    resetOrder,
-    resetFilteredCars,
-    filterOrder,
-    resetApiCarExtra,
-    resetApiData,
-    resetModelData,
-} = apiSlice.actions;
+export const { apiAction, resetOrder, resetError, resetApiFilters } = apiSlice.actions;
 export default apiSlice.reducer;

@@ -1,0 +1,113 @@
+@import "../../Common/Page/Page.scss";
+
+.errorPage {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.errorContainer {
+    margin: 250px auto auto;
+    display: flex;
+    flex-direction: column;
+    @media screen and (min-width: 768px) and (max-width: 1280px) {
+        margin: 150px auto auto;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        margin: 150px auto auto;
+        
+    }
+}
+
+.errorMessageContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 34px;
+}
+
+.code {
+    font-weight: 500;
+    font-size: 75px;
+    line-height: 88px;
+    letter-spacing: -5.76923px;
+    color: #cacedb;
+    margin: 0 auto 13px;
+    @media screen and (min-width: 768px) and (max-width: 1280px) {
+        font-size: 55px;
+        line-height: 68px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        font-size: 55px;
+        line-height: 68px;
+        
+    }
+}
+
+.title {
+    font-weight: normal;
+    font-size: 50px;
+    line-height: 57px;
+    text-align: center;
+    letter-spacing: -2.5px;
+    color: #3d5170;
+    margin: 0 auto 15px;
+    @media screen and (min-width: 768px) and (max-width: 1280px) {
+        font-size: 40px;
+        line-height: 47px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        font-size: 30px;
+        line-height: 37px;
+        
+    }
+}
+
+.message {
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: center;
+    letter-spacing: -0.5px;
+    color: #818ea3;
+    margin: 0 auto 0;
+    @media screen and (min-width: 768px) and (max-width: 1280px) {
+        font-size: 15px;
+        line-height: 18px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        font-size: 12px;
+        line-height: 14px;
+        
+    }
+}
+
+.button {
+    @include white-text;
+    @include hover-with-opacity;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 0 auto 0;
+    min-width: 95px;
+    background: $BlueAdmin;
+    border: none;
+    cursor: pointer;
+    // background-blend-mode: darken;
+    border-radius: 6px;
+    padding: 10px 12px;
+
+    @media screen and (min-width: 768px) and (max-width: 1280px) {
+        min-width: 95px;
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        margin: 0 auto 0;
+        min-width: 95px;
+        font-size: 10px;
+        line-height: 12px;
+        
+    }
+}

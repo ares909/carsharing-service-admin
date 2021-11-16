@@ -49,37 +49,20 @@ export const getCities = async () => {
     return response.data;
 };
 
-export const getAllOrders = async (token) => {
+export const getAllOrders = async ({ token, filters }) => {
     const response = await axios.get(`${baseUrl}/db/order`, {
         headers: {
             "X-Api-Factory-Application-Id": appId,
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         },
-        params: { limit: 2000 },
+        params: filters,
     });
-    return response.data;
+    return response;
 };
 
 export const getPoints = async (cityId) => {
     const response = await axios.get(`${baseUrl}/db/point?cityId=${cityId}`, { headers: headersInfo });
-    return response.data;
-};
-
-export const getGeoData = async (city) => {
-    const response = await axios.get(`${yandexUrl}/?format=json&apikey=${yandexApiKey}&geocode=${city}`);
-    return response.data;
-};
-
-export const getOnePoint = async (pointId) => {
-    const response = await axios.get(`${baseUrl}/db/point/${pointId}`, { headers: headersInfo });
-    return response.data;
-};
-
-export const getPriceRange = async ({ cityId, pointId }) => {
-    const response = await axios.get(`${baseUrl}/db/order?cityId=${cityId}&pointId=${pointId}`, {
-        headers: headersInfo,
-    });
     return response.data;
 };
 
@@ -113,50 +96,6 @@ export const getCategories = async () => {
 
 export const getOrderStatuses = async () => {
     const response = await axios.get(`${baseUrl}/db/orderStatus`, {
-        headers: headersInfo,
-    });
-    return response.data;
-};
-
-export const postNewOrder = async (order) => {
-    const response = await axios.post(
-        `${baseUrl}/db/order`,
-        {
-            orderStatusId: order.orderStatusId,
-            cityId: order.cityId,
-            pointId: order.pointId,
-            carId: order.carId,
-            color: order.color,
-            dateFrom: order.dateFrom,
-            dateTo: order.dateTo,
-            rateId: order.rateId,
-            price: order.price,
-            isFullTank: order.isFullTank,
-            isNeedChildChair: order.isNeedChildChair,
-            isRightWheel: order.isRightWheel,
-        },
-        {
-            headers: headersInfo,
-        },
-    );
-    return response.data;
-};
-
-export const putOrder = async (order) => {
-    const response = await axios.put(
-        `${baseUrl}/db/order/${order.id}`,
-        {
-            orderStatusId: order.statusId,
-        },
-        {
-            headers: headersInfo,
-        },
-    );
-    return response.data;
-};
-
-export const getOrderById = async (id) => {
-    const response = await axios.get(`${baseUrl}/db/order/${id}`, {
         headers: headersInfo,
     });
     return response.data;

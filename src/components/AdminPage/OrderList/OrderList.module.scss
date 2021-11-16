@@ -4,28 +4,85 @@
     display: flex;
     flex-direction: column;
     padding: 25px;
-}
+    @media screen and (min-width: 1024px) and (max-width: 1280px) {
+        padding: 15px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 549px) {
+        padding: 10px;
+    }
 
-.orderListTitle {
-    margin: 15px 0 15px;
-    font-weight: normal;
-    font-size: 29px;
-    line-height: 33px;
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        padding: 10px;
+    }
 }
 
 .orderBox {
-    max-height: 85%;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100% - 35px);
+    max-height: calc(100% - 35px);
     box-shadow: 0px 1px 0px rgba(90, 97, 105, 0.11), 0px 2px 4px rgba(90, 97, 105, 0.12),
         0px 5px 5px rgba(90, 97, 105, 0.06), 0px 3.5px 35px rgba(90, 97, 105, 0.1);
     border-radius: 9px;
     background: #ffffff;
     overflow: auto;
-    padding: 25px 0 25px;
+    padding: 25px 0 10px;
+    @media screen and (min-width: 0px) and (max-width: 549px) {
+        padding: 5px 0 10px;
+        min-height: calc(100% - 20px);
+        max-height: calc(100% - 20px);
+    }
+
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        padding: 5px 0 10px;
+        min-height: calc(100% - 20px);
+        max-height: calc(100% - 20px);
+    }
 }
 
 .paginationBar {
     min-width: calc(100% - 50px);
     display: flex;
     justify-content: center;
-    margin: 20px auto 0;
+    margin: 15px auto 0;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        min-width: calc(100% - 20px);
+    }
+}
+
+.orderContainer {
+    flex: 1 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 100%;
+}
+
+.textMessage {
+    align-self: center;
+    margin: 0 auto 0;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.formWrapper {
+    display: none;
+    @media screen and (min-width: 0) and (max-width: 549px) {
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.9);
+
+        z-index: 3;
+    }
+}
+
+.formWrapperActive {
+    @extend .formWrapper;
+    display: none;
+    @media screen and (min-width: 0) and (max-width: 549px) {
+        display: flex;
+    }
 }

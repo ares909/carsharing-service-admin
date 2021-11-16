@@ -4,32 +4,37 @@ import useNumberFormat from "../../../../hooks/useNumberFormat";
 import { imageUrl } from "../../../../constants/constants";
 import Checkbox from "../../../Common/UI/Checkbox/Checkbox.jsx";
 import styles from "./OrderCard.module.scss";
+import crossButtonBlack from "../../../Common/UI/CrossButton/CrossButtonBlack.jsx";
 import useDateFormat from "../../../../hooks/useDateFormat";
+import Button from "../../../Common/UI/Button.jsx";
 
-const OrderCard = ({ order, onClick }) => {
+const OrderCardMobile = ({ order, onClick, isCardOpened, openCard }) => {
     const [convertNumber, convertCarNumber] = useNumberFormat();
     const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays] =
         useDateFormat();
-    const handleOpenCard = () => {
-        onClick(order);
-    };
-    return (
-        <div className={styles.order} onClick={handleOpenCard}>
-            <div className={styles.orderTitle}>
+
+    const orderClassName = classNames({
+        [`${styles.orderMobile}`]: true,
+        [`${styles.orderDisabled}`]: !isCardOpened,
+    });
+
+    return order ? (
+        <div className={orderClassName}>
+            <div className={styles.orderTitleMobile}>
                 <p className={styles.orderText}>
-                    Заказ № <span className={styles.orderTextBold}>{order.id}</span>
+                    Заказ № <span className={styles.orderTextBoldMobile}>{order.id}</span>
                 </p>
                 <p className={styles.orderText}>
                     Статус:{" "}
-                    <span className={styles.orderTextBold}>
+                    <span className={styles.orderTextBoldMobile}>
                         {order.orderStatusId ? order.orderStatusId.name : "нет данных"}
                     </span>
                 </p>
             </div>
-            <div className={styles.orderContainer}>
-                <div className={styles.orderImageBlock}>
+            <div className={styles.orderContainerMobile}>
+                <div className={styles.orderBlockMobile}>
                     <img
-                        className={styles.cardImage}
+                        className={styles.cardImageMobile}
                         src={
                             // eslint-disable-next-line no-nested-ternary
                             order.carId
@@ -41,10 +46,10 @@ const OrderCard = ({ order, onClick }) => {
                         alt="нет фото"
                     />
                 </div>
-                <div className={styles.orderCarBlock}>
+                <div className={styles.orderBlockMobile}>
                     <div className={styles.orderTextBlock}>
                         <p className={styles.orderText}>Модель:</p>
-                        <span className={styles.orderTextBold}>
+                        <span className={styles.orderTextBoldMobile}>
                             {
                                 // eslint-disable-next-line no-nested-ternary
                                 order.carId
@@ -57,19 +62,21 @@ const OrderCard = ({ order, onClick }) => {
                     </div>
                     <div className={styles.orderTextBlock}>
                         <p className={styles.orderText}>Город:</p>
-                        <span className={styles.orderTextBold}>{order.cityId ? order.cityId.name : "нет данных"}</span>
+                        <span className={styles.orderTextBoldMobile}>
+                            {order.cityId ? order.cityId.name : "нет данных"}
+                        </span>
                     </div>
                     <div className={styles.orderTextBlock}>
                         <p className={styles.orderText}>Адрес:</p>
-                        <span className={styles.orderTextBold}>
+                        <span className={styles.orderTextBoldMobile}>
                             {order.pointId ? order.pointId.address : "нет данных"}
                         </span>
                     </div>
                 </div>
-                <div className={styles.orderExtraBlock}>
+                <div className={styles.orderBlockMobile}>
                     <div className={styles.orderTextBlock}>
                         <p className={styles.orderText}>Срок:</p>
-                        <span className={styles.orderTextBold}>
+                        <span className={styles.orderTextBoldMobile}>
                             {order.dateFrom && order.dateTo
                                 ? secondsToDhms(order.dateTo - order.dateFrom)
                                 : "нет данных"}
@@ -77,19 +84,19 @@ const OrderCard = ({ order, onClick }) => {
                     </div>
                     <div className={styles.orderTextBlock}>
                         <p className={styles.orderText}>Тариф:</p>
-                        <span className={styles.orderTextBold}>
+                        <span className={styles.orderTextBoldMobile}>
                             {order.rateId ? order.rateId.rateTypeId.name : "нет данных"}
                         </span>
                     </div>
                     <div className={styles.orderTextBlock}>
                         <p className={styles.orderText}>Цена: </p>{" "}
-                        <span className={styles.orderTextBold}>
+                        <span className={styles.orderTextBoldMobile}>
                             {order.price ? `${convertNumber(order.price)} ₽` : "нет данных"}
                         </span>
                     </div>
                 </div>
 
-                <div className={styles.orderCheckBoxBlock}>
+                <div className={styles.orderBlockMobile}>
                     <Checkbox
                         value={order.isFullTank}
                         name={`Полный бак`}
@@ -110,7 +117,12 @@ const OrderCard = ({ order, onClick }) => {
                     />
                 </div>
             </div>
+            <Button type="button" onClick={openCard} className={styles.crossButton}>
+                {crossButtonBlack}
+            </Button>
         </div>
+    ) : (
+        <></>
     );
 };
-export default OrderCard;
+export default OrderCardMobile;

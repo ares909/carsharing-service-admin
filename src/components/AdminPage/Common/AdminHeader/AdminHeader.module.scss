@@ -8,12 +8,22 @@
     padding: 0 26px 0;
     background: #ffffff;
     box-shadow: 0px 2.5px 9.5px rgba(90, 97, 105, 0.12);
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        min-width: calc(100% - 20px);
+        padding: 0 10px 0;
+    }
 }
 
-.searchBar {
+.titleBar {
     display: flex;
     flex-direction: row;
-    min-width: calc(100% - 169px - 69px - 26px)
+    min-width: calc(100% - 169px - 69px - 26px);
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        min-width: calc(100% - 140px - 69px - 26px - 34px);
+    }
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        min-width: calc(100% - 110px - 30px - 26px - 34px);
+    }
 }
 
 .searchIcon {
@@ -46,6 +56,9 @@
     position: relative;
     cursor: pointer;
     // margin-left: auto;
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        min-width: 40px
+    }
 }
 
 .notoficationCount {
@@ -61,6 +74,12 @@
     position: absolute;
     right: 19px;
     bottom: 17px;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        right: 9px;
+        bottom: 7px;
+        font-size: 9px;
+        line-height: 15px;
+    }
 }
 
 .notificationImage {
@@ -75,9 +94,24 @@
     // justify-content: space-between;
     padding: 14px 0 14px 26px;
     min-width: 169px;
-
-    // margin-left: auto;
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-weight: normal;
+        font-size: 24px;
+        line-height: 26px;
+        margin: auto 0 auto;
+        padding: 10px 0 10px 25px;
+        min-width: 140px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        font-weight: normal;
+        font-size: 10px;
+        line-height: 12px;
+        margin: auto 0 auto;
+        padding: 5px 0 5px 10px;
+        min-width: 110px;
+    }
 }
+
 
 .avatar {
     // padding: ;
@@ -86,6 +120,11 @@
     width: 40px;
     height: 40px;
     align-self: center;
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        margin-right: 14px;
+        width: 30px;
+        height: 30px;
+    }
 }
 
 .profileName {
@@ -94,10 +133,28 @@
     line-height: 17px;
     margin: 0;
     align-self: center;
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 549px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
+
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
     // margin-right: ;
 }
 
 .profileButton {
+    @include hover-with-opacity;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 17px;
+    color: inherit;
     background: none;
     outline: none;
     border: none;
@@ -106,11 +163,85 @@
     padding: 0;
     margin-left: auto;
     height: 100%;
-    width: 25px;
+    // width: 25px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+        @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 549px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
+
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
 }
 .profileButtonImage {
     align-self: center;
+}
+
+.listTitle {
+    margin: 0;
+    padding: 14px 0 14px;
+    font-weight: normal;
+    font-size: 29px;
+    line-height: 33px;
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-weight: normal;
+        font-size: 24px;
+        line-height: 26px;
+        margin: auto 0 auto;
+        padding: 10px 0 10px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 549px) {
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 16px;
+        margin: auto 0 auto;
+        padding: 5px 0 5px;
+    }
+
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 20px;
+        margin: auto 0 auto;
+        padding: 5px 0 5px;
+    }
+    
+}
+
+.button {
+    display: none;
+    @media screen and (min-width: 0) and (max-width: 1023px) {
+        display: block;
+        background-color: inherit;
+
+        cursor: pointer;
+        border: none;
+        padding: 0;
+        max-width: 99%;
+        margin-right: 10px;
+        @include hover-strokes;
+        &:hover #outer {
+            stroke: $BlueAdmin;
+        }
+    }
+}
+
+.buttonImage {
+    width: 24px;
+    height: 24px;
+    margin: auto;
+    @media screen and (min-width: 0) and (max-width: 1023px) {
+        width: 24px;
+    }
+    :hover path {
+        stroke: $BlueAdmin;
+    }
 }

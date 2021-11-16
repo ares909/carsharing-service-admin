@@ -1,21 +1,43 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import classNames from "classnames";
-import searchIcon from "../../../../images/admin/searchIcon.svg";
 import notificationIcon from "../../../../images/admin/notificationIcon.svg";
 import avatarImage from "../../../../images/admin/avatarImage.jpg";
-import dropdownIcon from "../../../../images/admin/dropdownIcon.svg";
 import styles from "./AdminHeader.module.scss";
+import Button from "../../../Common/UI/Button.jsx";
+import burgerMenuButton from "./burgerMenuButton.jsx";
 
-const AdminHeader = () => {
+const AdminHeader = ({ onClick }) => {
+    const { push } = useHistory();
+    const logout = () => {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("token");
+        push("/");
+    };
     const location = useLocation();
+    let title;
+    switch (location.pathname) {
+        case "/admin/orderlist":
+            title = "Заказы";
+            break;
+        case "/admin/carlist":
+            title = "Автомобили";
+            break;
+
+        default:
+            title = "";
+            break;
+    }
+
     return (
         location.pathname !== "/admin" && (
             <header className={styles.adminHeader}>
-                <div className={styles.searchBar}>
-                    <img className={styles.searchIcon} src={searchIcon} />
-                    <input type="search" placeholder="Поиск ..." className={styles.searchInput} />
+                <Button className={styles.button} onClick={onClick}>
+                    <div className={styles.buttonImage}>{burgerMenuButton}</div>
+                </Button>
+                <div className={styles.titleBar}>
+                    <h1 className={styles.listTitle}>{title}</h1>
                 </div>
                 <div className={styles.notifications}>
                     <img className={styles.notificationImage} src={notificationIcon} />
@@ -24,9 +46,7 @@ const AdminHeader = () => {
                 <div className={styles.profile}>
                     <img className={styles.avatar} src={avatarImage} />
                     <p className={styles.profileName}>Admin</p>
-                    <button className={styles.profileButton}>
-                        <img className={styles.profileButtonImage} src={dropdownIcon} />
-                    </button>
+                    <Button className={styles.profileButton} name="Выйти" onClick={logout} />
                 </div>
             </header>
         )

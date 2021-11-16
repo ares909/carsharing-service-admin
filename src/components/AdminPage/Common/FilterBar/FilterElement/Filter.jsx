@@ -12,7 +12,7 @@ const Filter = ({ onChange, options, valueState, onReset, placeholder, name, lab
 
     return (
         <div className={styles.inputContainer}>
-            <label className={styles.inputLabel}>{labelText}</label>
+            {/* <label className={styles.inputLabel}>{labelText}</label> */}
 
             <Select
                 className={styles.input}
@@ -25,6 +25,7 @@ const Filter = ({ onChange, options, valueState, onReset, placeholder, name, lab
                 placeholder={placeholder}
                 noOptionsMessage={() => "Не найдено"}
                 filterOption={createFilter(filterConfig)}
+                // isClearable
             />
             {/* <button
                 style={{ backgroundColor: isDisabled ? "#eeeeee" : "white" }}

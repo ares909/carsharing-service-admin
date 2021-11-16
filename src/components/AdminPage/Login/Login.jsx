@@ -21,8 +21,9 @@ const Login = () => {
     const validationSchema = yup.object().shape({
         username: yup
             .string()
-            .matches(/[a-zA-Z]/, "Логин должен использовать латинские буквы.")
-            .required("Поле не должно быть пустым"),
+            .required("Поле не должно быть пустым")
+            .matches(/[a-zA-Z]/, "Логин должен использовать латинские буквы."),
+
         password: yup
             .string()
             .required("Поле не должно быть пустым")
@@ -37,7 +38,7 @@ const Login = () => {
         reset,
     } = useForm({
         resolver: yupResolver(validationSchema),
-        mode: "onChange",
+        mode: "onSubmit",
     });
 
     const handleLogin = (data) => {
@@ -110,16 +111,16 @@ const Login = () => {
                     <div className={styles.buttonContainer}>
                         <Button
                             name="Запросить доступ"
-                            className={registerButtonClass}
+                            className={styles.registerButton}
                             type="button"
-                            disabled={!isValid}
+                            // disabled={!isValid}
                             onClick={handleSubmit(handleRegisterUser)}
                         />
                         <Button
                             name="Войти"
-                            className={loginButtonClass}
+                            className={styles.loginButton}
                             type="submit"
-                            disabled={!isValid}
+                            // disabled={!isValid}
                             onClick={handleSubmit(handleLogin)}
                         />
                     </div>
