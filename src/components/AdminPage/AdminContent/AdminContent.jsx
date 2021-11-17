@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Route, useRouteMatch, Switch, useParams, Redirect } from "react-router-dom";
 import classNames from "classnames";
@@ -23,6 +23,12 @@ const AdminContent = () => {
             toggleDropDown();
         }
     };
+    useEffect(() => {
+        document.addEventListener("click", outSideDropDownClick, true);
+        return () => {
+            document.removeEventListener("click", outSideDropDownClick, true);
+        };
+    });
 
     const wrapperClassName = classNames({
         [`${styles.formWrapper}`]: true,
