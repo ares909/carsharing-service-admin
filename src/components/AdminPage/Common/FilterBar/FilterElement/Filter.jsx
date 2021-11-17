@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Select, { createFilter } from "react-select";
 import styles from "./Filter.module.scss";
 
-const Filter = ({ onChange, options, valueState, onReset, placeholder, name, labelText }) => {
+const Filter = ({ onChange, options, valueState, placeholder, name }) => {
     const filterConfig = {
         ignoreCase: true,
         ignoreAccents: true,
@@ -12,8 +12,6 @@ const Filter = ({ onChange, options, valueState, onReset, placeholder, name, lab
 
     return (
         <div className={styles.inputContainer}>
-            {/* <label className={styles.inputLabel}>{labelText}</label> */}
-
             <Select
                 className={styles.input}
                 classNamePrefix={styles.input}
@@ -25,14 +23,7 @@ const Filter = ({ onChange, options, valueState, onReset, placeholder, name, lab
                 placeholder={placeholder}
                 noOptionsMessage={() => "Не найдено"}
                 filterOption={createFilter(filterConfig)}
-                // isClearable
             />
-            {/* <button
-                style={{ backgroundColor: isDisabled ? "#eeeeee" : "white" }}
-                name={name}
-                onClick={onReset}
-                className={styles.inputCrossButton}
-            ></button> */}
         </div>
     );
 };

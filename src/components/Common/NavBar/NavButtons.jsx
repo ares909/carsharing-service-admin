@@ -74,6 +74,6 @@ export const navButtonsAdmin = [
 ];
 
 export const navButtonsFooter = [
-    { title: "Главгая страница", route: "/" },
+    { title: "Главная страница", route: "/" },
     { title: "Форма заказа", route: "/order" },
 ];

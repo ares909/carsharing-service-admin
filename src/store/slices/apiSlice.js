@@ -25,43 +25,29 @@ const initialState = {
         data: [],
         status: "idle",
     },
-    selectedCar: "",
 
-    categories: { data: [{ id: "Все модели", name: "Все модели" }], status: "idle" },
+    statuses: {
+        data: [],
+        status: "idle",
+    },
+
     order: { data: [], status: "idle", orderId: "" },
     ordersData: { data: [], status: "idle", count: 0 },
     apiFilters: {
         status: "idle",
         filters: {},
+        labels: {},
     },
     filteredOrders: {
         data: [],
         status: "idle",
     },
-
     // cars: [],
     filteredCars: [],
-    colors: [{ name: "Любой", value: "Любой" }],
-
     rates: {
         data: [],
         status: "idle",
     },
-    statuses: {
-        data: [],
-        new: "",
-        confirmed: "",
-        cancelled: "",
-        status: "idle",
-    },
-
-    geodata: {
-        status: "idle",
-        city: "",
-        points: "",
-        chosenPoint: "",
-    },
-
     error: "",
     status: "",
 };

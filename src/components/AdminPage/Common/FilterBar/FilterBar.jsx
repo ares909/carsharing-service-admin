@@ -26,8 +26,7 @@ const FilterBar = ({ token, limit, setCurrentPage }) => {
         ? statuses.data.map((item) => ({ value: item.name, label: item.name, id: item.id }))
         : [];
 
-    const [onModelChange, cityChange, onStatusChange, filterData, filterItem, resetFilters, apiFilter] =
-        useFilterList();
+    const [onModelChange, cityChange, onStatusChange] = useFilterList();
 
     const handleFilter = () => {
         setCurrentPage(1);
@@ -36,7 +35,6 @@ const FilterBar = ({ token, limit, setCurrentPage }) => {
     };
 
     const handleResetFilter = () => {
-        resetFilters();
         dispatch(resetApiFilters());
         setCurrentPage(1);
         dispatch(fetchAllOrders({ token, filters: { page: 1, limit } }));
@@ -50,21 +48,21 @@ const FilterBar = ({ token, limit, setCurrentPage }) => {
                     placeholder="Модель"
                     options={modelOptions}
                     onChange={onModelChange}
-                    valueState={filterItem.model.name}
+                    valueState={apiFilters.labels ? apiFilters.labels.model : ""}
                 />
                 <Filter
                     name="city"
                     placeholder="Город"
                     options={cityOptions}
                     onChange={cityChange}
-                    valueState={filterItem.city.name}
+                    valueState={apiFilters.labels ? apiFilters.labels.city : ""}
                 />
                 <Filter
                     name="status"
                     placeholder="Статус"
                     options={statusOptions}
                     onChange={onStatusChange}
-                    valueState={filterItem.status.name}
+                    valueState={apiFilters.labels ? apiFilters.labels.status : ""}
                 />
             </div>
             <div className={styles.formButtonContainer}>

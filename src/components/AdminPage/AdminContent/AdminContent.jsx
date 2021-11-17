@@ -17,10 +17,6 @@ const AdminContent = () => {
     const handleModalClick = () => {
         if (!isFormOpened) openForm();
     };
-    // const modalButtonClassName = classNames({
-    //     [`${styles.modalButton}`]: true,
-    //     [`${styles.modalButtonDisabled}`]: !validationState.locationValid && !validationState.totalValid,
-    // });
 
     const wrapperClassName = classNames({
         [`${styles.formWrapper}`]: true,

@@ -60,20 +60,6 @@ const Login = () => {
         }
     }, [status, refreshToken]);
 
-    // useEffect(() => {
-    //     push("./admin/orderlist");
-    // }, []);
-
-    const loginButtonClass = classNames({
-        [styles.loginButton]: true,
-        [styles.loginButtonDisabled]: !isValid,
-    });
-
-    const registerButtonClass = classNames({
-        [styles.registerButton]: true,
-        [styles.registerButtonDisabled]: !isValid,
-    });
-
     return (
         <section className={styles.login}>
             <div className={styles.loginFormContainer}>

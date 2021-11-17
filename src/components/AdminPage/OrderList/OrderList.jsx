@@ -37,11 +37,6 @@ const OrderList = () => {
         [`${styles.formWrapperActive}`]: isCardOpened,
     });
 
-    // else if (token && ordersData.status === "idle") {
-    //     dispatch(fetchAllOrders({ token, page: currentPage, limit: pageSize }));
-    //     dispatch(handleRefresh(refreshToken));
-    // }
-
     useEffect(() => {
         if (!token) {
             push("/");

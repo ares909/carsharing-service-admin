@@ -42,6 +42,7 @@
 .filterContainer {
     display: flex;
     flex-direction: row;
+    align-self: center;
     @media screen and (min-width: 0px) and (max-width: 549px) {
         justify-content: center;
         // min-width: 99%;

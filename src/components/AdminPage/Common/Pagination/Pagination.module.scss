@@ -65,6 +65,7 @@
 .left {
     @extend .arrow;
     transform: rotate(-135deg) translate(-50%);
+    margin: 0 0 0 auto;
 }
 
 .right {
