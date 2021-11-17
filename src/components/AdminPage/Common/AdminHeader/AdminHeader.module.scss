@@ -57,7 +57,7 @@
     cursor: pointer;
     // margin-left: auto;
     @media screen and (min-width: 0px) and (max-width: 767px) {
-        min-width: 40px
+        min-width: 40px;
     }
 }
 
@@ -112,7 +112,6 @@
     }
 }
 
-
 .avatar {
     // padding: ;
     border-radius: 50%;
@@ -160,29 +159,30 @@
     border: none;
     cursor: pointer;
     align-self: center;
-    padding: 0;
-    margin-left: auto;
-    height: 100%;
+    padding: 2px;
+    margin-bottom: 3px;
+    // height: 100%;
     // width: 25px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-        @media screen and (min-width: 768px) and (max-width: 1023px) {
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
         font-size: 12px;
         line-height: 14px;
     }
-    @media screen and (min-width: 0px) and (max-width: 549px) {
+    @media screen and (min-width: 0px) and (max-width: 767px) {
         font-size: 10px;
         line-height: 12px;
     }
 
-    @media screen and (min-width: 550px) and (max-width: 767px) {
-        font-size: 10px;
-        line-height: 12px;
-    }
+    // @media screen and (min-width: 550px) and (max-width: 767px) {
+    //     font-size: 10px;
+    //     line-height: 12px;
+    // }
 }
 .profileButtonImage {
     align-self: center;
+    margin: auto;
 }
 
 .listTitle {
@@ -213,7 +213,6 @@
         margin: auto 0 auto;
         padding: 5px 0 5px;
     }
-    
 }
 
 .button {
@@ -244,4 +243,72 @@
     :hover path {
         stroke: $BlueAdmin;
     }
+}
+
+.dropdown {
+    display: flex;
+    position: relative;
+    align-self: center;
+    margin-left: auto;
+    padding-bottom: 3px;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        // margin:  0 auto auto;
+    }
+}
+
+.dropdownСontent {
+    display: none;
+    position: absolute;
+    left: -177px;
+    top: 50px;
+    height: fit-content;
+    width: fit-content;
+    overflow: auto;
+    padding: 0 26px 0;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 5;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        left: -100px;
+        top: 30px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        left: -147px;
+        top: 40px;
+    }
+    
+
+}
+
+.dropdownСontentActive {
+    display: flex;
+    flex-direction: column;
+    width: 170px;
+    background-color: white;
+    height: fit-content;
+    margin: 0;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        width: 80px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        width: 140px;
+    }
+}
+
+.dropdownButton {
+    // width: 130px;
+    outline: none;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    padding: 5px;
+    align-self: flex-start;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        display: flex;
+        flex-direction: column;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        display: flex;
+        flex-direction: column;
+    }
+    // width: 100px;
 }

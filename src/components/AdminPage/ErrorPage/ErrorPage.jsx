@@ -9,7 +9,6 @@ import Button from "../../Common/UI/Button.jsx";
 
 const ErrorPage = () => {
     const { error } = useSelector(apiData);
-    const [parsedError, setError] = useState("");
     const [errorStatus, setErrorStatus] = useState({ code: "", message: "", title: "" });
     const dispatch = useDispatch();
 
@@ -17,8 +16,6 @@ const ErrorPage = () => {
     const { goBack } = useHistory();
 
     const handleClick = () => {
-        // dispatch(resetError());
-        // dispatch(apiAction({ error: "" }));
         goBack();
     };
 
@@ -71,16 +68,18 @@ const ErrorPage = () => {
     }, [error]);
 
     return (
-        <section className={styles.errorPage}>
-            <div className={styles.errorContainer}>
-                <div className={styles.errorMessageContainer}>
-                    <h2 className={styles.code}>{errorStatus.code}</h2>
-                    <h1 className={styles.title}>{errorStatus.title}</h1>
-                    <p className={styles.message}>{errorStatus.message}</p>
+        errorStatus.code && (
+            <section className={styles.errorPage}>
+                <div className={styles.errorContainer}>
+                    <div className={styles.errorMessageContainer}>
+                        <h2 className={styles.code}>{errorStatus.code}</h2>
+                        <h1 className={styles.title}>{errorStatus.title}</h1>
+                        <p className={styles.message}>{errorStatus.message}</p>
+                    </div>
+                    <Button name="Назад" onClick={handleClick} className={styles.button} />
                 </div>
-                <Button name="Назад" onClick={handleClick} className={styles.button} />
-            </div>
-        </section>
+            </section>
+        )
     );
 };
 

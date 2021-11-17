@@ -19,8 +19,8 @@
 .orderBox {
     display: flex;
     flex-direction: column;
-    min-height: calc(100% - 35px);
-    max-height: calc(100% - 35px);
+    min-height: fit-content;
+    min-height: fit-content;
     box-shadow: 0px 1px 0px rgba(90, 97, 105, 0.11), 0px 2px 4px rgba(90, 97, 105, 0.12),
         0px 5px 5px rgba(90, 97, 105, 0.06), 0px 3.5px 35px rgba(90, 97, 105, 0.1);
     border-radius: 9px;
@@ -29,14 +29,14 @@
     padding: 25px 0 10px;
     @media screen and (min-width: 0px) and (max-width: 549px) {
         padding: 5px 0 10px;
-        min-height: calc(100% - 20px);
-        max-height: calc(100% - 20px);
+        min-height: fit-content;
+        min-height: fit-content;
     }
 
     @media screen and (min-width: 550px) and (max-width: 767px) {
         padding: 5px 0 10px;
-        min-height: calc(100% - 20px);
-        max-height: calc(100% - 20px);
+        min-height: fit-content;
+        min-height: fit-content;
     }
 }
 

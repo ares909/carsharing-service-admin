@@ -9,6 +9,11 @@
     margin: 0 auto 15px;
     max-width: 730px;
     min-width: 730px;
+
+    @media screen and (min-width: 1441px) {
+        min-width: 87%;
+        max-width: 87%;
+    }
     @media screen and (min-width: 1024px) and (max-width: 1280px) {
         min-width: 640px;
         max-width: 640px;

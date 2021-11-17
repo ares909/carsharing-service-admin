@@ -14,29 +14,34 @@ import ErrorPage from "../ErrorPage/ErrorPage.jsx";
 
 const AdminContent = () => {
     const [isFormOpened, openForm] = useModal();
+    const [isDropDownOpened, toggleDropDown] = useModal();
     const handleModalClick = () => {
         if (!isFormOpened) openForm();
+    };
+    const outSideDropDownClick = (e) => {
+        if (isDropDownOpened && e.target.classList.length !== 0 && !e.target.className.includes("dropdown")) {
+            toggleDropDown();
+        }
     };
 
     const wrapperClassName = classNames({
         [`${styles.formWrapper}`]: true,
         [`${styles.formWrapperActive}`]: isFormOpened,
     });
+
     const match = useRouteMatch();
     return (
-        <div className={styles.adminContent}>
+        <div className={styles.adminContent} onClick={outSideDropDownClick}>
             <div className={wrapperClassName}>
                 <NavBar type="admin" data={navButtonsAdmin} isFormOpened={isFormOpened} openForm={openForm} />
             </div>
             <div className={styles.contentBox}>
-                <AdminHeader onClick={handleModalClick} />
+                <AdminHeader onClick={handleModalClick} isOpened={isDropDownOpened} toggle={toggleDropDown} />
                 <Switch>
                     <Route exact path={`${match.url}`} component={Login} />
                     <Route path={`${match.url}/orderlist`} component={OrderList} />
                     <Route path={`${match.url}/error`} component={ErrorPage} />
-                    <Route path="*">
-                        <Redirect to={`${match.url}/error`} />
-                    </Route>
+                    <Route component={ErrorPage} />
                 </Switch>
                 <AdminFooter />
             </div>

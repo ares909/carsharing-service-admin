@@ -67,7 +67,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background: $MainAccent;
+    background: $BlueAdmin;
     border-radius: 50px;
 }
 
@@ -89,6 +89,6 @@
 
 .preloaderRound::before {
     z-index: 10;
-    background: $MainAccent;
+    background: $BlueAdmin;
     animation: preloader-inside-red 1s ease-in-out infinite;
 }
