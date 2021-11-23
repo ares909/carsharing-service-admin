@@ -1,0 +1,46 @@
+@import "../../../Common/Page/Page.scss";
+.successPopup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: calc(100% - 52px);
+    max-width: calc(100% - 52px);
+    background: #0ec261;
+    color: white;
+    display: none;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 13px 26px 13px;
+    z-index: 3;
+}
+
+.successPopupActive {
+    display: flex;
+}
+
+.messageBox {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+}
+
+.image {
+    align-self: center;
+    margin-right: 9px;
+}
+
+.text {
+    margin: 0;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.closeButton {
+    @include hover-with-opacity;
+    cursor: pointer;
+    border: none;
+    background: inherit;
+    align-self: center;
+}
+

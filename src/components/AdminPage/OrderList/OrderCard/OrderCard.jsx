@@ -1,18 +1,24 @@
 import React from "react";
 import classNames from "classnames";
-import useNumberFormat from "../../../../hooks/useNumberFormat";
+
+import { useDispatch, useSelector } from "react-redux";
 import { imageUrl } from "../../../../constants/constants";
 import Checkbox from "../../../Common/UI/Checkbox/Checkbox.jsx";
-import styles from "./OrderCard.module.scss";
+import ButtonBar from "./ButtonBar/ButtonBar.jsx";
 import useDateFormat from "../../../../hooks/useDateFormat";
+import useNumberFormat from "../../../../hooks/useNumberFormat";
+import styles from "./OrderCard.module.scss";
 
-const OrderCard = ({ order, onClick }) => {
+const OrderCard = ({ order, onClick, token }) => {
+    const dispatch = useDispatch();
     const [convertNumber, convertCarNumber] = useNumberFormat();
+
     const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays] =
         useDateFormat();
     const handleOpenCard = () => {
         onClick(order);
     };
+
     return (
         <div className={styles.order} onClick={handleOpenCard}>
             <div className={styles.orderTitle}>
@@ -109,6 +115,7 @@ const OrderCard = ({ order, onClick }) => {
                         onChange={() => {}}
                     />
                 </div>
+                <ButtonBar order={order} token={token} />
             </div>
         </div>
     );

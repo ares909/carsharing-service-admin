@@ -1,0 +1,55 @@
+@import "../../../../Common//Page/Page.scss";
+
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #becad6;
+    border-radius: 4px;
+    height: fit-content;
+    align-self: center;
+    margin-left: auto;
+}
+
+.orderButton {
+    border: none;
+    cursor: pointer;
+    background: inherit;
+    display: flex;
+    flex-direction: row;
+    border-right: 1px solid #becad6;
+    color: inherit;
+    padding: 8px;
+    min-width: 85px;
+    max-width: 85px;
+
+    &:last-child {
+        border-right: none;
+    }
+}
+
+.orderButtonDisabled {
+  @extend .orderButton;
+  background: $GrayLight;
+  cursor: default;
+}
+
+
+
+.orderButtonText {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 0;
+    align-self: center;
+}
+
+.orderButtonImage {
+    margin: 0;
+    align-self: center;
+    margin-right: 4px;
+    width: 8px;
+    height: 8px;
+    &:last-child {
+        margin-right: 0px;
+    }
+}

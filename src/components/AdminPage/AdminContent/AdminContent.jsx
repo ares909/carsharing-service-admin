@@ -8,9 +8,10 @@ import { navButtonsAdmin } from "../../Common/NavBar/NavButtons.jsx";
 import AdminHeader from "../Common/AdminHeader/AdminHeader.jsx";
 import AdminFooter from "../Common/AdminFooter/AdminFooter.jsx";
 import OrderList from "../OrderList/OrderList.jsx";
+import ErrorPage from "../ErrorPage/ErrorPage.jsx";
+import OrderPage from "../OrderPage/OrderPage.jsx";
 import useModal from "../../../hooks/useModal";
 import styles from "./AdminContent.module.scss";
-import ErrorPage from "../ErrorPage/ErrorPage.jsx";
 
 const AdminContent = () => {
     const [isFormOpened, openForm] = useModal();
@@ -25,6 +26,7 @@ const AdminContent = () => {
     };
     useEffect(() => {
         document.addEventListener("click", outSideDropDownClick, true);
+
         return () => {
             document.removeEventListener("click", outSideDropDownClick, true);
         };
@@ -45,7 +47,8 @@ const AdminContent = () => {
                 <AdminHeader onClick={handleModalClick} isOpened={isDropDownOpened} toggle={toggleDropDown} />
                 <Switch>
                     <Route exact path={`${match.url}`} component={Login} />
-                    <Route path={`${match.url}/orderlist`} component={OrderList} />
+                    <Route exact path={`${match.url}/orderlist`} component={OrderList} />
+                    <Route path={`${match.url}/orderlist/:orderId?`} component={OrderPage} />
                     <Route path={`${match.url}/error`} component={ErrorPage} />
                     <Route component={ErrorPage} />
                 </Switch>

@@ -61,6 +61,61 @@ export const getAllOrders = async ({ token, filters }) => {
     return response;
 };
 
+export const getOrderById = async (orderId) => {
+    const response = await axios.get(`${baseUrl}/db/order/${orderId}`, {
+        headers: headersInfo,
+    });
+    return response;
+};
+
+export const deleteOrder = async ({ token, orderId }) => {
+    const response = await axios.delete(`${baseUrl}/db/order/${orderId}`, {
+        headers: {
+            "X-Api-Factory-Application-Id": appId,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response;
+};
+
+export const putOrder = async ({ orderId, statusId }) => {
+    const response = await axios.put(
+        `${baseUrl}/db/order/${orderId}`,
+        {
+            orderStatusId: statusId,
+        },
+        {
+            headers: headersInfo,
+        },
+    );
+    return response;
+};
+
+export const postChangedOrder = async ({ orderId, order }) => {
+    const response = await axios.put(
+        `${baseUrl}/db/order/${orderId}`,
+        {
+            orderStatusId: order.orderStatusId,
+            cityId: order.cityId,
+            pointId: order.pointId,
+            carId: order.carId,
+            color: order.color,
+            dateFrom: order.dateFrom,
+            dateTo: order.dateTo,
+            rateId: order.rateId,
+            price: order.price,
+            isFullTank: order.isFullTank,
+            isNeedChildChair: order.isNeedChildChair,
+            isRightWheel: order.isRightWheel,
+        },
+        {
+            headers: headersInfo,
+        },
+    );
+    return response;
+};
+
 export const getPoints = async (cityId) => {
     const response = await axios.get(`${baseUrl}/db/point?cityId=${cityId}`, { headers: headersInfo });
     return response.data;

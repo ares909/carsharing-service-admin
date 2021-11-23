@@ -5,32 +5,37 @@ import classNames from "classnames";
 import { authState, apiData } from "../../../store/selectors/selectors";
 import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
 import OrderCard from "./OrderCard/OrderCard.jsx";
-import styles from "./OrderList.module.scss";
+import Pagination from "../Common/Pagination/Pagination.jsx";
+import FilterBar from "../Common/FilterBar/FilterBar.jsx";
+
+import OrderCardMobile from "./OrderCard/OrderCardMobile.jsx";
+import SuccessPopup from "../../Common/UI/SuccessPopup/SuccessPopup.jsx";
 import {
     fetchAllOrders,
-    apiAction,
+    resetSingleOrder,
     fetchCars,
     fetchCities,
     fetchStatuses,
     resetOrder,
+    resetError,
+    fetchRates,
 } from "../../../store/slices/apiSlice";
+import { messages, pageSize } from "../../../constants/constants";
 import { handleRefresh } from "../../../store/slices/authSlice";
-import { pageSize } from "../../../constants/constants";
-
-import Pagination from "../Common/Pagination/Pagination.jsx";
-import FilterBar from "../Common/FilterBar/FilterBar.jsx";
 import useModal from "../../../hooks/useModal";
-import OrderCardMobile from "./OrderCard/OrderCardMobile.jsx";
+import styles from "./OrderList.module.scss";
 
 const OrderList = () => {
     const dispatch = useDispatch();
     const { push } = useHistory();
     const token = JSON.parse(localStorage.getItem("access_token"));
     const refreshToken = JSON.parse(localStorage.getItem("token"));
-    const { cars, ordersData, status, filteredOrders, error, apiFilters } = useSelector(apiData);
+    const { cars, ordersData, status, deletedOrder, error, apiFilters, singleOrder } = useSelector(apiData);
     const [currentPage, setCurrentPage] = useState(1);
     const [isCardOpened, openCard] = useModal();
+    const [isPopupOpened, togglePopup] = useModal();
     const [selectedCard, setSelectedCard] = useState();
+    const [popupMessage, setPopupMessage] = useState("");
 
     const wrapperClassName = classNames({
         [`${styles.formWrapper}`]: true,
@@ -45,6 +50,7 @@ const OrderList = () => {
             dispatch(fetchCars());
             dispatch(fetchCities());
             dispatch(fetchStatuses());
+            dispatch(fetchRates());
             dispatch(handleRefresh(refreshToken));
         }
     }, [ordersData.status, token]);
@@ -55,11 +61,11 @@ const OrderList = () => {
     };
 
     useEffect(() => {
-        if (error && status === "rejected") {
+        if (error) {
             push("/admin/error");
             dispatch(resetOrder());
         }
-    }, [error, status]);
+    }, [error]);
 
     const onClick = (order) => {
         if (!isCardOpened) {
@@ -74,9 +80,29 @@ const OrderList = () => {
         }
     };
 
+    useEffect(() => {
+        if (singleOrder.statusCode === 200 && singleOrder.data.id) {
+            if (!isPopupOpened) {
+                setPopupMessage(messages.orderConfirmed);
+                togglePopup();
+            }
+            dispatch(fetchAllOrders({ token, filters: { page: currentPage, limit: pageSize, ...apiFilters.filters } }));
+        }
+    }, [singleOrder.statusCode, singleOrder.data.id]);
+
+    useEffect(() => {
+        if (deletedOrder.statusCode === 200) {
+            if (!isPopupOpened) {
+                setPopupMessage(messages.orderRemoved);
+                togglePopup();
+            }
+            dispatch(fetchAllOrders({ token, filters: { page: currentPage, limit: pageSize, ...apiFilters.filters } }));
+        }
+    }, [deletedOrder.statusCode]);
     return (
         <>
             <section className={styles.orderList}>
+                <SuccessPopup isPopupOpened={isPopupOpened} togglePopup={togglePopup} popupMessage={popupMessage} />
                 <div className={styles.orderBox}>
                     <FilterBar token={token} limit={pageSize} setCurrentPage={setCurrentPage} />
 
@@ -90,7 +116,7 @@ const OrderList = () => {
                         {ordersData.data &&
                             ordersData.data.length > 0 &&
                             ordersData.data.map((order) => (
-                                <OrderCard key={order.id} order={order} onClick={onClick} />
+                                <OrderCard key={order.id} order={order} onClick={onClick} token={token} />
                             ))}
                     </div>
                     <Pagination

@@ -16,6 +16,7 @@ const ErrorPage = () => {
     const { goBack } = useHistory();
 
     const handleClick = () => {
+        dispatch(resetError());
         goBack();
     };
 
