@@ -5,10 +5,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { handleAuth, handleRegister, resetAuthState, handleRefresh } from "../../../store/slices/authSlice";
-import { authState } from "../../../store/selectors/selectors";
 import Input from "../../Common/UI/Input/Input.jsx";
 import Button from "../../Common/UI/Button.jsx";
+import { handleAuth, handleRegister, resetAuthState, handleRefresh } from "../../../store/slices/authSlice";
+import { authState } from "../../../store/selectors/selectors";
 import logo from "../../../images/admin/adminLogo.svg";
 import styles from "./Login.module.scss";
 
@@ -58,7 +58,7 @@ const Login = () => {
             dispatch(handleRefresh(refreshToken));
             push("/admin/orderlist");
         }
-    }, [status, refreshToken]);
+    }, [status, refreshToken, error]);
 
     return (
         <section className={styles.login}>

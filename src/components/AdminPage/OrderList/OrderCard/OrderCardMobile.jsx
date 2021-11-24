@@ -1,13 +1,13 @@
 import React from "react";
 import classNames from "classnames";
-import useNumberFormat from "../../../../hooks/useNumberFormat";
-import { imageUrl } from "../../../../constants/constants";
 import Checkbox from "../../../Common/UI/Checkbox/Checkbox.jsx";
-import styles from "./OrderCard.module.scss";
 import crossButtonBlack from "../../../Common/UI/CrossButton/CrossButtonBlack.jsx";
 import ButtonBar from "./ButtonBar/ButtonBar.jsx";
-import useDateFormat from "../../../../hooks/useDateFormat";
 import Button from "../../../Common/UI/Button.jsx";
+import useNumberFormat from "../../../../hooks/useNumberFormat";
+import { imageUrl } from "../../../../constants/constants";
+import useDateFormat from "../../../../hooks/useDateFormat";
+import styles from "./OrderCard.module.scss";
 
 const OrderCardMobile = ({ order, onClick, isCardOpened, openCard, token }) => {
     const [convertNumber, convertCarNumber] = useNumberFormat();

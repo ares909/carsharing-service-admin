@@ -2,27 +2,16 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import classNames from "classnames";
+import Button from "../../../Common/UI/Button.jsx";
+import burgerMenuButton from "./burgerMenuButton.jsx";
+import useModal from "../../../../hooks/useModal";
 import notificationIcon from "../../../../images/admin/notificationIcon.svg";
 import avatarImage from "../../../../images/admin/avatarImage.jpg";
 import dropdown from "../../../../images/admin/dropdownIcon.svg";
 import styles from "./AdminHeader.module.scss";
-import Button from "../../../Common/UI/Button.jsx";
-import burgerMenuButton from "./burgerMenuButton.jsx";
-import useModal from "../../../../hooks/useModal";
 
 const AdminHeader = ({ onClick, isOpened, toggle }) => {
     const { push } = useHistory();
-    // const [isOpened, toggle] = useModal();
-    // const handleOpenModal = () => {
-    //     if (!isOpened) {
-    //         toggle();
-    //     }
-    // };
-    // const handleCloseModal = () => {
-    //     if (isOpened) {
-    //         toggle();
-    //     }
-    // };
 
     const dropDownClassName = classNames({
         [`${styles.dropdownСontent}`]: true,

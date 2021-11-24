@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import Select, { createFilter } from "react-select";
 import { useSelector, useDispatch } from "react-redux";
 import { authState, apiData } from "../../../../store/selectors/selectors";
-import useFilterList from "../../../../hooks/useFilterList";
 import Button from "../../../Common/UI/Button.jsx";
 import Filter from "./FilterElement/Filter.jsx";
+import { apiAction, fetchAllOrders, resetApiFilters } from "../../../../store/slices/apiSlice";
+import useFilterList from "../../../../hooks/useFilterList";
 import approveButton from "../../../../images/admin/approveButton.svg";
 import cancelButton from "../../../../images/admin/cancelButton.svg";
 import styles from "./FilterBar.module.scss";
-import { apiAction, fetchAllOrders, resetApiFilters } from "../../../../store/slices/apiSlice";
 
 const FilterBar = ({ token, limit, setCurrentPage }) => {
     const dispatch = useDispatch();
