@@ -14,7 +14,7 @@ const ErrorPage = () => {
     const dispatch = useDispatch();
 
     const location = useLocation();
-    const { goBack } = useHistory();
+    const { push, goBack } = useHistory();
 
     const handleClick = () => {
         dispatch(resetError());
@@ -46,6 +46,7 @@ const ErrorPage = () => {
                         message: "Ошибка при авторизации пользователя",
                         title: "Что-то пошло не так :(",
                     });
+                    push("/");
                     break;
                 case "Request failed with status code 404":
                     setErrorStatus({
