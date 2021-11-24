@@ -14,6 +14,7 @@ import {
     fetchRates,
     postOrder,
     resetPopupMessage,
+    fetchAllOrders,
 } from "../../../store/slices/apiSlice";
 import { apiData } from "../../../store/selectors/selectors";
 import Button from "../../Common/UI/Button.jsx";
@@ -22,15 +23,17 @@ import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
 import Checkbox from "../../Common/UI/Checkbox/Checkbox.jsx";
 import OrderInput from "./OrderInput/OrderInput.jsx";
 import useModal from "../../../hooks/useModal";
-import { imageUrl, messages } from "../../../constants/constants";
+import { imageUrl, messages, pageSize } from "../../../constants/constants";
 import useDateFormat from "../../../hooks/useDateFormat";
 import styles from "./OrderPage.module.scss";
 
 const OrderPage = () => {
     const { orderId } = useParams();
+    const token = JSON.parse(localStorage.getItem("access_token"));
     const dispatch = useDispatch();
     const { push, goBack } = useHistory();
-    const { statuses, singleOrder, status, cars, rates, cities, order, points, orderPrice } = useSelector(apiData);
+    const { statuses, singleOrder, status, cars, rates, cities, order, points, orderPrice, apiFilters } =
+        useSelector(apiData);
     const [defaultValues, setDefaultValues] = useState({ city: "", address: "" });
     const [isPopupOpened, togglePopup] = useModal();
     const [popupMessage, setPopupMessage] = useState("");
@@ -367,7 +370,20 @@ const OrderPage = () => {
                                 name="Сохранить"
                                 type="submit"
                             />
-                            <Button className={styles.formButtonRed} onClick={goBack} name="Назад" type="button" />
+                            <Button
+                                className={styles.formButtonRed}
+                                onClick={() => {
+                                    goBack();
+                                    dispatch(
+                                        fetchAllOrders({
+                                            token,
+                                            filters: { page: 1, limit: pageSize, ...apiFilters.filters },
+                                        }),
+                                    );
+                                }}
+                                name="Назад"
+                                type="button"
+                            />
                         </div>
                     </div>
                 </form>
