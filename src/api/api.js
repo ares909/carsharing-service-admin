@@ -40,6 +40,8 @@ export const refreshToken = async (token) => {
             headers: headersAuth,
         },
     );
+    localStorage.removeItem("token");
+    localStorage.removeItem("access_token");
     localStorage.setItem("access_token", JSON.stringify(response.data.access_token));
     return response.data;
 };
