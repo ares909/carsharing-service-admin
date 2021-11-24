@@ -24,20 +24,7 @@ const OrderInput = ({
     ...rest
 }) => {
     const dispatch = useDispatch();
-    const {
-        statuses,
-        singleOrder,
-        status,
-        cars,
-        rates,
-        cities,
-        order,
-        points,
-        orderPrice,
-        isFullTank,
-        isNeedChildChair,
-        isRightWheel,
-    } = useSelector(apiData);
+    const { order, orderPrice, isFullTank, isNeedChildChair, isRightWheel } = useSelector(apiData);
     const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays] =
         useDateFormat();
 
@@ -50,7 +37,7 @@ const OrderInput = ({
     }, [name, field.value]);
 
     useEffect(() => {
-        if (name === "rate" && field.value) {
+        if (name === "rate" && field.value && order.data.price) {
             const rateName = field.value.value;
             const hours = secondsToHours(order.data.dateTo - order.data.dateFrom);
             const minutes = secondsToMinutes(order.data.dateTo - order.data.dateFrom);
@@ -62,76 +49,85 @@ const OrderInput = ({
             switch (rateName) {
                 case "Поминутно":
                     price = field.value.price * minutes;
-                    dispatch(apiAction({ orderPrice: price }));
+                    dispatch(
+                        apiAction({
+                            orderPrice: price + isRightWheel.price + isFullTank.price + isNeedChildChair.price,
+                        }),
+                    );
                     break;
 
                 case "Суточный":
                     chargeDays = Math.ceil(hours / 24);
                     price = field.value.price * chargeDays;
-                    dispatch(apiAction({ orderPrice: price }));
+                    dispatch(
+                        apiAction({
+                            orderPrice: price + isRightWheel.price + isFullTank.price + isNeedChildChair.price,
+                        }),
+                    );
                     break;
 
                 case "Недельный (Акция!)":
                     chargeDays = Math.ceil(days / 7);
                     price = chargeDays === 1 ? field.value.price * 7 : field.value.price * 7 * chargeDays;
-                    dispatch(apiAction({ orderPrice: price }));
+                    dispatch(
+                        apiAction({
+                            orderPrice: price + isRightWheel.price + isFullTank.price + isNeedChildChair.price,
+                        }),
+                    );
                     break;
 
                 case "Месячный":
                     chargeDays = Math.ceil(days / 30);
                     price = chargeDays === 1 ? field.value.price * 30 : field.value.price * 30 * chargeDays;
-                    dispatch(apiAction({ orderPrice: price }));
+                    dispatch(
+                        apiAction({
+                            orderPrice: price + isRightWheel.price + isFullTank.price + isNeedChildChair.price,
+                        }),
+                    );
                     break;
                 default:
-                    price = field.value.price * minutes;
+                    price = order.data.price;
                     dispatch(apiAction({ orderPrice: price }));
                     break;
             }
         }
-    }, [name, field.value]);
+    }, [name, field.value, order.data.price, isFullTank.price, isNeedChildChair.price, isRightWheel.price]);
 
     useEffect(() => {
         if (name === "isFullTank" && field.value) {
-            if (field.value.value === true && isFullTank === false) {
+            if (field.value.value === true && isFullTank.value === false) {
                 dispatch(apiAction({ orderPrice: orderPrice + field.value.price }));
-                dispatch(apiAction({ isFullTank: true }));
-            } else if (field.value.value === false && isFullTank === true) {
-                dispatch(apiAction({ orderPrice: orderPrice + field.value.price }));
-                dispatch(apiAction({ isFullTank: false }));
+                dispatch(apiAction({ isFullTank: { value: true, price: field.value.price } }));
+            } else if (field.value.value === false && isFullTank.value === true) {
+                dispatch(apiAction({ orderPrice: orderPrice - field.value.price }));
+                dispatch(apiAction({ isFullTank: { value: false, price: 0 } }));
             }
         }
-    }, [name, field.value, order.data.isFullTank]);
+    }, [name, field.value, isFullTank.value, isFullTank.price]);
 
     useEffect(() => {
         if (name === "isNeedChildChair" && field.value) {
-            if (field.value.value === true && isNeedChildChair === false) {
+            if (field.value.value === true && isNeedChildChair.value === false) {
                 dispatch(apiAction({ orderPrice: orderPrice + field.value.price }));
-                dispatch(apiAction({ isNeedChildChair: true }));
-            } else if (field.value.value === false && isNeedChildChair === true) {
-                dispatch(apiAction({ orderPrice: orderPrice + field.value.price }));
-                dispatch(apiAction({ isNeedChildChair: false }));
+                dispatch(apiAction({ isNeedChildChair: { value: true, price: field.value.price } }));
+            } else if (field.value.value === false && isNeedChildChair.value === true) {
+                dispatch(apiAction({ orderPrice: orderPrice - field.value.price }));
+                dispatch(apiAction({ isNeedChildChair: { value: false, price: 0 } }));
             }
         }
-    }, [name, field.value]);
+    }, [name, field.value, isNeedChildChair.value, isNeedChildChair.price]);
 
     useEffect(() => {
-        if (name === "isRightWheel" && field.value) {
-            if (field.value.value === true && isRightWheel === false) {
+        if (name === "isRightWheel" && field.value && order.data) {
+            if (field.value.value === true && isRightWheel.value === false) {
                 dispatch(apiAction({ orderPrice: orderPrice + field.value.price }));
-                dispatch(apiAction({ isRightWheel: true }));
-            } else if (field.value.value === false && isRightWheel === true) {
-                dispatch(apiAction({ orderPrice: orderPrice + field.value.price }));
-                dispatch(apiAction({ isRightWheel: false }));
+                dispatch(apiAction({ isRightWheel: { value: true, price: field.value.price } }));
+            } else if (field.value.value === false && isRightWheel.value === true) {
+                dispatch(apiAction({ orderPrice: orderPrice - field.value.price }));
+                dispatch(apiAction({ isRightWheel: { value: false, price: 0 } }));
             }
         }
-    }, [name, field.value]);
-
-    // const { value, ...inputProps } = field;
-
-    // const inputClassName = classNames({
-    //     [`${styles.input}`]: true,
-    //     [`${styles.inputError}`]: errors[name],
-    // });
+    }, [name, field.value, isRightWheel.value, isRightWheel.price]);
 
     const filterConfig = {
         ignoreCase: true,
@@ -140,13 +136,18 @@ const OrderInput = ({
         matchFrom: "start",
     };
 
+    const inputClassName = classNames({
+        [`${styles.input}`]: true,
+        [`${styles.inputError}`]: errors[name],
+    });
+
     return (
         <div className={styles.inputContainer}>
             <label className={styles.inputLabel} htmlFor={name}>
                 {label}
             </label>
             <Select
-                className={styles.input}
+                className={inputClassName}
                 classNamePrefix={styles.input}
                 name={name}
                 options={options}
@@ -157,7 +158,6 @@ const OrderInput = ({
                 filterOption={createFilter(filterConfig)}
                 {...field}
                 isDisabled={disabled}
-                // value={valueState ? options.filter((option) => option.value === valueState) : value || ""}
             />
 
             {errors[name] && <span className={styles.inputErrorMessage}>{errors[name].message}</span>}

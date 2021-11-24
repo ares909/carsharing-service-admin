@@ -41,6 +41,7 @@ const AdminHeader = ({ onClick, isOpened, toggle }) => {
         case "/admin/orderlist":
             title = "Заказы";
             break;
+
         case "/admin/carlist":
             title = "Автомобили";
             break;

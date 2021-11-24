@@ -9,7 +9,7 @@ import useDateFormat from "../../../../hooks/useDateFormat";
 import useNumberFormat from "../../../../hooks/useNumberFormat";
 import styles from "./OrderCard.module.scss";
 
-const OrderCard = ({ order, onClick, token }) => {
+const OrderCard = ({ order, onClick, token, statuses }) => {
     const dispatch = useDispatch();
     const [convertNumber, convertCarNumber] = useNumberFormat();
 
@@ -115,7 +115,7 @@ const OrderCard = ({ order, onClick, token }) => {
                         onChange={() => {}}
                     />
                 </div>
-                <ButtonBar order={order} token={token} />
+                <ButtonBar order={order} token={token} className={styles.buttonContainer} />
             </div>
         </div>
     );

@@ -12,4 +12,5 @@ export const pageSize = 5;
 export const messages = {
     orderConfirmed: "Успех! Заказ подтвержден",
     orderRemoved: "Успех! Заказ удален",
+    orderSaved: "Успех! Заказ сохранен",
 };

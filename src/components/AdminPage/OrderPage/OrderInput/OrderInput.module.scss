@@ -1,0 +1,189 @@
+@import "../../../Common/Page/Page.scss";
+
+.inputContainer {
+    margin-bottom: 10px;
+    @media screen and (min-width: 0px) and (max-width: 320px) {
+        margin-right: 0;
+    }
+    @media screen and (min-width: 424px) and (max-width: 767px) {
+        margin-right: 0;
+        ;
+
+        
+    }
+}
+
+.inputLabel {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
+    color: inherit;
+}
+
+.input {
+    @include black-text;
+    // border: 1px solid $GrayDark;
+
+    // padding: 0;
+    outline-color: $BlueAdmin;
+    align-self: center;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+
+    min-width: 250px;
+    max-width: 250px;
+
+    // cursor: pointer;
+
+    @media screen and (min-width: 0px) and (max-width: 424px) {
+        font-size: 10px;
+        line-height: 12px;
+        min-width: 135px;
+        max-width: 135px;
+        margin: 0;
+    }
+
+    @media screen and (min-width: 425px) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+        min-width: 100%;
+        max-width: 100%;
+        align-self: center
+       
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        min-width: 165px;
+        max-width: 165px;
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 1024px) and (max-width: 1280px) {
+        min-width: 175px;
+        max-width: 175px;
+        font-size: 12px;
+        line-height: 14px;
+    }
+    [class*="-control"] {
+        cursor: pointer;
+        outline: none;
+        box-shadow: none;
+        &:hover {
+            border-color: gray;
+        }
+        &:active {
+            border-color: inherit;
+        }
+        @media screen and (min-width: 1024px) and (max-width: 1280px) {
+            min-height: 28px;
+        }
+        @media screen and (min-width: 425px) and (max-width: 767px) {
+            min-width: 100%;
+            max-width: 100%;
+        }
+        @media screen and (min-width: 0px) and (max-width: 424px) {
+            min-width: 135px;
+            max-width: 135px;
+            // min-height: 20px;
+        }
+    }
+    [class*="-option"] {
+        color: gray;
+        padding: 8px;
+        background-color: white;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 16px;
+
+        @media screen and (min-width: 0px) and (max-width: 424px) {
+            min-width: 135px;
+            max-width: 135px;
+            font-size: 10px;
+            line-height: 12px;
+        }
+        @media screen and (min-width: 425px) and (max-width: 767px) {
+            min-width: 90%;
+            max-width: 90%;
+            font-size: 10px;
+            line-height: 12px;
+        }
+        @media screen and (min-width: 768px) and (max-width: 1023px) {
+            font-size: 12px;
+            line-height: 14px;
+        }
+
+        @media screen and (min-width: 1024px) and (max-width: 1279px) {
+            font-size: 12px;
+            line-height: 14px;
+        }
+        &:hover {
+            color: $BlueAdmin;
+        }
+        &:active {
+            background-color: white;
+            opacity: 1;
+        }
+    }
+    [class*="-Input"] {
+        margin: 0;
+        padding: 0;
+    }
+    [class*="-indicatorContainer"] {
+        padding: 3px;
+    }
+    [class*="-ValueContainer"] {
+        @media screen and (min-width: 0px) and (max-width: 549px) {
+            padding: 2px 3px;
+        }
+        @media screen and (min-width: 550px) and (max-width: 767px) {
+            padding: 2px 3px;
+        }
+    }
+    [class*="-menu"] {
+        @media screen and (min-width: 0px) and (max-width: 424px) {
+            min-width: 135px;
+            max-width: 135px;
+        }
+        @media screen and (min-width: 425px) and (max-width: 767px) {
+            min-width: 90%;
+            max-width: 90%;
+        }
+    }
+}
+
+.inputError {
+    @extend .input;
+    outline-color: #c4183c;
+    border: 1px solid #c4183c;
+    border-radius: 4px;
+}
+.inputErrorMessage {
+    // padding: 1px 5px 1px;
+    color: #c4183c;
+    font-size: 14px;
+    line-height: 16px;
+    margin-top: 5px;
+
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+        padding: 0;
+    }
+}

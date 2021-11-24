@@ -6,8 +6,8 @@
     display: flex;
     flex-direction: column;
     margin: 0 auto 15px;
-    min-width: 90%;
-    max-width: 90%;
+    min-width: 92%;
+    max-width: 92%;
     // max-width: 700px;
     min-height: 95px;
     max-height: 95px;
@@ -19,15 +19,13 @@
         margin-bottom: 0px;
     }
 
- 
-
     @media screen and (min-width: 1441px) {
         min-width: 85%;
         max-width: 85%;
     }
     @media screen and (min-width: 1024px) and (max-width: 1280px) {
-        min-width: 600px;
-        max-width: 600px;
+        min-width: 90%;
+        max-width: 90%;
         margin: 0 auto 7px;
         min-height: 85px;
         max-height: 85px;
@@ -79,8 +77,8 @@
     @extend .order;
     padding: 15px 7px 5px;
     position: relative;
-    min-height: 190px;
-    max-height: 190px;
+    min-height: fit-content;
+    max-height: fit-content;
     background: inherit;
     margin: 50px auto;
     min-width: 300px;
@@ -178,6 +176,12 @@
         max-width: 120px;
         margin-right: 10px;
     }
+
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+        min-width: 120px;
+        max-width: 120px;
+        margin-right: 10px;
+    }
 }
 
 .orderExtraBlock {
@@ -194,6 +198,11 @@
     @media screen and (min-width: 550px) and (max-width: 767px) {
         min-width: 120px;
         max-width: 120px;
+        margin-right: 10px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+        min-width: 130px;
+        max-width: 130px;
         margin-right: 10px;
     }
 }
@@ -221,7 +230,7 @@
     font-size: 14px;
     line-height: 16px;
     margin: 0 5px 0 0;
-    @media screen and (min-width: 768px) and (max-width: 1280px) {
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
         font-size: 12px;
         line-height: 14px;
     }
@@ -239,7 +248,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    @media screen and (min-width: 768px) and (max-width: 1280px) {
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
         font-size: 12px;
         line-height: 14px;
     }
@@ -257,7 +266,7 @@
     white-space: pre-wrap;
     overflow: auto;
     text-overflow: auto;
-    @media screen and (min-width: 768px) and (max-width: 1280px) {
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
         font-size: 12px;
         line-height: 14px;
     }
@@ -294,7 +303,7 @@
     max-width: 200px;
     // max-width: 180px;
     margin-right: 15px;
-    @media screen and (min-width: 1024px) and (max-width: 1280px) {
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
         min-width: 150px;
         max-width: 150px;
         // max-width: 180px;
@@ -359,3 +368,33 @@
     }
 }
 
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #becad6;
+    border-radius: 4px;
+    height: fit-content;
+    align-self: center;
+    margin-left: auto;
+
+    @media screen and (min-width: 600px) and (max-width: 1279px) {
+        // flex-direction: column;
+        margin-left: auto;
+    }
+
+    @media screen and (min-width: 0) and (max-width: 649px) {
+        display: none;
+    }
+}
+
+
+
+.buttonContainerMobile {
+    @extend .buttonContainer;
+
+    @media screen and (min-width: 0) and (max-width: 649px) {
+        display: flex;
+        flex-direction: row;
+        margin: 0 auto 0;
+    }
+}

@@ -5,10 +5,11 @@ import { imageUrl } from "../../../../constants/constants";
 import Checkbox from "../../../Common/UI/Checkbox/Checkbox.jsx";
 import styles from "./OrderCard.module.scss";
 import crossButtonBlack from "../../../Common/UI/CrossButton/CrossButtonBlack.jsx";
+import ButtonBar from "./ButtonBar/ButtonBar.jsx";
 import useDateFormat from "../../../../hooks/useDateFormat";
 import Button from "../../../Common/UI/Button.jsx";
 
-const OrderCardMobile = ({ order, onClick, isCardOpened, openCard }) => {
+const OrderCardMobile = ({ order, onClick, isCardOpened, openCard, token }) => {
     const [convertNumber, convertCarNumber] = useNumberFormat();
     const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays] =
         useDateFormat();
@@ -116,6 +117,13 @@ const OrderCardMobile = ({ order, onClick, isCardOpened, openCard }) => {
                         onChange={() => {}}
                     />
                 </div>
+                <ButtonBar
+                    order={order}
+                    token={token}
+                    isCardOpened={isCardOpened}
+                    openCard={openCard}
+                    className={styles.buttonContainerMobile}
+                />
             </div>
             <Button type="button" onClick={openCard} className={styles.crossButton}>
                 {crossButtonBlack}

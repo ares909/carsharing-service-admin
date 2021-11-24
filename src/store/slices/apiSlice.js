@@ -34,7 +34,7 @@ const initialState = {
         data: [],
         status: "idle",
     },
-    order: { data: [], status: "idle", statusCode: "" },
+    order: { data: [], status: "idle", statusCode: "", postStatus: "idle" },
     singleOrder: { data: [], status: "idle", statusCode: "" },
     deletedOrder: { status: "", statusCode: "" },
     ordersData: { data: [], status: "idle", count: 0 },
@@ -54,9 +54,9 @@ const initialState = {
         status: "idle",
     },
     orderPrice: 0,
-    isFullTank: "",
-    isNeedChildChair: "",
-    isRightWheel: "",
+    isFullTank: { value: false, price: 0 },
+    isNeedChildChair: { value: false, price: 0 },
+    isRightWheel: { value: false, price: 0 },
     error: "",
     status: "",
 };
@@ -218,6 +218,10 @@ export const apiSlice = createSlice({
                     status: initialState.singleOrder.status,
                     statusCode: initialState.singleOrder.statusCode,
                 },
+                order: {
+                    ...state.order,
+                    postStatus: initialState.postStatus,
+                },
             };
         },
     },
@@ -263,9 +267,12 @@ export const apiSlice = createSlice({
         [fetchOrder.fulfilled]: (state, action) => {
             state.order.data = action.payload.data.data;
             state.orderPrice = action.payload.data.data.price;
-            state.isFullTank = action.payload.data.data.isFullTank;
-            state.isNeedChildChair = action.payload.data.data.isNeedChildChair;
-            state.isRightWheel = action.payload.data.data.isRightWheel;
+            state.isFullTank.value = action.payload.data.data.isFullTank;
+            state.isNeedChildChair.value = action.payload.data.data.isNeedChildChair;
+            state.isFullTank.price = action.payload.data.data.isFullTank ? 500 : 0;
+            state.isNeedChildChair.price = action.payload.data.data.isNeedChildChair ? 200 : 0;
+            state.isRightWheel.value = action.payload.data.data.isRightWheel;
+            state.isRightWheel.price = action.payload.data.data.isRightWheel ? 1600 : 0;
             state.order.status = "succeeded";
             state.order.statusCode = action.payload.status;
         },
@@ -273,10 +280,14 @@ export const apiSlice = createSlice({
         [postOrder.fulfilled]: (state, action) => {
             state.order.data = action.payload.data.data;
             state.orderPrice = action.payload.data.data.price;
-            state.isFullTank = action.payload.data.data.isFullTank;
-            state.isNeedChildChair = action.payload.data.data.isNeedChildChair;
-            state.isRightWheel = action.payload.data.data.isRightWheel;
+            state.isFullTank.value = action.payload.data.data.isFullTank;
+            state.isNeedChildChair.value = action.payload.data.data.isNeedChildChair;
+            state.isFullTank.price = action.payload.data.data.isFullTank ? 500 : 0;
+            state.isNeedChildChair.price = action.payload.data.data.isNeedChildChair ? 200 : 0;
+            state.isRightWheel.value = action.payload.data.data.isRightWheel;
+            state.isRightWheel.price = action.payload.data.data.isRightWheel ? 1600 : 0;
             state.order.status = "succeeded";
+            state.order.postStatus = "saved";
             state.order.statusCode = action.payload.status;
         },
 

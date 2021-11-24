@@ -7,36 +7,33 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import {
-    apiAction,
-    changeOrder,
-    removeOrder,
-    resetSingleOrder,
-    resetDeletedOrder,
     fetchOrder,
     fetchCities,
     fetchStatuses,
     fetchCars,
     fetchRates,
     postOrder,
+    resetPopupMessage,
 } from "../../../store/slices/apiSlice";
 import { apiData } from "../../../store/selectors/selectors";
 import Button from "../../Common/UI/Button.jsx";
+import SuccessPopup from "../../Common/UI/SuccessPopup/SuccessPopup.jsx";
 import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
-import approveButton from "../../../images/admin/approveButton.svg";
-import cancelButton from "../../../images/admin/cancelButton.svg";
-import editButton from "../../../images/admin/editIcon.svg";
-import styles from "./OrderPage.module.scss";
-import Filter from "../Common/FilterBar/FilterElement/Filter.jsx";
+import Checkbox from "../../Common/UI/Checkbox/Checkbox.jsx";
 import OrderInput from "./OrderInput/OrderInput.jsx";
-import { imageUrl } from "../../../constants/constants";
+import useModal from "../../../hooks/useModal";
+import { imageUrl, messages } from "../../../constants/constants";
 import useDateFormat from "../../../hooks/useDateFormat";
+import styles from "./OrderPage.module.scss";
 
 const OrderPage = () => {
     const { orderId } = useParams();
     const dispatch = useDispatch();
-    const { push } = useHistory();
+    const { push, goBack } = useHistory();
     const { statuses, singleOrder, status, cars, rates, cities, order, points, orderPrice } = useSelector(apiData);
     const [defaultValues, setDefaultValues] = useState({ city: "", address: "" });
+    const [isPopupOpened, togglePopup] = useModal();
+    const [popupMessage, setPopupMessage] = useState("");
     const validationSchema = yup.object().shape({
         city: yup.object().nullable().required("Поле не должно быть пустым"),
         address: yup.object().nullable().required("Поле не должно быть пустым"),
@@ -47,10 +44,9 @@ const OrderPage = () => {
         price: yup.object().nullable().required("Поле не должно быть пустым"),
     });
     const {
-        register,
         getValues,
         handleSubmit,
-        formState: { errors, isValid },
+        formState: { errors },
         control,
         reset,
     } = useForm({
@@ -146,12 +142,6 @@ const OrderPage = () => {
         reset(defaultValues);
     }, [defaultValues]);
 
-    // address: {
-    //     value: order.data.pointId.name || "",
-    //     label: order.data.pointId.name || "",
-    //     id: order.data.pointId.id || "",
-    // },
-
     useEffect(() => {
         if (cars.status === "idle") {
             dispatch(fetchCities());
@@ -161,14 +151,28 @@ const OrderPage = () => {
         }
     }, [cars.status]);
 
-    // const defaultValues = {
-    //     city: {
-    //         id: order.data.cityId ? `${order.data.cityId.id}` : "",
-    //         value: order.data.cityId ? order.data.cityId.name : "",
-    //         label: order.data.cityId ? order.data.cityId.name : "",
-    //     },
-    //     address: { id: "123", value: "123", label: "123" },
-    // };
+    useEffect(() => {
+        if (order.statusCode === 200 && order.postStatus === "saved") {
+            if (!isPopupOpened) {
+                setPopupMessage(messages.orderSaved);
+                togglePopup();
+            }
+        }
+    }, [order.statusCode, order.postStatus]);
+
+    const outSidePopupClick = (e) => {
+        if (isPopupOpened && e.target.classList.length !== 0 && !e.target.className.includes("successPopup")) {
+            togglePopup();
+            dispatch(resetPopupMessage());
+        }
+    };
+    useEffect(() => {
+        document.addEventListener("click", outSidePopupClick, true);
+
+        return () => {
+            document.removeEventListener("click", outSidePopupClick, true);
+        };
+    });
 
     const handlePostOrder = (data) => {
         dispatch(
@@ -188,9 +192,8 @@ const OrderPage = () => {
                 },
             }),
         );
-        console.log(data);
-        console.log(data.address.id);
     };
+
     const cityOptions = cities.data
         ? cities.data.map((item) => ({ value: item.name, label: item.name, id: item.id }))
         : [];
@@ -203,7 +206,7 @@ const OrderPage = () => {
 
     const colorOptions = order.data.carId
         ? order.data.carId.colors.map((item, index) => ({ value: item, label: item, id: index }))
-        : [];
+        : [{ value: "Любой", label: "Любой", id: 1 }];
 
     const rateOptions = rates.data
         ? rates.data.map((item) => ({
@@ -220,230 +223,153 @@ const OrderPage = () => {
 
     const tankOptions = [
         { value: true, label: "Да", price: 500 },
-        { value: false, label: "Нет", price: -500 },
+        { value: false, label: "Нет", price: 500 },
     ];
 
     const chairOptions = [
         { value: true, label: "Да", price: 200 },
-        { value: false, label: "Нет", price: -200 },
+        { value: false, label: "Нет", price: 200 },
     ];
 
     const wheelOptions = [
         { value: true, label: "Да", price: 1600 },
-        { value: false, label: "Нет", price: -1600 },
+        { value: false, label: "Нет", price: 1600 },
+    ];
+
+    const textOptions = [
+        { title: "Город: ", data: order.data.cityId ? order.data.cityId.name : "нет данных" },
+        { title: "Адрес: ", data: order.data.pointId ? order.data.pointId.address : "нет данных" },
+        { title: "Модель: ", data: order.data.carId ? order.data.carId.name : "нет данных" },
+        { title: "Цвет: ", data: order.data.color ? order.data.color : "нет данных" },
+        { title: "Статус: ", data: order.data.orderStatusId ? order.data.orderStatusId.name : "нет данных" },
+        { title: "Цена: ", data: order.data.price ? `${order.data.price} ₽` : "нет данных" },
+        {
+            title: "Срок: ",
+            data:
+                order.data.dateFrom && order.data.dateTo
+                    ? secondsToDhms(order.data.dateTo - order.data.dateFrom)
+                    : "нет данных",
+        },
+    ];
+
+    const inputArray = [
+        { name: "city", placeholder: "Город", label: "Город", id: "city", options: cityOptions },
+        { name: "address", placeholder: "Адрес", label: "Адрес", id: "address", options: pointOptions },
+        { name: "car", placeholder: "Модель", label: "Модель", id: "car", options: carOptions },
+        { name: "color", placeholder: "Цвет", label: "Цвет", id: "color", options: colorOptions },
+        { name: "rate", placeholder: "Тариф", label: "Тариф", id: "rate", options: rateOptions },
+        { name: "status", placeholder: "Статус", label: "Статус", id: "status", options: statusOptions },
+        { name: "isFullTank", placeholder: "Полный бак", label: "Полный бак", id: "isFullTank", options: tankOptions },
+        {
+            name: "isNeedChildChair",
+            placeholder: "Детское кресло",
+            label: "Детское кресло",
+            id: "isNeedChildChair",
+            options: chairOptions,
+        },
+        {
+            name: "isRightWheel",
+            placeholder: "Правый руль",
+            label: "Правый руль",
+            id: "isRightWheel",
+            options: wheelOptions,
+        },
     ];
     return (
         <section className={styles.orderPage}>
+            <SuccessPopup isPopupOpened={isPopupOpened} togglePopup={togglePopup} popupMessage={popupMessage} />
             {singleOrder.status === "loading" && status !== "rejected" && <Preloader />}
             {cars.status === "loading" && status !== "rejected" && <Preloader />}
+            {order.status === "loading" && status !== "rejected" && <Preloader />}
             {/* {points.status === "loading" && status !== "rejected" && <Preloader />} */}
             {order.status === "succeeded" && (
                 <form className={styles.orderBox}>
-                    <div className={styles.orderData}>
-                        <div className={styles.orderTitle}>
-                            <p className={styles.orderText}>
-                                Заказ № <span className={styles.orderTextBold}>{order.data.id}</span>
-                            </p>
-                            <p className={styles.orderText}>
-                                Статус:{" "}
-                                <span className={styles.orderTextBold}>
-                                    {order.data.orderStatusId ? order.data.orderStatusId.name : "нет данных"}
-                                </span>
-                            </p>
-                            <p className={styles.orderText}>
-                                Цена: <span className={styles.orderTextBold}>{order.data.price}</span>
-                            </p>
-                        </div>
-                        <div className={styles.orderTextBlock}>
-                            <p className={styles.orderText}>Срок:</p>
-                            <span className={styles.orderTextBold}>
-                                {order.data.dateFrom && order.data.dateTo
-                                    ? secondsToDhms(order.data.dateTo - order.data.dateFrom)
-                                    : "нет данных"}
-                            </span>
-                        </div>
-                        <div className={styles.orderImageBlock}>
-                            <img
-                                className={styles.cardImage}
-                                src={
-                                    // eslint-disable-next-line no-nested-ternary
-                                    order.data.carId
-                                        ? order.data.carId.thumbnail.path.includes("files")
-                                            ? imageUrl + order.data.carId.thumbnail.path
-                                            : order.data.carId.thumbnail.path
-                                        : ""
-                                }
-                                alt="нет фото"
-                            />
-                        </div>
-                    </div>
-                    <div className={styles.FilterBox}>
-                        <div>
-                            <Controller
-                                name="city"
-                                control={control}
-                                // defaultValue={defaultValues.city}
-                                render={({ field }) => (
-                                    <OrderInput
-                                        placeholder="Город"
-                                        field={field}
-                                        errors={errors}
-                                        name="city"
-                                        id="city"
-                                        options={cityOptions}
-                                        reset={reset}
-                                        getValues={getValues}
+                    <div className={styles.orderDataBox}>
+                        <h2 className={styles.orderTitle}>
+                            Заказ № <span className={styles.orderTitleTextBold}>{order.data.id}</span>
+                        </h2>
+                        <div className={styles.orderData}>
+                            <div className={styles.orderImageBlock}>
+                                <img
+                                    className={styles.cardImage}
+                                    src={
+                                        // eslint-disable-next-line no-nested-ternary
+                                        order.data.carId
+                                            ? order.data.carId.thumbnail.path.includes("files")
+                                                ? imageUrl + order.data.carId.thumbnail.path
+                                                : order.data.carId.thumbnail.path
+                                            : ""
+                                    }
+                                    alt="нет фото"
+                                />
+                            </div>
 
-                                        // valueState={iniialValue.value ? iniialValue.value : ""}
-                                    />
-                                )}
-                            />
-                            <Controller
-                                name="address"
-                                control={control}
-                                // defaultValue={defaultValues.address}
-                                render={({ field }) => (
-                                    <OrderInput
-                                        placeholder="Адрес"
-                                        field={field}
-                                        errors={errors}
-                                        name="address"
-                                        id="address"
-                                        options={pointOptions}
-                                        getValues={getValues}
-                                        // valueState={singleOrder.data.cityId ? singleOrder.data.cityId.name : ""}
-                                    />
-                                )}
-                            />
-                            <Controller
-                                name="car"
-                                control={control}
-                                // defaultValue={defaultValues.address}
-                                render={({ field }) => (
-                                    <OrderInput
-                                        placeholder="Модель"
-                                        field={field}
-                                        errors={errors}
-                                        name="car"
-                                        id="car"
-                                        options={carOptions}
-                                        getValues={getValues}
-                                        // valueState={singleOrder.data.cityId ? singleOrder.data.cityId.name : ""}
-                                    />
-                                )}
-                            />
-                            <Controller
-                                name="color"
-                                control={control}
-                                // defaultValue={defaultValues.address}
-                                render={({ field }) => (
-                                    <OrderInput
-                                        placeholder="Цвет"
-                                        field={field}
-                                        errors={errors}
-                                        name="color"
-                                        id="color"
-                                        options={colorOptions}
-                                        getValues={getValues}
-                                        // valueState={singleOrder.data.cityId ? singleOrder.data.cityId.name : ""}
-                                    />
-                                )}
-                            />
-                            <Controller
-                                name="rate"
-                                control={control}
-                                // defaultValue={defaultValues.address}
-                                render={({ field }) => (
-                                    <OrderInput
-                                        placeholder="Тариф"
-                                        field={field}
-                                        errors={errors}
-                                        name="rate"
-                                        id="rate"
-                                        options={rateOptions}
-                                        getValues={getValues}
-                                        reset={reset}
-                                        // valueState={singleOrder.data.cityId ? singleOrder.data.cityId.name : ""}
-                                    />
-                                )}
-                            />
-                            <Controller
-                                name="status"
-                                control={control}
-                                // defaultValue={defaultValues.address}
-                                render={({ field }) => (
-                                    <OrderInput
-                                        placeholder="Статус"
-                                        field={field}
-                                        errors={errors}
-                                        name="status"
-                                        id="status"
-                                        options={statusOptions}
-                                        getValues={getValues}
-                                        // valueState={singleOrder.data.cityId ? singleOrder.data.cityId.name : ""}
-                                    />
-                                )}
-                            />
+                            <div className={styles.orderInfo}>
+                                {textOptions.map((item) => (
+                                    <p className={styles.orderText} key={item.data}>
+                                        {item.title}
+                                        <span className={styles.orderTextBold}>{item.data}</span>
+                                    </p>
+                                ))}
 
-                            <Controller
-                                name="isFullTank"
-                                control={control}
-                                // defaultValue={defaultValues.address}
-                                render={({ field }) => (
-                                    <OrderInput
-                                        placeholder="Полный бак"
-                                        field={field}
-                                        errors={errors}
-                                        name="isFullTank"
-                                        id="isFullTank"
-                                        options={tankOptions}
-                                        getValues={getValues}
-                                        // disabled={true}
-                                        // valueState={singleOrder.data.cityId ? singleOrder.data.cityId.name : ""}
-                                    />
-                                )}
-                            />
-
-                            <Controller
-                                name="isNeedChildChair"
-                                control={control}
-                                // defaultValue={defaultValues.address}
-                                render={({ field }) => (
-                                    <OrderInput
-                                        placeholder="Детское кресло"
-                                        field={field}
-                                        errors={errors}
-                                        name="isNeedChildChair"
-                                        id="isNeedChildChair"
-                                        options={chairOptions}
-                                        getValues={getValues}
-                                        // disabled={true}
-                                        // valueState={singleOrder.data.cityId ? singleOrder.data.cityId.name : ""}
-                                    />
-                                )}
-                            />
-
-                            <Controller
-                                name="isRightWheel"
-                                control={control}
-                                // defaultValue={defaultValues.address}
-                                render={({ field }) => (
-                                    <OrderInput
-                                        placeholder="Полный бак"
-                                        field={field}
-                                        errors={errors}
-                                        name="isRightWheel"
-                                        id="isRightWheel"
-                                        options={wheelOptions}
-                                        getValues={getValues}
-                                        // disabled={true}
-                                        // valueState={singleOrder.data.cityId ? singleOrder.data.cityId.name : ""}
-                                    />
-                                )}
-                            />
+                                <Checkbox
+                                    value={order.data.isFullTank}
+                                    name={`Полный бак`}
+                                    checked={order.data.isFullTank === true}
+                                    onChange={() => {}}
+                                />
+                                <Checkbox
+                                    value={order.data.isNeedChildChair}
+                                    name={`Детское кресло`}
+                                    checked={order.data.isNeedChildChair === true}
+                                    onChange={() => {}}
+                                />
+                                <Checkbox
+                                    value={order.data.isRightWheel}
+                                    name={`Правый руль`}
+                                    checked={order.data.isRightWheel === true}
+                                    onChange={() => {}}
+                                />
+                            </div>
                         </div>
                     </div>
-                    <Button onClick={handleSubmit(handlePostOrder)} name="Nu chto pognali" type="submit" />
+                    <div className={styles.filterBox}>
+                        <h2 className={styles.orderTitle}>Настройка заказа</h2>
+                        <div className={styles.inputContainer}>
+                            {inputArray.map((item) => (
+                                <Controller
+                                    name={item.name}
+                                    control={control}
+                                    key={item.id}
+                                    // defaultValue={defaultValues.city}
+                                    render={({ field }) => (
+                                        <OrderInput
+                                            label={item.label}
+                                            placeholder={item.placeholder}
+                                            field={field}
+                                            errors={errors}
+                                            name={item.name}
+                                            id={item.id}
+                                            options={item.options}
+                                            reset={reset}
+                                            getValues={getValues}
+
+                                            // valueState={iniialValue.value ? iniialValue.value : ""}
+                                        />
+                                    )}
+                                />
+                            ))}
+                        </div>
+                        <div className={styles.formButtonContainer}>
+                            <Button
+                                className={styles.formButton}
+                                onClick={handleSubmit(handlePostOrder)}
+                                name="Сохранить"
+                                type="submit"
+                            />
+                            <Button className={styles.formButtonRed} onClick={goBack} name="Назад" type="button" />
+                        </div>
+                    </div>
                 </form>
             )}
         </section>

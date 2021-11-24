@@ -19,6 +19,7 @@ import {
     resetOrder,
     resetError,
     fetchRates,
+    resetPopupMessage,
 } from "../../../store/slices/apiSlice";
 import { messages, pageSize } from "../../../constants/constants";
 import { handleRefresh } from "../../../store/slices/authSlice";
@@ -30,7 +31,7 @@ const OrderList = () => {
     const { push } = useHistory();
     const token = JSON.parse(localStorage.getItem("access_token"));
     const refreshToken = JSON.parse(localStorage.getItem("token"));
-    const { cars, ordersData, status, deletedOrder, error, apiFilters, singleOrder } = useSelector(apiData);
+    const { cars, ordersData, status, deletedOrder, error, apiFilters, singleOrder, statuses } = useSelector(apiData);
     const [currentPage, setCurrentPage] = useState(1);
     const [isCardOpened, openCard] = useModal();
     const [isPopupOpened, togglePopup] = useModal();
@@ -99,6 +100,23 @@ const OrderList = () => {
             dispatch(fetchAllOrders({ token, filters: { page: currentPage, limit: pageSize, ...apiFilters.filters } }));
         }
     }, [deletedOrder.statusCode]);
+
+    const outSideClick = (e) => {
+        if (isPopupOpened && e.target.classList.length !== 0 && !e.target.className.includes("successPopup")) {
+            togglePopup();
+            dispatch(resetPopupMessage());
+        }
+    };
+    useEffect(() => {
+        document.addEventListener("click", outSideClick);
+        document.addEventListener("click", handleClose);
+
+        return () => {
+            document.removeEventListener("click", outSideClick);
+            document.removeEventListener("click", handleClose);
+        };
+    });
+
     return (
         <>
             <section className={styles.orderList}>
@@ -129,7 +147,7 @@ const OrderList = () => {
                 </div>
             </section>
             <div className={wrapperClassName} onClick={handleClose}>
-                <OrderCardMobile order={selectedCard} isCardOpened={isCardOpened} openCard={openCard} />
+                <OrderCardMobile order={selectedCard} isCardOpened={isCardOpened} openCard={openCard} token={token} />
             </div>
         </>
     );

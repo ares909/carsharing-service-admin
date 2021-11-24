@@ -70,7 +70,7 @@
 
 .formWrapper {
     display: none;
-    @media screen and (min-width: 0) and (max-width: 549px) {
+    @media screen and (min-width: 0) and (max-width: 649px) {
         display: none;
         flex-direction: column;
         position: fixed;
@@ -85,7 +85,7 @@
 .formWrapperActive {
     @extend .formWrapper;
     display: none;
-    @media screen and (min-width: 0) and (max-width: 549px) {
+    @media screen and (min-width: 0) and (max-width: 649px) {
         display: flex;
     }
 }

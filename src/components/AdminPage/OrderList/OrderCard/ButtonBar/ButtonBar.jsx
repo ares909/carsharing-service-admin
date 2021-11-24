@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -17,23 +17,32 @@ import cancelButton from "../../../../../images/admin/cancelButton.svg";
 import editButton from "../../../../../images/admin/editIcon.svg";
 import styles from "./ButtonBar.module.scss";
 
-const ButtonBar = ({ order, token }) => {
+const ButtonBar = ({ order, token, className, isCardOpened, openCard }) => {
     const dispatch = useDispatch();
     const { push } = useHistory();
     const { statuses } = useSelector(apiData);
-    const approvedStatusId = statuses.data && statuses.data[1].id;
+    const [approvedStatusId, setApprovedStatusId] = useState();
     const handleApprove = () => {
         dispatch(resetPopupMessage());
         dispatch(changeOrder({ orderId: order.id, statusId: approvedStatusId }));
+        if (isCardOpened) {
+            openCard();
+        }
     };
 
     const handleDelete = () => {
         dispatch(resetPopupMessage());
         dispatch(removeOrder({ token, orderId: order.id }));
+        if (isCardOpened) {
+            openCard();
+        }
     };
 
     const handleChange = () => {
         push(`/admin/orderlist/${order.id}`);
+        if (isCardOpened) {
+            openCard();
+        }
     };
 
     const approveButtonClassName = classNames({
@@ -41,8 +50,14 @@ const ButtonBar = ({ order, token }) => {
         [`${styles.orderButtonDisabled}`]:
             !order.cityId || !order.pointId || order.orderStatusId.name === "Подтвержденные",
     });
+
+    useEffect(() => {
+        if (statuses.data) {
+            setApprovedStatusId(statuses.data[1].id);
+        }
+    }, [statuses.data]);
     return (
-        <div className={styles.buttonContainer}>
+        <div className={className}>
             <Button
                 className={approveButtonClassName}
                 disabled={!order.cityId || !order.pointId || order.orderStatusId.name === "Подтвержденные"}
