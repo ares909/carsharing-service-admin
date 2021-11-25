@@ -1,21 +1,53 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import classNames from "classnames";
-import searchIcon from "../../../../images/admin/searchIcon.svg";
+import Button from "../../../Common/UI/Button.jsx";
+import burgerMenuButton from "./burgerMenuButton.jsx";
+import useModal from "../../../../hooks/useModal";
 import notificationIcon from "../../../../images/admin/notificationIcon.svg";
 import avatarImage from "../../../../images/admin/avatarImage.jpg";
-import dropdownIcon from "../../../../images/admin/dropdownIcon.svg";
+import dropdown from "../../../../images/admin/dropdownIcon.svg";
 import styles from "./AdminHeader.module.scss";
 
-const AdminHeader = () => {
+const AdminHeader = ({ onClick, isOpened, toggle }) => {
+    const { push } = useHistory();
+
+    const dropDownClassName = classNames({
+        [`${styles.dropdownСontent}`]: true,
+        [`${styles.dropdownСontentActive}`]: isOpened,
+    });
+
+    const logout = () => {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("token");
+        toggle();
+        push("/");
+    };
     const location = useLocation();
+    let title;
+    switch (location.pathname) {
+        case "/admin/orderlist":
+            title = "Заказы";
+            break;
+
+        case "/admin/carlist":
+            title = "Автомобили";
+            break;
+
+        default:
+            title = "";
+            break;
+    }
+
     return (
         location.pathname !== "/admin" && (
             <header className={styles.adminHeader}>
-                <div className={styles.searchBar}>
-                    <img className={styles.searchIcon} src={searchIcon} />
-                    <input type="search" placeholder="Поиск ..." className={styles.searchInput} />
+                <Button className={styles.button} onClick={onClick}>
+                    <div className={styles.buttonImage}>{burgerMenuButton}</div>
+                </Button>
+                <div className={styles.titleBar}>
+                    <h1 className={styles.listTitle}>{title}</h1>
                 </div>
                 <div className={styles.notifications}>
                     <img className={styles.notificationImage} src={notificationIcon} />
@@ -24,9 +56,21 @@ const AdminHeader = () => {
                 <div className={styles.profile}>
                     <img className={styles.avatar} src={avatarImage} />
                     <p className={styles.profileName}>Admin</p>
-                    <button className={styles.profileButton}>
-                        <img className={styles.profileButtonImage} src={dropdownIcon} />
-                    </button>
+                    <div className={styles.dropdown}>
+                        <Button className={styles.dropdownButton} onClick={toggle}>
+                            <img src={dropdown} className={styles.profileButtonImage} />
+                        </Button>
+                        <div className={dropDownClassName}>
+                            <Button name="Профиль" className={styles.profileButton} onClick={toggle} />
+                            <Button name="Выйти" className={styles.profileButton} onClick={logout} />
+                        </div>
+                    </div>
+
+                    {/* <select>
+                        <option >
+                            Выйти
+                        </option>
+                    </select> */}
                 </div>
             </header>
         )

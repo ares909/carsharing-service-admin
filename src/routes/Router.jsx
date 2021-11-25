@@ -10,6 +10,9 @@ const Router = () => (
                 <Redirect to="/admin" />
             </Route>
             <Route path="/admin" component={AdminPage} />
+            <Route path="*">
+                <Redirect to="/admin" />
+            </Route>
         </Switch>
     </HashRouter>
 );

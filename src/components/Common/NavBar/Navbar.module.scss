@@ -181,10 +181,41 @@
 
 .adminNavbarContainer {
     display: flex;
+    position: relative;
     flex-direction: column;
     min-width: 285px;
+    height: 100%;
     box-shadow: 0px 1px 0px rgba(90, 97, 105, 0.11), 0px 2px 4px rgba(90, 97, 105, 0.12),
         0px 5px 5px rgba(90, 97, 105, 0.06), 0px 3.5px 35px rgba(90, 97, 105, 0.1);
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        min-width: 240px;
+        max-width: 240px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        min-width: 240px;
+        max-width: 240px;
+        background-color: white;
+        height: 100%;
+    }
+    @media screen and (min-width: 0px) and (max-width: 425px) {
+        min-width: 100%;
+        max-width: 100%;
+        background-color: white;
+        height: 100%;
+    }
+
+    @media screen and (min-width: 426px) and (max-width: 549px) {
+        min-width: 320px;
+        max-width: 320px;
+        background-color: white;
+        height: 100%;
+    }
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        min-width: 320px;
+        max-width: 320px;
+        background-color: white;
+        height: 100%;
+    }
 }
 
 .adminNavbarDisabled {
@@ -197,6 +228,10 @@
     padding: 23px 0 23px 49px;
     justify-content: flex-start;
     min-width: 117px;
+    @media screen and (min-width: 0px) and (max-width: 1439px) {
+        padding: 18px 25px 18px;
+        background: white;
+    }
 }
 
 .logoBox {
@@ -238,6 +273,13 @@
     &:last-of-type {
         border-bottom: 1px solid #cacedb;
     }
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        padding: 18px 22px 18px;
+    }
+
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        background: white;
+    }
 }
 
 .adminLinkContainerActive {
@@ -250,7 +292,6 @@
 }
 
 .adminLinkImage {
-   
     margin: 0;
     width: 14.5px;
     height: 14.5px;
@@ -260,6 +301,22 @@
 .adminLink {
     margin: 0;
     text-decoration: none;
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 17px;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 17px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 14px;
+    }
 }
 
 .footerNavbar {
@@ -275,4 +332,42 @@
     color: $BlueAdmin;
     font-size: 14px;
     line-height: 16px;
+    &:last-of-type {
+        margin-right: 0;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+        margin-right: 5px;
+    }
+}
+
+.crossButton {
+    width: 16px;
+    height: 16px;
+    // margin-left: 16px;
+
+    cursor: pointer;
+    background-color: inherit;
+    border: none;
+    padding: 0;
+    z-index: 2;
+    align-self: center;
+    margin-left: auto;
+    :hover path {
+        stroke: $BlueAdmin;
+    }
+    @media screen and (min-width: 1024px) {
+        display: none;
+    }
+
+    @media screen and (min-width: 0) and (max-width: 550px) {
+
+        background-color: none;
+    }
+
 }

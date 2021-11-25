@@ -4,9 +4,10 @@
     display: flex;
     list-style-type: none;
     padding: 0;
+
 }
 .paginationItem {
-    padding: 0 12px;
+    // padding: 0 12px;
     height: 32px;
     text-align: center;
     margin: auto 4px;
@@ -20,6 +21,18 @@
     font-size: 13px;
     min-width: 32px;
     cursor: pointer;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        // padding: 0 6px;
+        margin: auto 3px;
+        line-height: 12px;
+        font-size: 10px;
+        align-self: center;
+        text-align: center;
+        justify-self: center;
+        min-width: 20px;
+        height: 20px;
+        border-radius: 50%;
+    }
 }
 .dots :hover {
     background-color: transparent;
@@ -52,6 +65,7 @@
 .left {
     @extend .arrow;
     transform: rotate(-135deg) translate(-50%);
+    margin: 0 0 0 auto;
 }
 
 .right {
@@ -71,4 +85,10 @@
         background-color: transparent;
         cursor: default;
     }
+}
+
+.paginationNumber {
+    align-self: center;
+    margin: auto;
+
 }

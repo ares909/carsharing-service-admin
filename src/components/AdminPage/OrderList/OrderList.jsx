@@ -5,59 +5,150 @@ import classNames from "classnames";
 import { authState, apiData } from "../../../store/selectors/selectors";
 import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
 import OrderCard from "./OrderCard/OrderCard.jsx";
-import styles from "./OrderList.module.scss";
-import { fetchAllOrders } from "../../../store/slices/apiSlice";
-import { handleRefresh } from "../../../store/slices/authSlice";
-import { pageSize } from "../../../constants/constants";
-
 import Pagination from "../Common/Pagination/Pagination.jsx";
 import FilterBar from "../Common/FilterBar/FilterBar.jsx";
+import OrderCardMobile from "./OrderCard/OrderCardMobile.jsx";
+import SuccessPopup from "../../Common/UI/SuccessPopup/SuccessPopup.jsx";
+import {
+    fetchAllOrders,
+    resetSingleOrder,
+    fetchCars,
+    fetchCities,
+    fetchStatuses,
+    resetOrder,
+    resetError,
+    fetchRates,
+    resetPopupMessage,
+} from "../../../store/slices/apiSlice";
+import { messages, pageSize } from "../../../constants/constants";
+import { handleRefresh } from "../../../store/slices/authSlice";
+import useModal from "../../../hooks/useModal";
+import styles from "./OrderList.module.scss";
 
 const OrderList = () => {
     const dispatch = useDispatch();
     const { push } = useHistory();
     const token = JSON.parse(localStorage.getItem("access_token"));
     const refreshToken = JSON.parse(localStorage.getItem("token"));
-    const { error, user } = useSelector(authState);
-    const { ordersData, status } = useSelector(apiData);
+    const { cars, ordersData, status, deletedOrder, error, apiFilters, singleOrder, statuses } = useSelector(apiData);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isCardOpened, openCard] = useModal();
+    const [isPopupOpened, togglePopup] = useModal();
+    const [selectedCard, setSelectedCard] = useState();
+    const [popupMessage, setPopupMessage] = useState("");
+
+    const wrapperClassName = classNames({
+        [`${styles.formWrapper}`]: true,
+        [`${styles.formWrapperActive}`]: isCardOpened,
+    });
 
     useEffect(() => {
         if (!token) {
             push("/");
         } else if (token && ordersData.status === "idle") {
-            dispatch(fetchAllOrders(token));
+            dispatch(fetchAllOrders({ token, filters: { page: 1, limit: pageSize, ...apiFilters.filters } }));
+            dispatch(fetchCars());
+            dispatch(fetchCities());
+            dispatch(fetchStatuses());
+            dispatch(fetchRates());
             dispatch(handleRefresh(refreshToken));
         }
     }, [ordersData.status, token]);
-    // eslint-disable-next-line consistent-return
-    const currentData = useMemo(() => {
-        if (ordersData.data.length > 0) {
-            const firstPageIndex = (currentPage - 1) * pageSize;
-            const lastPageIndex = firstPageIndex + pageSize;
-            return ordersData.data.slice(firstPageIndex, lastPageIndex);
+
+    const changePage = (page) => {
+        setCurrentPage(page);
+        dispatch(fetchAllOrders({ token, filters: { page, limit: pageSize, ...apiFilters.filters } }));
+    };
+
+    useEffect(() => {
+        if (error) {
+            push("/admin/error");
+            dispatch(resetOrder());
         }
-    }, [currentPage, ordersData]);
+    }, [error]);
+
+    const onClick = (order) => {
+        if (!isCardOpened) {
+            openCard();
+            setSelectedCard(order);
+        }
+    };
+
+    const handleClose = (e) => {
+        if (isCardOpened && e.target.classList.length !== 0 && e.target.className.includes("formWrapper")) {
+            openCard();
+        }
+    };
+
+    useEffect(() => {
+        if (singleOrder.statusCode === 200 && singleOrder.status === "approved") {
+            if (!isPopupOpened) {
+                setPopupMessage(messages.orderConfirmed);
+                togglePopup();
+            }
+            dispatch(fetchAllOrders({ token, filters: { page: currentPage, limit: pageSize, ...apiFilters.filters } }));
+        }
+    }, [singleOrder.statusCode, singleOrder.data.id]);
+
+    useEffect(() => {
+        if (deletedOrder.statusCode === 200 && deletedOrder.status === "deleted") {
+            if (!isPopupOpened) {
+                setPopupMessage(messages.orderRemoved);
+                togglePopup();
+            }
+            dispatch(fetchAllOrders({ token, filters: { page: currentPage, limit: pageSize, ...apiFilters.filters } }));
+        }
+    }, [deletedOrder.statusCode]);
+
+    const outSideClick = (e) => {
+        if (isPopupOpened && e.target.classList.length !== 0 && !e.target.className.includes("successPopup")) {
+            togglePopup();
+            dispatch(resetPopupMessage());
+        }
+    };
+    useEffect(() => {
+        document.addEventListener("click", outSideClick);
+        document.addEventListener("click", handleClose);
+
+        return () => {
+            document.removeEventListener("click", outSideClick);
+            document.removeEventListener("click", handleClose);
+        };
+    });
 
     return (
-        <section className={styles.orderList}>
-            <h1 className={styles.orderListTitle}>Заказы</h1>
-            <div className={styles.orderBox}>
-                <FilterBar />
-                {status === "rejected" && <div>Ошибка сервера</div>}
-                {ordersData.status === "loading" && status !== "rejected" && <Preloader />}
-                {currentData &&
-                    currentData.length > 0 &&
-                    currentData.map((order) => <OrderCard key={order.id} order={order} />)}
-                <Pagination
-                    className={styles.paginationBar}
-                    currentPage={currentPage}
-                    totalCount={ordersData.data.length}
-                    pageSize={pageSize}
-                    onPageChange={(page) => setCurrentPage(page)}
-                />
+        <>
+            <section className={styles.orderList}>
+                <SuccessPopup isPopupOpened={isPopupOpened} togglePopup={togglePopup} popupMessage={popupMessage} />
+                <div className={styles.orderBox}>
+                    <FilterBar token={token} limit={pageSize} setCurrentPage={setCurrentPage} />
+
+                    <div className={styles.orderContainer}>
+                        {status === "rejected" && <div className={styles.textMessage}>Ошибка сервера</div>}
+                        {ordersData.status === "loading" && status !== "rejected" && <Preloader />}
+                        {cars.status === "loading" && status !== "rejected" && <Preloader />}
+                        {ordersData.data.length === 0 && apiFilters.status === "succeeded" && (
+                            <div className={styles.textMessage}>Ничего не найдено</div>
+                        )}
+                        {ordersData.data &&
+                            ordersData.data.length > 0 &&
+                            ordersData.data.map((order) => (
+                                <OrderCard key={order.id} order={order} onClick={onClick} token={token} />
+                            ))}
+                    </div>
+                    <Pagination
+                        className={styles.paginationBar}
+                        currentPage={currentPage}
+                        totalCount={ordersData.count}
+                        pageSize={pageSize}
+                        onPageChange={changePage}
+                    />
+                </div>
+            </section>
+            <div className={wrapperClassName} onClick={handleClose}>
+                <OrderCardMobile order={selectedCard} isCardOpened={isCardOpened} openCard={openCard} token={token} />
             </div>
-        </section>
+        </>
     );
 };
 

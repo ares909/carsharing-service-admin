@@ -1,56 +1,112 @@
 import React, { useState, useEffect, useRef } from "react";
 import Select, { createFilter } from "react-select";
 import { useSelector, useDispatch } from "react-redux";
+import classNames from "classnames";
 import { authState, apiData } from "../../../../store/selectors/selectors";
-import useFilterList from "../../../../hooks/useFilterList";
 import Button from "../../../Common/UI/Button.jsx";
-import styles from "./FilterBar.module.scss";
 import Filter from "./FilterElement/Filter.jsx";
+import { apiAction, fetchAllOrders, resetApiFilters } from "../../../../store/slices/apiSlice";
+import useFilterList from "../../../../hooks/useFilterList";
+import approveButton from "../../../../images/admin/approveButton.svg";
+import cancelButton from "../../../../images/admin/cancelButton.svg";
+import styles from "./FilterBar.module.scss";
 
-const FilterBar = () => {
-    const { ordersData } = useSelector(apiData);
-    const modelOptions = ordersData.data
-        ? ordersData.data
-              .map((order) => (order.carId ? order.carId.name : "нет данных"))
-              .filter((v, i, a) => a.indexOf(v) === i)
-              .map((item, index) => ({ value: item, label: item, id: index }))
-        : [];
+const FilterBar = ({ token, limit, setCurrentPage }) => {
+    const dispatch = useDispatch();
+    const { ordersData, cities, cars, statuses, apiFilters } = useSelector(apiData);
 
-    const cityOptions = ordersData.data
-        ? ordersData.data
-              .map((order) => (order.cityId ? order.cityId.name : "нет данных"))
-              .filter((v, i, a) => a.indexOf(v) === i)
-              .map((item, index) => ({ value: item, label: item, id: index }))
-        : [];
+    const modelOptions =
+        cars.data.length > 0 ? cars.data.map((item) => ({ value: item.name, label: item.name, id: item.id })) : [];
 
-    const statusOptions = ordersData.data
-        ? ordersData.data
-              .map((order) => (order.orderStatusId ? order.orderStatusId.name : "нет данных"))
-              .filter((v, i, a) => a.indexOf(v) === i)
-              .map((item, index) => ({ value: item, label: item, id: index }))
-        : [];
+    const cityOptions =
+        cities.data.length > 0 ? cities.data.map((item) => ({ value: item.name, label: item.name, id: item.id })) : [];
 
-    const photoOptions = ["Да", "Нет"].map((item, index) => ({ value: item, label: item, id: index }));
+    const statusOptions =
+        statuses.data.length > 0
+            ? statuses.data.map((item) => ({ value: item.name, label: item.name, id: item.id }))
+            : [];
 
-    const filterConfig = {
-        ignoreCase: true,
-        ignoreAccents: true,
-        trim: true,
-        matchFrom: "start",
+    const approveButtonClassName = classNames({
+        [`${styles.formButton}`]: true,
+        [`${styles.formButtonDisabled}`]: apiFilters.status === "idle",
+    });
+
+    const clearButtonClassName = classNames({
+        [`${styles.formButtonRed}`]: true,
+        [`${styles.formButtonDisabled}`]: apiFilters.status === "idle",
+    });
+
+    const buttonImageClassName = classNames({
+        [`${styles.formButtonImage}`]: true,
+        [`${styles.formButtonImageDisabled}`]: apiFilters.status === "idle",
+    });
+
+    const [onModelChange, cityChange, onStatusChange] = useFilterList();
+
+    const handleFilter = () => {
+        setCurrentPage(1);
+        dispatch(fetchAllOrders({ token, filters: { page: 1, limit, ...apiFilters.filters } }));
+        dispatch(apiAction({ apiFilters: { ...apiFilters, status: "succeeded" } }));
     };
-    const [onModelChange, cityChange, onStatusChange, onPhotoChange, filterData] = useFilterList();
+
+    const handleResetFilter = () => {
+        if (apiFilters.status === "filtered") {
+            dispatch(resetApiFilters());
+        } else if (apiFilters.status === "succeeded") {
+            dispatch(resetApiFilters());
+            setCurrentPage(1);
+            dispatch(fetchAllOrders({ token, filters: { page: 1, limit } }));
+        }
+    };
 
     return (
         <div className={styles.filterBar}>
             <div className={styles.filterContainer}>
-                <Filter name="model" placeholder="Модель" options={modelOptions} onChange={onModelChange} />
-                <Filter name="city" placeholder="Город" options={cityOptions} />
-                <Filter name="status" placeholder="Статус" options={statusOptions} />
-                <Filter name="photo" placeholder="С фото" options={photoOptions} />
+                <Filter
+                    name="model"
+                    placeholder="Модель"
+                    options={modelOptions}
+                    onChange={onModelChange}
+                    valueState={apiFilters.labels ? apiFilters.labels.model : ""}
+                />
+                <Filter
+                    name="city"
+                    placeholder="Город"
+                    options={cityOptions}
+                    onChange={cityChange}
+                    valueState={apiFilters.labels ? apiFilters.labels.city : ""}
+                />
+                <Filter
+                    name="status"
+                    placeholder="Статус"
+                    options={statusOptions}
+                    onChange={onStatusChange}
+                    valueState={apiFilters.labels ? apiFilters.labels.status : ""}
+                />
             </div>
-            <div>
-                <Button name="Применить" onClick={() => filterData(ordersData.data)} />
-                <Button name="Сбросить" />
+            <div className={styles.formButtonContainer}>
+                <Button
+                    name="Применить"
+                    onClick={handleFilter}
+                    className={approveButtonClassName}
+                    disabled={apiFilters.status === "idle"}
+                />
+                <Button
+                    name="Сбросить"
+                    onClick={handleResetFilter}
+                    className={clearButtonClassName}
+                    disabled={apiFilters.status === "idle"}
+                />
+                <Button onClick={handleFilter} className={buttonImageClassName} disabled={apiFilters.status === "idle"}>
+                    <img src={approveButton} />
+                </Button>
+                <Button
+                    onClick={handleResetFilter}
+                    className={buttonImageClassName}
+                    disabled={apiFilters.status === "idle"}
+                >
+                    <img src={cancelButton} />
+                </Button>
             </div>
         </div>
     );

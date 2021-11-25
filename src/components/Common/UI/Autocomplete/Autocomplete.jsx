@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Select, { createFilter } from "react-select";
-import styles from "./Filter.module.scss";
+import styles from "./Autocomplete.module.scss";
 
-const Filter = ({ onChange, options, valueState, placeholder, name }) => {
+const Autocomplete = ({ onChange, options, valueState, onReset, placeholder, name, isDisabled, labelText }) => {
     const filterConfig = {
         ignoreCase: true,
         ignoreAccents: true,
@@ -12,6 +12,8 @@ const Filter = ({ onChange, options, valueState, placeholder, name }) => {
 
     return (
         <div className={styles.inputContainer}>
+            <label className={styles.inputLabel}>{labelText}</label>
+
             <Select
                 className={styles.input}
                 classNamePrefix={styles.input}
@@ -21,11 +23,18 @@ const Filter = ({ onChange, options, valueState, placeholder, name }) => {
                 options={options}
                 isSearchable={true}
                 placeholder={placeholder}
-                noOptionsMessage={() => "Не найдено"}
+                isDisabled={isDisabled}
+                noOptionsMessage={() => "Пункт не найден"}
                 filterOption={createFilter(filterConfig)}
             />
+            <button
+                style={{ backgroundColor: isDisabled ? "#eeeeee" : "white" }}
+                name={name}
+                onClick={onReset}
+                className={styles.inputCrossButton}
+            ></button>
         </div>
     );
 };
 
-export default Filter;
+export default Autocomplete;

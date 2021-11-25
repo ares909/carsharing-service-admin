@@ -3,9 +3,7 @@ import classnames from "classnames";
 import { usePagination, DOTS } from "../../../../hooks/usePagination";
 import styles from "./Pagination.module.scss";
 
-const Pagination = (props) => {
-    const { onPageChange, totalCount, siblingCount = 1, currentPage, pageSize, className } = props;
-
+const Pagination = ({ onPageChange, totalCount, siblingCount = 1, currentPage, pageSize, className }) => {
     const paginationRange = usePagination({
         currentPage,
         totalCount,
@@ -53,7 +51,7 @@ const Pagination = (props) => {
                         })}
                         onClick={() => onPageChange(pageNumber)}
                     >
-                        {pageNumber}
+                        <div className={styles.paginationNumber}>{pageNumber}</div>
                     </li>
                 );
             })}

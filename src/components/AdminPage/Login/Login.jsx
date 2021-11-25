@@ -5,10 +5,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { handleAuth, handleRegister, resetAuthState, handleRefresh } from "../../../store/slices/authSlice";
-import { authState } from "../../../store/selectors/selectors";
 import Input from "../../Common/UI/Input/Input.jsx";
 import Button from "../../Common/UI/Button.jsx";
+import { handleAuth, handleRegister, resetAuthState, handleRefresh } from "../../../store/slices/authSlice";
+import { authState } from "../../../store/selectors/selectors";
 import logo from "../../../images/admin/adminLogo.svg";
 import styles from "./Login.module.scss";
 
@@ -21,8 +21,9 @@ const Login = () => {
     const validationSchema = yup.object().shape({
         username: yup
             .string()
-            .matches(/[a-zA-Z]/, "Логин должен использовать латинские буквы.")
-            .required("Поле не должно быть пустым"),
+            .required("Поле не должно быть пустым")
+            .matches(/[a-zA-Z]/, "Логин должен использовать латинские буквы."),
+
         password: yup
             .string()
             .required("Поле не должно быть пустым")
@@ -37,7 +38,7 @@ const Login = () => {
         reset,
     } = useForm({
         resolver: yupResolver(validationSchema),
-        mode: "onChange",
+        mode: "onSubmit",
     });
 
     const handleLogin = (data) => {
@@ -57,21 +58,7 @@ const Login = () => {
             dispatch(handleRefresh(refreshToken));
             push("/admin/orderlist");
         }
-    }, [status, refreshToken]);
-
-    // useEffect(() => {
-    //     push("./admin/orderlist");
-    // }, []);
-
-    const loginButtonClass = classNames({
-        [styles.loginButton]: true,
-        [styles.loginButtonDisabled]: !isValid,
-    });
-
-    const registerButtonClass = classNames({
-        [styles.registerButton]: true,
-        [styles.registerButtonDisabled]: !isValid,
-    });
+    }, [status, refreshToken, error]);
 
     return (
         <section className={styles.login}>
@@ -110,16 +97,16 @@ const Login = () => {
                     <div className={styles.buttonContainer}>
                         <Button
                             name="Запросить доступ"
-                            className={registerButtonClass}
+                            className={styles.registerButton}
                             type="button"
-                            disabled={!isValid}
+                            // disabled={!isValid}
                             onClick={handleSubmit(handleRegisterUser)}
                         />
                         <Button
                             name="Войти"
-                            className={loginButtonClass}
+                            className={styles.loginButton}
                             type="submit"
-                            disabled={!isValid}
+                            // disabled={!isValid}
                             onClick={handleSubmit(handleLogin)}
                         />
                     </div>

@@ -2,7 +2,7 @@
 
 .radioContainer {
     box-sizing: border-box;
-    margin: 4px;
+    margin-bottom: 3px;
     margin-left: 0;
     margin-right: 16px;
     padding-left: 20px;
@@ -11,8 +11,12 @@
     position: relative;
     display: flex;
     flex-direction: row;
+    &:last-of-type {
+        margin-bottom: 0;
+    }
     @media screen and (min-width: 0px) and (max-width: 767px) {
         margin-right: 5px;
+        margin-bottom: 0px;
     }
 }
 
@@ -41,6 +45,10 @@
 .label {
     cursor: pointer;
     align-self: center;
+    @media screen and (min-width: 768px) and (max-width: 1280px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
 }
 
 .point {
@@ -50,6 +58,11 @@
     line-height: 16px;
     color: $GrayDark;
     align-self: center;
+    cursor: default;
+    @media screen and (min-width: 768px) and (max-width: 1280px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
     &::before {
         content: "";
         background-color: white;
@@ -68,16 +81,14 @@
             height: 10px;
         }
     }
-    @media screen and (min-width: 0px) and (max-width: 424px) {
+    @media screen and (min-width: 0px) and (max-width: 549px) {
         font-size: 10px;
         line-height: 12px;
         align-self: center;
-      
     }
-    @media screen and (min-width: 425px) and (max-width: 767px) {
-        font-size: 12px;
-        line-height: 14px;
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
         align-self: center;
-      
     }
 }
