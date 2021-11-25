@@ -29,14 +29,14 @@ const NavBar = ({ data, type, openForm, isFormOpened }) => {
         case "admin":
             return (
                 <div className={adminClassName}>
-                    <Button type="button" onClick={handleCloseForm} className={styles.crossButton}>
-                        {crossButtoBlack}
-                    </Button>
                     <div className={styles.adminNavbarLogo}>
                         <div className={styles.logoBox}>
                             <img className={styles.logoImage} src={logo} />
                         </div>
                         <h2 className={styles.logoTitle}>Need for drive</h2>
+                        <Button type="button" onClick={handleCloseForm} className={styles.crossButton}>
+                            {crossButtoBlack}
+                        </Button>
                     </div>
 
                     <nav className={styles.adminNavbar}>

@@ -85,9 +85,9 @@ export const fetchAllOrders = createAsyncThunk("api/fetchAllOrders", ({ token, f
     }
 });
 
-export const removeOrder = createAsyncThunk("api/removeOrder", ({ token, orderId }, rejectWithValue) => {
+export const removeOrder = createAsyncThunk("api/removeOrder", ({ orderId, statusId }, rejectWithValue) => {
     try {
-        return deleteOrder({ token, orderId });
+        return putOrder({ orderId, statusId });
     } catch (error) {
         return rejectWithValue(error.message);
     }
@@ -181,7 +181,11 @@ export const apiSlice = createSlice({
         resetApiFilters(state) {
             return {
                 ...state,
-                apiFilters: initialState.apiFilters,
+                apiFilters: {
+                    status: initialState.apiFilters.status,
+                    filters: initialState.apiFilters.filters,
+                    labels: initialState.apiFilters.labels,
+                },
             };
         },
 
@@ -211,6 +215,8 @@ export const apiSlice = createSlice({
             return {
                 ...state,
                 deletedOrder: {
+                    data: initialState.singleOrder.data,
+                    status: initialState.singleOrder.status,
                     statusCode: initialState.deletedOrder.statusCode,
                 },
                 singleOrder: {
@@ -260,7 +266,7 @@ export const apiSlice = createSlice({
 
         [changeOrder.fulfilled]: (state, action) => {
             state.singleOrder.data = action.payload.data.data;
-            state.singleOrder.status = "succeeded";
+            state.singleOrder.status = "approved";
             state.singleOrder.statusCode = action.payload.status;
         },
 
@@ -293,7 +299,7 @@ export const apiSlice = createSlice({
 
         [removeOrder.fulfilled]: (state, action) => {
             state.deletedOrder.data = action.payload.data.data;
-            state.deletedOrder.status = "succeeded";
+            state.deletedOrder.status = "deleted";
             state.deletedOrder.statusCode = action.payload.status;
         },
 

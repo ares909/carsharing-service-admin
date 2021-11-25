@@ -81,7 +81,7 @@ const OrderList = () => {
     };
 
     useEffect(() => {
-        if (singleOrder.statusCode === 200 && singleOrder.data.id) {
+        if (singleOrder.statusCode === 200 && singleOrder.status === "approved") {
             if (!isPopupOpened) {
                 setPopupMessage(messages.orderConfirmed);
                 togglePopup();
@@ -91,7 +91,7 @@ const OrderList = () => {
     }, [singleOrder.statusCode, singleOrder.data.id]);
 
     useEffect(() => {
-        if (deletedOrder.statusCode === 200) {
+        if (deletedOrder.statusCode === 200 && deletedOrder.status === "deleted") {
             if (!isPopupOpened) {
                 setPopupMessage(messages.orderRemoved);
                 togglePopup();
@@ -127,7 +127,7 @@ const OrderList = () => {
                         {status === "rejected" && <div className={styles.textMessage}>Ошибка сервера</div>}
                         {ordersData.status === "loading" && status !== "rejected" && <Preloader />}
                         {cars.status === "loading" && status !== "rejected" && <Preloader />}
-                        {ordersData.data.length === 0 && apiFilters.status === "filtered" && (
+                        {ordersData.data.length === 0 && apiFilters.status === "succeeded" && (
                             <div className={styles.textMessage}>Ничего не найдено</div>
                         )}
                         {ordersData.data &&

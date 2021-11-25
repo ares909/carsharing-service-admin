@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Select, { createFilter } from "react-select";
 import { useSelector, useDispatch } from "react-redux";
+import classNames from "classnames";
 import { authState, apiData } from "../../../../store/selectors/selectors";
 import Button from "../../../Common/UI/Button.jsx";
 import Filter from "./FilterElement/Filter.jsx";
@@ -14,30 +15,48 @@ const FilterBar = ({ token, limit, setCurrentPage }) => {
     const dispatch = useDispatch();
     const { ordersData, cities, cars, statuses, apiFilters } = useSelector(apiData);
 
-    const modelOptions = cars.data
-        ? cars.data.map((item) => ({ value: item.name, label: item.name, id: item.id }))
-        : [];
+    const modelOptions =
+        cars.data.length > 0 ? cars.data.map((item) => ({ value: item.name, label: item.name, id: item.id })) : [];
 
-    const cityOptions = cities.data
-        ? cities.data.map((item) => ({ value: item.name, label: item.name, id: item.id }))
-        : [];
+    const cityOptions =
+        cities.data.length > 0 ? cities.data.map((item) => ({ value: item.name, label: item.name, id: item.id })) : [];
 
-    const statusOptions = statuses.data
-        ? statuses.data.map((item) => ({ value: item.name, label: item.name, id: item.id }))
-        : [];
+    const statusOptions =
+        statuses.data.length > 0
+            ? statuses.data.map((item) => ({ value: item.name, label: item.name, id: item.id }))
+            : [];
+
+    const approveButtonClassName = classNames({
+        [`${styles.formButton}`]: true,
+        [`${styles.formButtonDisabled}`]: apiFilters.status === "idle",
+    });
+
+    const clearButtonClassName = classNames({
+        [`${styles.formButtonRed}`]: true,
+        [`${styles.formButtonDisabled}`]: apiFilters.status === "idle",
+    });
+
+    const buttonImageClassName = classNames({
+        [`${styles.formButtonImage}`]: true,
+        [`${styles.formButtonImageDisabled}`]: apiFilters.status === "idle",
+    });
 
     const [onModelChange, cityChange, onStatusChange] = useFilterList();
 
     const handleFilter = () => {
         setCurrentPage(1);
         dispatch(fetchAllOrders({ token, filters: { page: 1, limit, ...apiFilters.filters } }));
-        dispatch(apiAction({ apiFilters: { ...apiFilters, status: "filtered" } }));
+        dispatch(apiAction({ apiFilters: { ...apiFilters, status: "succeeded" } }));
     };
 
     const handleResetFilter = () => {
-        dispatch(resetApiFilters());
-        setCurrentPage(1);
-        dispatch(fetchAllOrders({ token, filters: { page: 1, limit } }));
+        if (apiFilters.status === "filtered") {
+            dispatch(resetApiFilters());
+        } else if (apiFilters.status === "succeeded") {
+            dispatch(resetApiFilters());
+            setCurrentPage(1);
+            dispatch(fetchAllOrders({ token, filters: { page: 1, limit } }));
+        }
     };
 
     return (
@@ -66,12 +85,26 @@ const FilterBar = ({ token, limit, setCurrentPage }) => {
                 />
             </div>
             <div className={styles.formButtonContainer}>
-                <Button name="Применить" onClick={handleFilter} className={styles.formButton} />
-                <Button name="Сбросить" onClick={handleResetFilter} className={styles.formButtonRed} />
-                <Button onClick={handleFilter} className={styles.formButtonImage}>
+                <Button
+                    name="Применить"
+                    onClick={handleFilter}
+                    className={approveButtonClassName}
+                    disabled={apiFilters.status === "idle"}
+                />
+                <Button
+                    name="Сбросить"
+                    onClick={handleResetFilter}
+                    className={clearButtonClassName}
+                    disabled={apiFilters.status === "idle"}
+                />
+                <Button onClick={handleFilter} className={buttonImageClassName} disabled={apiFilters.status === "idle"}>
                     <img src={approveButton} />
                 </Button>
-                <Button onClick={handleResetFilter} className={styles.formButtonImage}>
+                <Button
+                    onClick={handleResetFilter}
+                    className={buttonImageClassName}
+                    disabled={apiFilters.status === "idle"}
+                >
                     <img src={cancelButton} />
                 </Button>
             </div>

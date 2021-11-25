@@ -197,32 +197,35 @@ const OrderPage = () => {
         );
     };
 
-    const cityOptions = cities.data
-        ? cities.data.map((item) => ({ value: item.name, label: item.name, id: item.id }))
-        : [];
+    const cityOptions =
+        cities.data.length > 0 ? cities.data.map((item) => ({ value: item.name, label: item.name, id: item.id })) : [];
 
-    const pointOptions = points.data
-        ? points.data.map((item) => ({ value: item.address, label: item.address, id: item.id }))
-        : [];
+    const pointOptions =
+        points.data.length > 0
+            ? points.data.map((item) => ({ value: item.address, label: item.address, id: item.id }))
+            : [];
 
-    const carOptions = cars.data ? cars.data.map((item) => ({ value: item.name, label: item.name, id: item.id })) : [];
+    const carOptions =
+        cars.data.length > 0 ? cars.data.map((item) => ({ value: item.name, label: item.name, id: item.id })) : [];
 
     const colorOptions = order.data.carId
         ? order.data.carId.colors.map((item, index) => ({ value: item, label: item, id: index }))
         : [{ value: "Любой", label: "Любой", id: 1 }];
 
-    const rateOptions = rates.data
-        ? rates.data.map((item) => ({
-              value: item.rateTypeId.name,
-              label: item.rateTypeId.name,
-              id: item.id,
-              price: item.price,
-          }))
-        : [];
+    const rateOptions =
+        rates.data.length > 0
+            ? rates.data.map((item) => ({
+                  value: item.rateTypeId.name,
+                  label: item.rateTypeId.name,
+                  id: item.id,
+                  price: item.price,
+              }))
+            : [];
 
-    const statusOptions = statuses.data
-        ? statuses.data.map((item) => ({ value: item.name, label: item.name, id: item.id }))
-        : [];
+    const statusOptions =
+        statuses.data.length > 0
+            ? statuses.data.map((item) => ({ value: item.name, label: item.name, id: item.id }))
+            : [];
 
     const tankOptions = [
         { value: true, label: "Да", price: 500 },

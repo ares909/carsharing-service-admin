@@ -110,6 +110,20 @@
         border: none;
         cursor: pointer;
         margin-right: 5px;
+        
     }
     
+}
+
+.formButtonDisabled {
+    @extend .formButton;
+    background: $GrayDark;
+    color: white;
+}
+
+.formButtonImageDisabled {
+    @extend .formButtonImage;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        opacity: 0.5;
+    }
 }

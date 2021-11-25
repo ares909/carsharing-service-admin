@@ -13,6 +13,7 @@ const useFilterList = () => {
                 apiAction({
                     apiFilters: {
                         ...apiFilters,
+                        status: "filtered",
                         filters: { ...apiFilters.filters, carId: option.id },
                         labels: { ...apiFilters.labels, model: option.value },
                     },
@@ -26,6 +27,7 @@ const useFilterList = () => {
                 apiAction({
                     apiFilters: {
                         ...apiFilters,
+                        status: "filtered",
                         filters: { ...apiFilters.filters, cityId: option.id },
                         labels: { ...apiFilters.labels, city: option.value },
                     },
@@ -39,6 +41,7 @@ const useFilterList = () => {
                 apiAction({
                     apiFilters: {
                         ...apiFilters,
+                        status: "filtered",
                         filters: { ...apiFilters.filters, orderStatusId: option.id },
                         labels: { ...apiFilters.labels, status: option.value },
                     },

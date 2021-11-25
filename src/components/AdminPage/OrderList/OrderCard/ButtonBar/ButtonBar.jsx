@@ -22,6 +22,7 @@ const ButtonBar = ({ order, token, className, isCardOpened, openCard }) => {
     const { push } = useHistory();
     const { statuses } = useSelector(apiData);
     const [approvedStatusId, setApprovedStatusId] = useState();
+    const [deletedStatusId, setDeletedStatusId] = useState();
     const handleApprove = () => {
         dispatch(resetPopupMessage());
         dispatch(changeOrder({ orderId: order.id, statusId: approvedStatusId }));
@@ -32,7 +33,7 @@ const ButtonBar = ({ order, token, className, isCardOpened, openCard }) => {
 
     const handleDelete = () => {
         dispatch(resetPopupMessage());
-        dispatch(removeOrder({ token, orderId: order.id }));
+        dispatch(removeOrder({ orderId: order.id, statusId: deletedStatusId }));
         if (isCardOpened) {
             openCard();
         }
@@ -52,8 +53,9 @@ const ButtonBar = ({ order, token, className, isCardOpened, openCard }) => {
     });
 
     useEffect(() => {
-        if (statuses.data) {
+        if (statuses.data.length > 0) {
             setApprovedStatusId(statuses.data[1].id);
+            setDeletedStatusId(statuses.data[2].id);
         }
     }, [statuses.data]);
     return (

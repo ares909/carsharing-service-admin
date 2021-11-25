@@ -356,6 +356,8 @@
     border: none;
     padding: 0;
     z-index: 2;
+    align-self: center;
+    margin-left: auto;
     :hover path {
         stroke: $BlueAdmin;
     }
@@ -364,22 +366,8 @@
     }
 
     @media screen and (min-width: 0) and (max-width: 550px) {
-        position: absolute;
-        top: 7px;
-        right: 3%;
+
         background-color: none;
     }
-    @media screen and (min-width: 551px) and (max-width: 767px) {
-        position: absolute;
-        top: 7px;
-        right: 16px;
-        // background-color: none;
-        // background-color: none;
-    }
-    @media screen and (min-width: 768px) and (max-width: 1023px) {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        // left: 47%;
-    }
+
 }
