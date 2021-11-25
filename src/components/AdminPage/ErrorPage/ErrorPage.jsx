@@ -46,7 +46,9 @@ const ErrorPage = () => {
                         message: "Ошибка при авторизации пользователя",
                         title: "Что-то пошло не так :(",
                     });
-                    push("/");
+                    localStorage.removeItem("access_token");
+                    localStorage.removeItem("token");
+
                     break;
                 case "Request failed with status code 404":
                     setErrorStatus({
