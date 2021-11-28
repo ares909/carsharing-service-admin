@@ -1,0 +1,523 @@
+@import "../../../Common//Page/Page.scss";
+
+.order {
+    padding: 5px 15px 5px;
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 15px;
+    min-width: 92%;
+    max-width: 92%;
+    // max-width: 700px;
+    min-height: 45px;
+    max-height: 45px;
+    border-radius: 6px;
+
+    border: 1px solid #eeeeee;
+    box-shadow: 0px 2px 0px rgba(90, 97, 105, 0.11), 0px 4px 8px rgba(90, 97, 105, 0.12),
+        0px 10px 10px rgba(90, 97, 105, 0.06), 0px 7px 70px rgba(90, 97, 105, 0.1);
+    &:last-of-type {
+        margin-bottom: 0px;
+    }
+
+    @media screen and (min-width: 1441px) {
+        min-width: 85%;
+        max-width: 85%;
+    }
+    @media screen and (min-width: 1024px) and (max-width: 1280px) {
+        min-width: 90%;
+        max-width: 90%;
+        margin: 0 auto 7px;
+        min-height: 45px;
+        max-height: 45px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        min-width: 660px;
+        max-width: 660px;
+        margin: 0 auto 7px;
+        min-height: 45px;
+        max-height: 45px;
+    }
+    @media screen and (min-width: 0) and (max-width: 424px) {
+        min-width: 95%;
+        max-width: 95%;
+        margin: 0 auto 7px;
+        min-height: 45px;
+        max-height: 45px;
+        padding: 5px 5px 5px;
+        cursor: pointer;
+        justify-content: center;
+        justify-content: center;
+    }
+    @media screen and (min-width: 425px) and (max-width: 549px) {
+        min-width: 310px;
+        max-width: 310px;
+        margin: 0 auto 7px;
+        min-height: 45px;
+        max-height: 45px;
+        padding: 5px 5px 5px;
+        cursor: pointer;
+        justify-content: center;
+        justify-content: center;
+    }
+
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        min-width: 95%;
+        max-width: 95%;
+        margin: 0 auto 7px;
+        min-height: 45px;
+        max-height: 45px;
+        padding: 5px 5px 5px;
+        cursor: pointer;
+        justify-content: center;
+        justify-content: center;
+    }
+}
+
+.orderMobile {
+    @extend .order;
+    padding: 15px 7px 5px;
+    position: relative;
+    min-height: fit-content;
+    max-height: fit-content;
+    background: inherit;
+    margin: 50px auto;
+    min-width: 300px;
+    max-width: 300px;
+    cursor: default;
+}
+
+.orderDisabled {
+    display: none;
+}
+.orderContainer {
+    display: flex;
+    flex-direction: row;
+    margin: auto 0 auto;
+    @media screen and (min-width: 1441px) {
+        //   justify-content: center;
+    }
+    @media screen and (min-width: 0) and (max-width: 549px) {
+        min-width: 100%;
+        max-width: 100%;
+        justify-content: center;
+    }
+}
+
+.orderContainerMobile {
+    @extend .orderContainer;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.orderTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    @media screen and (min-width: 0) and (max-width: 549px) {
+        display: none;
+    }
+}
+
+.orderTitleMobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.cardImage {
+    width: 120px;
+    height: 60px;
+    align-self: center;
+    margin: auto;
+    @media screen and (min-width: 0) and (max-width: 549px) {
+        width: 100px;
+        height: 40px;
+    }
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        width: 100px;
+        height: 40px;
+    }
+}
+
+.cardImageMobile {
+    width: 60%;
+    min-height: 80px;
+    max-height: 80px;
+    align-self: center;
+    margin: 0 auto 0;
+}
+
+.orderBlock {
+    min-width: 150px;
+    max-width: 150px;
+    // max-width: 180px;
+    margin-right: 15px;
+    &:last-of-type {
+        margin-right: 0px;
+    }
+}
+
+.orderImageBlock {
+    min-width: 150px;
+    max-width: 150px;
+    // max-width: 180px;
+    margin-right: 15px;
+    &:last-of-type {
+        margin-right: 0px;
+    }
+    @media screen and (min-width: 0) and (max-width: 549px) {
+        min-width: 120px;
+        max-width: 120px;
+        margin-right: 10px;
+    }
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        min-width: 120px;
+        max-width: 120px;
+        margin-right: 10px;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+        min-width: 120px;
+        max-width: 120px;
+        margin-right: 10px;
+    }
+}
+
+.orderImageBlockMobile {
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        min-width: 100%;
+        max-width: 100%;
+        margin-bottom: 10px;
+        display: flex;
+    }
+
+}
+
+.orderExtraBlock {
+    min-width: 150px;
+    max-width: 150px;
+    // max-width: 180px;
+    margin-right: 15px;
+    &:last-of-type {
+        margin-right: 0px;
+    }
+    @media screen and (min-width: 0) and (max-width: 549px) {
+        display: none;
+    }
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        min-width: 120px;
+        max-width: 120px;
+        margin-right: 10px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+        min-width: 130px;
+        max-width: 130px;
+        margin-right: 10px;
+    }
+}
+
+.orderCheckBoxBlock {
+    min-width: 150px;
+    max-width: 150px;
+    // max-width: 180px;
+    margin-right: 15px;
+    &:last-of-type {
+        margin-right: 0px;
+    }
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        min-width: 110px;
+        max-width: 110px;
+        margin-right: 0;
+    }
+    @media screen and (min-width: 0) and (max-width: 549px) {
+        display: none;
+    }
+}
+.orderText {
+    color: #121212;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 0 5px 0 0;
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
+}
+
+.orderTextBold {
+    color: #121212;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+        white-space: pre-wrap;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+    }
+}
+
+.orderTextBoldMobile {
+    @extend .orderTextBold;
+    white-space: pre-wrap;
+    overflow: auto;
+    text-overflow: auto;
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0) and (max-width: 549px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
+}
+
+.orderTextBlock {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    &:last-of-type {
+        margin-bottom: 0px;
+    }
+}
+
+
+
+.orderBlockMobile {
+    
+    min-width: fit-content;
+    min-width: fit-content;
+    // max-width: 180px;
+    // margin-bottom: 15px;
+    // align-items: center;
+    &:last-of-type {
+        margin-right: 0px;
+    }
+}
+
+.orderCarBlock {
+    min-width: 250px;
+    max-width: 250px;
+    // max-width: 180px;
+    margin-right: 15px;
+    align-self: center;
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        min-width: 200px;
+        max-width: 200px;
+        // max-width: 180px;
+        margin-right: 10px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        min-width: 170px;
+        max-width: 170px;
+        // max-width: 180px;
+        margin-right: 10px;
+    }
+
+    @media screen and (min-width: 0) and (max-width: 549px) {
+        min-width: 160px;
+        max-width: 160px;
+        // max-width: 180px;
+        margin-right: 0;
+    }
+
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        min-width: 130px;
+        max-width: 130px;
+        margin-right: 10px;
+    }
+}
+
+.crossButton {
+    width: 16px;
+    height: 16px;
+    // margin-left: 16px;
+
+    cursor: pointer;
+    background-color: inherit;
+    border: none;
+    padding: 0;
+    z-index: 2;
+    :hover path {
+        stroke: $BlueAdmin;
+    }
+    @media screen and (min-width: 1024px) {
+        display: none;
+    }
+
+    @media screen and (min-width: 0) and (max-width: 549px) {
+        position: absolute;
+        top: 10px;
+        right: 3%;
+        background-color: none;
+    }
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        position: absolute;
+        top: 7px;
+        right: 16px;
+        // background-color: none;
+        // background-color: none;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        // left: 47%;
+    }
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #becad6;
+    border-radius: 4px;
+    height: fit-content;
+    align-self: center;
+    margin-left: auto;
+
+    @media screen and (min-width: 600px) and (max-width: 1279px) {
+        // flex-direction: column;
+        margin-left: auto;
+    }
+
+    @media screen and (min-width: 0) and (max-width: 649px) {
+        display: none;
+    }
+}
+
+.colorBox {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.orderDescriptionBlock {
+    padding: 0 5px 0;
+    max-width: fit-content;
+    min-width: 200px;
+
+    @media screen and (min-width: 0) and (max-width: 649px) {
+        display: none;
+    }
+    @media screen and (min-width: 650px) and (max-width: 767px) {
+        max-width: fit-content;
+        min-width: 150px;
+    }
+}
+
+.orderTextBoldDescription {
+    @extend .orderTextBold;
+
+    white-space: pre-line;
+}
+
+.orderButtonDesk {
+    @include hover-with-opacity;
+    border: none;
+    cursor: pointer;
+    background: inherit;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #becad6;
+    color: inherit;
+    padding: 8px;
+    min-width: fit-content;
+    max-width: fit-content;
+    max-height: 25px;
+    align-self: center;
+    min-height: fit-content;
+    margin-left: auto;
+    border-radius: 6px;
+
+    @media screen and (min-width: 650px) and (max-width: 1279px) {
+        min-width: fit-content;
+        max-width: fit-content;
+        justify-content: center;
+        padding: 6px;
+    }
+
+    @media screen and (min-width: 0) and (max-width: 649px) {
+        min-width: fit-content;
+        max-width: fit-content;
+        justify-content: center;
+        align-self: center;
+        padding: 6px;
+        // display: none;
+    }
+}
+
+.buttonMobile {
+    @extend .orderButtonDesk;
+
+    @media screen and (min-width: 0) and (max-width: 649px) {
+        display: flex;
+        flex-direction: row;
+        margin: 0 auto 0;
+    }
+}
+
+.orderButtonDisabled {
+    @extend .orderButtonDesk;
+    background: $GrayLight;
+    cursor: default;
+}
+
+.orderButtonText {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 0;
+    align-self: center;
+
+    @media screen and (min-width: 600px) and (max-width: 1279px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0) and (max-width: 649px) {
+        font-size: 10px;
+        line-height: 12px;
+        display: block;
+    }
+}
+
+.orderButtonImage {
+    margin: 0;
+    align-self: center;
+    margin-right: 4px;
+    width: 8px;
+    height: 8px;
+    @media screen and (min-width: 650px) and (max-width: 1279px) {
+        margin: auto;
+    }
+    &:last-child {
+        margin-right: 0px;
+    }
+}
+
+.carMobileInfo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 10px;
+    max-width: fit-content;
+    margin: 0 auto 10px;
+    justify-content: space-between;
+}

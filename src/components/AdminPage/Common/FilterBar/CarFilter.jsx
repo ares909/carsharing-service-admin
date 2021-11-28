@@ -5,25 +5,25 @@ import classNames from "classnames";
 import { authState, apiData } from "../../../../store/selectors/selectors";
 import Button from "../../../Common/UI/Button.jsx";
 import Filter from "./FilterElement/Filter.jsx";
-import { apiAction, fetchAllOrders, resetApiFilters } from "../../../../store/slices/apiSlice";
+import { apiAction, fetchAllOrders, resetApiFilters, resetFilteredCars } from "../../../../store/slices/apiSlice";
 import useFilterList from "../../../../hooks/useFilterList";
 import approveButton from "../../../../images/admin/approveButton.svg";
 import cancelButton from "../../../../images/admin/cancelButton.svg";
 import styles from "./FilterBar.module.scss";
 
-const FilterBar = ({ token, limit, setCurrentPage }) => {
+const CarFilter = ({ token, limit, setCurrentPage }) => {
     const dispatch = useDispatch();
-    const { ordersData, cities, cars, statuses, apiFilters } = useSelector(apiData);
+    const { ordersData, cities, cars, statuses, apiFilters, categories } = useSelector(apiData);
+    // const [filteredCars, setFilteredCars] = useState([]);
+
+    // useEffect(() => {}, [apiFilters.filters]);
 
     const modelOptions =
         cars.data.length > 0 ? cars.data.map((item) => ({ value: item.name, label: item.name, id: item.id })) : [];
 
-    const cityOptions =
-        cities.data.length > 0 ? cities.data.map((item) => ({ value: item.name, label: item.name, id: item.id })) : [];
-
-    const statusOptions =
-        statuses.data.length > 0
-            ? statuses.data.map((item) => ({ value: item.name, label: item.name, id: item.id }))
+    const categoryOptions =
+        categories.data.length > 0
+            ? categories.data.map((item) => ({ value: item.name, label: item.name, id: item.id }))
             : [];
 
     const approveButtonClassName = classNames({
@@ -43,10 +43,19 @@ const FilterBar = ({ token, limit, setCurrentPage }) => {
 
     const [onModelChange, cityChange, onStatusChange, onCategoryChage] = useFilterList();
 
+    const filterArray = () => {
+        const filterModel = (car) => (apiFilters.labels.model ? car.name.includes(apiFilters.labels.model) : true);
+        const filterCategory = (car) =>
+            apiFilters.labels.category
+                ? car.categoryId && car.categoryId.name.includes(apiFilters.labels.category)
+                : true;
+        const filtered = cars.data.length > 0 && cars.data.filter(filterModel).filter(filterCategory);
+        return filtered;
+    };
     const handleFilter = () => {
         setCurrentPage(1);
-        dispatch(fetchAllOrders({ token, filters: { page: 1, limit, ...apiFilters.filters } }));
         dispatch(apiAction({ apiFilters: { ...apiFilters, status: "succeeded" } }));
+        dispatch(apiAction({ filteredCars: filterArray() }));
     };
 
     const handleResetFilter = () => {
@@ -54,8 +63,8 @@ const FilterBar = ({ token, limit, setCurrentPage }) => {
             dispatch(resetApiFilters());
         } else if (apiFilters.status === "succeeded") {
             dispatch(resetApiFilters());
+            dispatch(resetFilteredCars());
             setCurrentPage(1);
-            dispatch(fetchAllOrders({ token, filters: { page: 1, limit } }));
         }
     };
 
@@ -70,18 +79,11 @@ const FilterBar = ({ token, limit, setCurrentPage }) => {
                     valueState={apiFilters.labels ? apiFilters.labels.model : ""}
                 />
                 <Filter
-                    name="city"
-                    placeholder="Город"
-                    options={cityOptions}
-                    onChange={cityChange}
-                    valueState={apiFilters.labels ? apiFilters.labels.city : ""}
-                />
-                <Filter
-                    name="status"
-                    placeholder="Статус"
-                    options={statusOptions}
-                    onChange={onStatusChange}
-                    valueState={apiFilters.labels ? apiFilters.labels.status : ""}
+                    name="category"
+                    placeholder="Категория"
+                    options={categoryOptions}
+                    onChange={onCategoryChage}
+                    valueState={apiFilters.labels ? apiFilters.labels.category : ""}
                 />
             </div>
             <div className={styles.formButtonContainer}>
@@ -112,4 +114,4 @@ const FilterBar = ({ token, limit, setCurrentPage }) => {
     );
 };
 
-export default FilterBar;
+export default CarFilter;

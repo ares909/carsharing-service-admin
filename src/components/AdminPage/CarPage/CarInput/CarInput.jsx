@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
 import { resetAuthState } from "../../../../store/slices/authSlice";
-import styles from "./Input.module.scss";
+import styles from "./CarInput.module.scss";
 
 const Input = ({ name, label, placeholder, register, errors, isValid, type, onFocus, ...rest }) => {
     const { ref, ...inputProps } = register(name);

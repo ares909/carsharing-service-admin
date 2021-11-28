@@ -1,0 +1,305 @@
+@import "../../Common/Page/Page.scss";
+
+.orderPage {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    position: relative;
+    @media screen and (min-width: 1024px) and (max-width: 1280px) {
+        padding: 15px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 549px) {
+        padding: 10px;
+    }
+
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        padding: 10px;
+    }
+}
+
+.orderBox {
+    display: flex;
+    flex-direction: row;
+    // justify-content: center;
+    min-height: fit-content;
+    max-height: fit-content;
+
+    // box-shadow: 0px 1px 0px rgba(90, 97, 105, 0.11), 0px 2px 4px rgba(90, 97, 105, 0.12),
+    //     0px 5px 5px rgba(90, 97, 105, 0.06), 0px 3.5px 35px rgba(90, 97, 105, 0.1);
+    // border-radius: 9px;
+    // background: #ffffff;
+    overflow: visible;
+
+    @media screen and (min-width: 0px) and (max-width: 549px) {
+        flex-direction: column;
+        padding: 5px 0 10px;
+        min-height: fit-content;
+        min-height: fit-content;
+    }
+
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        flex-direction: column;
+        padding: 5px 0 10px;
+        min-height: fit-content;
+        min-height: fit-content;
+    }
+
+    @media screen and (min-width: 1441px) {
+        min-width: 980px;
+        max-width: 980px;
+        margin: 0 auto 0;
+    }
+}
+
+.filterBox {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 1px 0px rgba(90, 97, 105, 0.11), 0px 2px 4px rgba(90, 97, 105, 0.12),
+        0px 5px 5px rgba(90, 97, 105, 0.06), 0px 3.5px 35px rgba(90, 97, 105, 0.1);
+    border-radius: 9px;
+    background: #ffffff;
+    padding: 10px 5px 10px;
+    min-width: 65%;
+    max-width: 65%;
+    margin: 0 auto 0;
+    @media screen and (min-width: 1024px) and (max-width: 1280px) {
+        min-width: 60%;
+        max-width: 60%;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        min-width: 58%;
+        max-width: 58%;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        min-width: calc(100% - 10px);
+        max-width: calc(100% - 10px);
+    }
+}
+
+.orderDataBox {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 1px 0px rgba(90, 97, 105, 0.11), 0px 2px 4px rgba(90, 97, 105, 0.12),
+        0px 5px 5px rgba(90, 97, 105, 0.06), 0px 3.5px 35px rgba(90, 97, 105, 0.1);
+    border-radius: 9px;
+    background: #ffffff;
+    padding: 10px 15px 10px;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        margin-bottom: 15px;
+    }
+}
+
+.inputContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 10px;
+    max-width: 80%;
+    justify-content: space-between;
+    margin: 0 auto 0;
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        min-width: 100%;
+        max-width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 10px;
+    }
+}
+
+.orderData {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+// .orderTitle {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: space-between;
+// }
+
+.cardImage {
+    width: 245px;
+    height: 115px;
+    align-self: center;
+}
+
+.orderText {
+    color: #121212;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 0 5px 10px 0;
+    max-width: 280px;
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
+        font-size: 12px;
+        line-height: 14px;
+        
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-size: 12px;
+        line-height: 14px;
+        max-width: 240px;
+        
+    }
+    @media screen and (min-width: 0) and (max-width: 424px) {
+        font-size: 10px;
+        line-height: 12px;
+        margin: 0 0 5px;
+    }
+
+    @media screen and (min-width: 425px) and (max-width: 767px) {
+        box-sizing: border-box;
+        width: 30%;
+        // max-width: 30%;
+        font-size: 10px;
+        justify-content: space-between;
+        flex-grow: 1;
+        line-height: 12px;
+        margin: 0 5px 5px;
+    }
+}
+
+.orderTitle {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    color: #121212;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 18px;
+    margin: 0 5px 20px 0;
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
+        font-size: 14px;
+        line-height: 16px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+}
+
+.orderInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 300px;
+    @media screen and (min-width: 0) and (max-width: 424px) {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 10px;
+
+        // grid-row-gap: 1em;
+        // flex-direction: row;
+        // flex-wrap: wrap;
+        // justify-content: flex-start;
+    }
+    @media screen and (min-width: 425px) and (max-width: 767px) {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+        // grid-template-columns: repeat(4, 1fr);
+        // grid-column-gap: 5px;
+        min-width: 95%;
+        max-width: 95%;
+        align-self: center;
+    }
+}
+
+.orderTitleTextBold {
+    margin-left: 10px;
+    color: #121212;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
+        font-size: 14px;
+        line-height: 16px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        font-size: 12px;
+        line-height: 14px;
+        white-space: pre-wrap;
+        align-self: center;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+    }
+}
+
+.orderTextBold {
+    color: #121212;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    
+    // white-space: nowrap;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+        white-space: pre-wrap;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+    }
+}
+
+.orderImageBlock {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.formButtonContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: auto;
+    align-self: center;
+    @media screen and (min-width: 0) and (max-width: 549px) {
+        margin: 0 auto 0;
+    }
+}
+.formButton {
+    @include white-text;
+    @include hover-with-opacity;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 0 10px 0 0;
+    min-width: 95px;
+    background: $BlueAdmin;
+    border: none;
+    cursor: pointer;
+    // background-blend-mode: darken;
+    border-radius: 6px;
+    padding: 10px 12px;
+
+    @media screen and (min-width: 768px) and (max-width: 1280px) {
+        min-width: 95px;
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        margin: 0 5px 0 0;
+        min-width: 95px;
+        font-size: 10px;
+        line-height: 12px;
+        // display: none;
+    }
+}
+
+.formButtonRed {
+    @extend .formButton;
+    margin: 0;
+    background: #c4183c;
+}

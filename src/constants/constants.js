@@ -13,4 +13,11 @@ export const messages = {
     orderConfirmed: "Успех! Заказ подтвержден",
     orderRemoved: "Успех! Заказ удален",
     orderSaved: "Успех! Заказ сохранен",
+    carChanged: "Успех! Машина изменена",
+    carSaved: "Успех! Машина сохранена",
+    cityPosted: "Успех! Город сохранен",
+    cityChanged: "Успех! Город изменен",
+    pointPosted: "Успех! Адрес сохранен",
+    pointDeleted: "Успех! Адрес удален",
 };
+export const supprotedFormats = ["image/jpg", "image/jpeg", "image/gif", "image/png"];

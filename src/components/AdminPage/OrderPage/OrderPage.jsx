@@ -347,7 +347,7 @@ const OrderPage = () => {
                                     name={item.name}
                                     control={control}
                                     key={item.id}
-                                    // defaultValue={defaultValues.city}
+                                    // defaultValue={defaultValues.category}
                                     render={({ field }) => (
                                         <OrderInput
                                             label={item.label}

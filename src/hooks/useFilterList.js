@@ -50,7 +50,22 @@ const useFilterList = () => {
         }
     };
 
-    return [onModelChange, cityChange, onStatusChange];
+    const onCategoryChage = (option) => {
+        if (option) {
+            dispatch(
+                apiAction({
+                    apiFilters: {
+                        ...apiFilters,
+                        status: "filtered",
+                        filters: { ...apiFilters.filters, categoryId: option.id },
+                        labels: { ...apiFilters.labels, category: option.value },
+                    },
+                }),
+            );
+        }
+    };
+
+    return [onModelChange, cityChange, onStatusChange, onCategoryChage];
 };
 
 export default useFilterList;

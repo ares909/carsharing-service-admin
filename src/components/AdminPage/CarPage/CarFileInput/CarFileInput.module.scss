@@ -1,0 +1,177 @@
+@import "../../../Common/Page/Page.scss";
+
+.inputContainer {
+    margin-bottom: 10px;
+    min-width: 250px;
+    max-width: 250px;
+
+    position: relative;
+    @media screen and (min-width: 0px) and (max-width: 424px) {
+        margin-right: 0;
+        min-width: 135px;
+        max-width: 135px;
+    }
+    @media screen and (min-width: 425px) and (max-width: 767px) {
+        max-width: 100%;
+        min-width: 100%;
+        margin-right: 0;
+    }
+
+    @media screen and (min-width: 1024px) and (max-width: 1280px) {
+        min-width: 175px;
+        max-width: 175px;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        min-width: 165px;
+        max-width: 165px;
+    }
+}
+
+.inputLabel {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
+    color: inherit;
+}
+
+.input {
+    @include black-text;
+    font-weight: normal;
+    align-self: center;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    min-width: calc(100% - 24px);
+    max-width: calc(100% - 24px);
+    border: 0.5px solid #becad6;
+    // box-sizing: border-box;
+    border-radius: 4px;
+    padding: 8px 11px 8.5px;
+    outline-style: none;
+    @media screen and (min-width: 0px) and (max-width: 424px) {
+        font-size: 10px;
+        line-height: 12px;
+        min-width: calc(100% - 4px);
+        max-width: calc(100% - 4px);
+        padding: 8px 2px 8.5px;
+        // margin: 0;
+    }
+
+    @media screen and (min-width: 425px) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+        min-width: calc(100% - 24px);
+        max-width: calc(100% - 24px);
+        align-self: center;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        min-width: calc(100% - 24px);
+        max-width: calc(100% - 24px);
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 1024px) and (max-width: 1280px) {
+        min-width: calc(100% - 24px);
+        max-width: calc(100% - 24px);
+        font-size: 12px;
+        line-height: 14px;
+    }
+}
+
+.inputError {
+    @extend .input;
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: #c4183c;
+}
+.inputErrorMessage {
+    // padding: 1px 5px 1px;
+    color: #c4183c;
+    font-size: 14px;
+    line-height: 16px;
+    margin-top: 5px;
+
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+        padding: 0;
+    }
+}
+
+.input[type="file"] {
+    cursor: pointer;
+}
+
+.input[type="file"]::-webkit-file-upload-button {
+    display: none;
+}
+
+.input[type=file]::-ms-browse {
+    display: none;
+    
+}
+
+input[type=file]::file-selector-button {
+    display: none;
+}
+
+
+.button {
+    position: absolute;
+    width: 80px;
+    right: 0;
+    // height: 34px;
+    padding: 8px 0 8.5px;
+    background: #e9ecef;
+    border: 0.5px solid #becad6;
+    box-sizing: border-box;
+    cursor: pointer;
+    color: inherit;
+    font-size: 14px;
+    line-height: 16px;
+    
+    @media screen and (min-width: 0px) and (max-width: 424px) {
+        font-size: 10px;
+        line-height: 12px;
+        width: 40px;
+        top: 18px;
+        right: -2px;
+    }
+
+    @media screen and (min-width: 425px) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+        width: 50px;
+
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+
+        font-size: 12px;
+        line-height: 14px;
+        width: 50px;
+    }
+    @media screen and (min-width: 1024px) and (max-width: 1280px) {
+        font-size: 12px;
+        line-height: 14px;
+        width: 60px;
+    }
+}

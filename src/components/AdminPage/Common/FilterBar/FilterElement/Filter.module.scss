@@ -37,8 +37,8 @@
     @media screen and (min-width: 0px) and (max-width: 549px) {
         font-size: 10px;
         line-height: 12px;
-        min-width: 75px;
-        max-width: 75px;
+        min-width: 80px;
+        max-width: 80px;
     }
 
     @media screen and (min-width: 550px) and (max-width: 767px) {
@@ -68,7 +68,7 @@
             width: 105px;
         }
         @media screen and (min-width: 0px) and (max-width: 549px) {
-            width: 75px;
+            width: 80px;
             // min-height: 20px;
         }
     }
@@ -126,8 +126,8 @@
     }
     [class*="-menu"] {
         @media screen and (min-width: 0px) and (max-width: 549px) {
-            min-width: 75px;
-            max-width: 75px;
+            min-width: 80px;
+            max-width: 80px;
         }
         @media screen and (min-width: 550px) and (max-width: 767px) {
             min-width: 105px;

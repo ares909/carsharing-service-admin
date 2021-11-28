@@ -2,9 +2,9 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
 import { resetAuthState } from "../../../../store/slices/authSlice";
-import styles from "./Input.module.scss";
+import styles from "./CityInput.module.scss";
 
-const Input = ({ name, label, placeholder, register, errors, isValid, type, onFocus, ...rest }) => {
+const CityInput = ({ name, placeholder, register, errors, isValid, type, onFocus, ...rest }) => {
     const { ref, ...inputProps } = register(name);
     const dispatch = useDispatch();
 
@@ -14,9 +14,6 @@ const Input = ({ name, label, placeholder, register, errors, isValid, type, onFo
     });
     return (
         <div className={styles.inputContainer}>
-            <label className={styles.inputLabel} htmlFor={name}>
-                {label}
-            </label>
             <input
                 className={inputClassName}
                 name={name}
@@ -32,4 +29,4 @@ const Input = ({ name, label, placeholder, register, errors, isValid, type, onFo
         </div>
     );
 };
-export default Input;
+export default CityInput;

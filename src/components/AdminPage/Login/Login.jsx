@@ -81,6 +81,7 @@ const Login = () => {
                             register={register}
                             errors={errors}
                             isValid={isValid}
+                            onFocus={(e) => dispatch(resetAuthState())}
                         />
 
                         <Input
@@ -92,6 +93,7 @@ const Login = () => {
                             register={register}
                             errors={errors}
                             isValid={isValid}
+                            onFocus={(e) => dispatch(resetAuthState())}
                         />
                     </div>
                     <div className={styles.buttonContainer}>

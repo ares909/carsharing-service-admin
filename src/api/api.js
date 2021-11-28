@@ -94,6 +94,97 @@ export const putOrder = async ({ orderId, statusId }) => {
     return response;
 };
 
+export const putCar = async ({ carId, car }) => {
+    const response = await axios.put(
+        `${baseUrl}/db/car/${carId}`,
+        {
+            priceMax: car.priceMax,
+            priceMin: car.priceMin,
+            name: car.name,
+            number: car.number,
+            colors: car.colors,
+            tank: car.tank,
+            thumbnail: {
+                size: car.thumbnail.size,
+                originalname: car.thumbnail.originalname,
+                mimetype: car.thumbnail.mimetype,
+                path: car.thumbnail.path,
+            },
+            description: car.description,
+            categoryId: car.categoryId,
+        },
+        {
+            headers: headersInfo,
+        },
+    );
+    return response;
+};
+
+export const postCar = async ({ car }) => {
+    const response = await axios.post(
+        `${baseUrl}/db/car`,
+        {
+            priceMax: car.priceMax,
+            priceMin: car.priceMin,
+            name: car.name,
+            number: car.number,
+            colors: car.colors,
+            tank: car.tank,
+            thumbnail: {
+                size: car.thumbnail.size,
+                originalname: car.thumbnail.originalname,
+                mimetype: car.thumbnail.mimetype,
+                path: car.thumbnail.path,
+            },
+            description: car.description,
+            categoryId: car.categoryId,
+        },
+        {
+            headers: headersInfo,
+        },
+    );
+    return response;
+};
+
+export const postCity = async ({ city }) => {
+    const response = await axios.post(
+        `${baseUrl}/db/city`,
+        {
+            name: city.name,
+        },
+        {
+            headers: headersInfo,
+        },
+    );
+    return response;
+};
+
+export const postPoint = async ({ point, cityId }) => {
+    const response = await axios.post(
+        `${baseUrl}/db/point`,
+        {
+            name: point.name,
+            address: point.address,
+            cityId,
+        },
+        {
+            headers: headersInfo,
+        },
+    );
+    return response;
+};
+
+export const deletePoint = async ({ pointId }) => {
+    const response = await axios.delete(
+        `${baseUrl}/db/point/${pointId}`,
+
+        {
+            headers: headersInfo,
+        },
+    );
+    return response;
+};
+
 export const postChangedOrder = async ({ orderId, order }) => {
     const response = await axios.put(
         `${baseUrl}/db/order/${orderId}`,
@@ -141,7 +232,7 @@ export const getCars = async () => {
     const response = await axios.get(`${baseUrl}/db/car`, {
         headers: headersInfo,
     });
-    return response.data;
+    return response;
 };
 
 export const getCategories = async () => {
