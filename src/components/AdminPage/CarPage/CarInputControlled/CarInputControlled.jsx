@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
 import Select, { createFilter } from "react-select";
 import { apiData } from "../../../../store/selectors/selectors";
-import { fetchPoints, apiAction } from "../../../../store/slices/apiSlice";
 import useDateFormat from "../../../../hooks/useDateFormat";
 import styles from "./CarInputControlled.module.scss";
 
@@ -23,11 +22,6 @@ const CarInputControlled = ({
     disabled,
     ...rest
 }) => {
-    const dispatch = useDispatch();
-    const { order, orderPrice, isFullTank, isNeedChildChair, isRightWheel } = useSelector(apiData);
-    const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays] =
-        useDateFormat();
-
     const filterConfig = {
         ignoreCase: true,
         ignoreAccents: true,

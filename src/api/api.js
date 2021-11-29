@@ -174,6 +174,52 @@ export const postPoint = async ({ point, cityId }) => {
     return response;
 };
 
+export const postRate = async ({ rate }) => {
+    const res = await axios.post(
+        `${baseUrl}/db/rateType`,
+        {
+            name: rate.name,
+            unit: rate.unit,
+        },
+        {
+            headers: headersInfo,
+        },
+    );
+    const response = await axios.post(
+        `${baseUrl}/db/rate`,
+        {
+            rateTypeId: res.data.data.id,
+            price: rate.price,
+        },
+        {
+            headers: headersInfo,
+        },
+    );
+
+    return response;
+};
+export const deleteRate = async ({ rateId }) => {
+    const response = await axios.delete(
+        `${baseUrl}/db/rate/${rateId}`,
+
+        {
+            headers: headersInfo,
+        },
+    );
+    return response;
+};
+
+export const deleteCity = async ({ cityId }) => {
+    const response = await axios.delete(
+        `${baseUrl}/db/city/${cityId}`,
+
+        {
+            headers: headersInfo,
+        },
+    );
+    return response;
+};
+
 export const deletePoint = async ({ pointId }) => {
     const response = await axios.delete(
         `${baseUrl}/db/point/${pointId}`,

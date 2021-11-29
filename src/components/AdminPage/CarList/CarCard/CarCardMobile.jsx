@@ -1,10 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router";
 import classNames from "classnames";
-
-import Checkbox from "../../../Common/UI/Checkbox/Checkbox.jsx";
 import crossButtonBlack from "../../../Common/UI/CrossButton/CrossButtonBlack.jsx";
-
 import Button from "../../../Common/UI/Button.jsx";
 import useNumberFormat from "../../../../hooks/useNumberFormat";
 import { imageUrl } from "../../../../constants/constants";
@@ -12,7 +9,7 @@ import useDateFormat from "../../../../hooks/useDateFormat";
 import editButton from "../../../../images/admin/editIcon.svg";
 import styles from "./CarCard.module.scss";
 
-const OrderCardMobile = ({ car, onClick, isCardOpened, openCard, token }) => {
+const OrderCardMobile = ({ car, isCardOpened, openCard }) => {
     const [convertNumber, convertCarNumber] = useNumberFormat();
     const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays] =
         useDateFormat();
@@ -31,17 +28,6 @@ const OrderCardMobile = ({ car, onClick, isCardOpened, openCard, token }) => {
 
     return car ? (
         <div className={orderClassName}>
-            {/* <div className={styles.orderTitle}>
-            <p className={styles.orderText}>
-                Модель <span className={styles.orderTextBold}>{car.name}</span>
-            </p>
-            <p className={styles.orderText}>
-                Статус:{" "}
-                <span className={styles.orderTextBold}>
-                    {order.orderStatusId ? order.orderStatusId.name : "нет данных"}
-                </span>
-            </p>
-        </div> */}
             <div className={styles.orderContainerMobile}>
                 <div className={styles.orderImageBlockMobile}>
                     <img
@@ -103,7 +89,6 @@ const OrderCardMobile = ({ car, onClick, isCardOpened, openCard, token }) => {
                     <img src={editButton} className={styles.orderButtonImage} />
                     <p className={styles.orderButtonText}>Изменить</p>
                 </Button>
-                {/* <ButtonBar order={order} token={token} className={styles.buttonContainer} /> */}
             </div>
             <Button type="button" onClick={openCard} className={styles.crossButton}>
                 {crossButtonBlack}

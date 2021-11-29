@@ -15,6 +15,7 @@ import CarPage from "../CarPage/CarPage.jsx";
 import NewCarPage from "../CarPage/NewCarPage.jsx";
 import CitiesList from "../CitiesList/CitiesList.jsx";
 import CityPage from "../CityPage/CityPage.jsx";
+import RateList from "../RateList/RateList.jsx";
 import useModal from "../../../hooks/useModal";
 import styles from "./AdminContent.module.scss";
 
@@ -55,6 +56,7 @@ const AdminContent = () => {
                     <Route exact path={`${match.url}/orderlist`} component={OrderList} />
                     <Route exact path={`${match.url}/carlist`} component={CarList} />
                     <Route exact path={`${match.url}/citylist`} component={CitiesList} />
+                    <Route exact path={`${match.url}/ratelist`} component={RateList} />
                     <Route exact path={`${match.url}/carcard`} component={NewCarPage} />
                     <Route exact path={`${match.url}/citylist/:cityId?`} component={CityPage} />
                     <Route path={`${match.url}/orderlist/:orderId?`} component={OrderPage} />

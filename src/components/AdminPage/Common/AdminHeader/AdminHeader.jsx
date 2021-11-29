@@ -11,7 +11,7 @@ import dropdown from "../../../../images/admin/dropdownIcon.svg";
 import styles from "./AdminHeader.module.scss";
 
 const AdminHeader = ({ onClick, isOpened, toggle }) => {
-    const { push } = useHistory();
+    const { push, goBack } = useHistory();
 
     const dropDownClassName = classNames({
         [`${styles.dropdownСontent}`]: true,
@@ -34,9 +34,22 @@ const AdminHeader = ({ onClick, isOpened, toggle }) => {
         case "/admin/carlist":
             title = "Автомобили";
             break;
+        case "/admin/citylist":
+            title = "Города";
+            break;
+        case "/admin/ratelist":
+            title = "Тарифы";
+            break;
+        case "/admin/carcard":
+            title = "Автомобиль";
+            break;
 
         default:
-            title = "";
+            title = (
+                <button className={styles.titleGoBackButton} onClick={goBack}>
+                    назад
+                </button>
+            );
             break;
     }
 

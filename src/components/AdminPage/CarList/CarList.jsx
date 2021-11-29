@@ -9,24 +9,9 @@ import CarCardMobile from "./CarCard/CarCardMobile.jsx";
 import Pagination from "../Common/Pagination/Pagination.jsx";
 import FilterBar from "../Common/FilterBar/FilterBar.jsx";
 import CarFilter from "../Common/FilterBar/CarFilter.jsx";
-
-// import OrderCardMobile from "./CarCa/OrderCardMobile.jsx";
 import SuccessPopup from "../../Common/UI/SuccessPopup/SuccessPopup.jsx";
-import {
-    fetchAllOrders,
-    resetSingleOrder,
-    fetchCars,
-    fetchCities,
-    fetchStatuses,
-    resetOrder,
-    resetError,
-    fetchRates,
-    resetPopupMessage,
-    fetchCategories,
-    resetFilteredCars,
-} from "../../../store/slices/apiSlice";
+import { fetchCars, resetPopupMessage, fetchCategories } from "../../../store/slices/apiSlice";
 import { messages, pageSize } from "../../../constants/constants";
-import { handleRefresh } from "../../../store/slices/authSlice";
 import useModal from "../../../hooks/useModal";
 import styles from "./CarList.module.scss";
 
@@ -34,24 +19,11 @@ const CarList = () => {
     const dispatch = useDispatch();
     const { push } = useHistory();
     const token = JSON.parse(localStorage.getItem("access_token"));
-    const refreshToken = JSON.parse(localStorage.getItem("token"));
-    const {
-        cars,
-        ordersData,
-        status,
-        deletedOrder,
-        error,
-        apiFilters,
-        singleOrder,
-        statuses,
-        categories,
-        filteredCars,
-    } = useSelector(apiData);
+    const { cars, status, error, apiFilters, filteredCars } = useSelector(apiData);
     const [currentPage, setCurrentPage] = useState(1);
     const [isCardOpened, openCard] = useModal();
     const [isPopupOpened, togglePopup] = useModal();
     const [selectedCard, setSelectedCard] = useState();
-    const [popupMessage, setPopupMessage] = useState("");
 
     const wrapperClassName = classNames({
         [`${styles.formWrapper}`]: true,
@@ -83,7 +55,6 @@ const CarList = () => {
     useEffect(() => {
         if (error) {
             push("/admin/error");
-            // dispatch(resetOrder());
         }
     }, [error]);
 
@@ -119,7 +90,6 @@ const CarList = () => {
     return (
         <>
             <section className={styles.orderList}>
-                {/* <SuccessPopup isPopupOpened={isPopupOpened} togglePopup={togglePopup} popupMessage={popupMessage} /> */}
                 <div className={styles.orderBox}>
                     <CarFilter setCurrentPage={setCurrentPage} />
 

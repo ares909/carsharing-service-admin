@@ -1,35 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import classNames from "classnames";
-import { authState, apiData } from "../../../store/selectors/selectors";
+import { apiData } from "../../../store/selectors/selectors";
 import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
 import PointCard from "./PointCard/PointCard.jsx";
-// import CarCardMobile from "./CarCard/CarCardMobile.jsx.js";
 import Pagination from "../Common/Pagination/Pagination.jsx";
-import FilterBar from "../Common/FilterBar/FilterBar.jsx";
-import CarFilter from "../Common/FilterBar/CarFilter.jsx";
 import PointInputBar from "./PointInputBar/PointInputBar.jsx";
-// import OrderCardMobile from "./CarCa/OrderCardMobile.jsx";
 import SuccessPopup from "../../Common/UI/SuccessPopup/SuccessPopup.jsx";
-import {
-    fetchAllOrders,
-    resetSingleOrder,
-    fetchCars,
-    fetchCities,
-    fetchStatuses,
-    resetOrder,
-    resetError,
-    fetchRates,
-    resetPopupMessage,
-    fetchCategories,
-    resetFilteredCars,
-    fetchPoints,
-    createCity,
-    createPoint,
-} from "../../../store/slices/apiSlice";
+import { resetPopupMessage, fetchPoints } from "../../../store/slices/apiSlice";
 import { messages, pageSize } from "../../../constants/constants";
-import { handleRefresh } from "../../../store/slices/authSlice";
 import useModal from "../../../hooks/useModal";
 import styles from "./CityPage.module.scss";
 
@@ -38,32 +17,12 @@ const CityPage = () => {
     const { cityId } = useParams();
     const { push } = useHistory();
     const token = JSON.parse(localStorage.getItem("access_token"));
-    const refreshToken = JSON.parse(localStorage.getItem("token"));
-    const {
-        cars,
-        cities,
-        status,
-        deletedOrder,
-        error,
-        apiFilters,
-        singleOrder,
-        statuses,
-        categories,
-        filteredCars,
-        city,
-        points,
-        point,
-    } = useSelector(apiData);
+    const { status, error, points, point } = useSelector(apiData);
     const [currentPage, setCurrentPage] = useState(1);
     const [isCardOpened, openCard] = useModal();
     const [isPopupOpened, togglePopup] = useModal();
     const [selectedCard, setSelectedCard] = useState();
     const [popupMessage, setPopupMessage] = useState("");
-
-    const wrapperClassName = classNames({
-        [`${styles.formWrapper}`]: true,
-        [`${styles.formWrapperActive}`]: isCardOpened,
-    });
 
     useEffect(() => {
         if (!token) {
@@ -80,7 +39,6 @@ const CityPage = () => {
     useEffect(() => {
         if (error) {
             push("/admin/error");
-            // dispatch(resetOrder());
         }
     }, [error]);
 
@@ -93,7 +51,7 @@ const CityPage = () => {
         const lastPageIndex = firstPageIndex + pageSize;
 
         return points.data.length > 0 && points.data.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, points.data, filteredCars]);
+    }, [currentPage, points.data]);
 
     const onClick = (card) => {
         if (!isCardOpened) {
@@ -127,6 +85,7 @@ const CityPage = () => {
         if (isPopupOpened && e.target.classList.length !== 0 && !e.target.className.includes("successPopup")) {
             togglePopup();
             dispatch(resetPopupMessage());
+            setCurrentPage(1);
         }
     };
     useEffect(() => {

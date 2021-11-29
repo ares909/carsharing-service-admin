@@ -1,23 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
-import Select, { createFilter } from "react-select";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import classNames from "classnames";
-import { authState, apiData } from "../../../../store/selectors/selectors";
+import { apiData } from "../../../../store/selectors/selectors";
 import Button from "../../../Common/UI/Button.jsx";
 import PointInput from "../../CitiesList/CityInput/CityInput.jsx";
-import {
-    apiAction,
-    createCity,
-    fetchAllOrders,
-    resetApiFilters,
-    resetFilteredCars,
-    fetchCities,
-    createPoint,
-    fetchPoints,
-} from "../../../../store/slices/apiSlice";
+import { createPoint, fetchPoints } from "../../../../store/slices/apiSlice";
 import approveButton from "../../../../images/admin/approveButton.svg";
 import cancelButton from "../../../../images/admin/cancelButton.svg";
 
@@ -39,7 +29,6 @@ const PointInputBar = ({ cityId }) => {
     });
     const {
         register,
-        getValues,
         handleSubmit,
         formState: { errors },
         reset,
@@ -59,8 +48,6 @@ const PointInputBar = ({ cityId }) => {
             }),
         );
         dispatch(fetchPoints(cityId));
-        console.log(data);
-
         reset();
     };
 
@@ -68,14 +55,6 @@ const PointInputBar = ({ cityId }) => {
         e.preventDefault();
         reset();
     };
-
-    const approveButtonClassName = classNames({
-        [`${styles.formButton}`]: true,
-    });
-
-    const clearButtonClassName = classNames({
-        [`${styles.formButtonRed}`]: true,
-    });
 
     const buttonImageClassName = classNames({
         [`${styles.formButtonImage}`]: true,
@@ -94,7 +73,6 @@ const PointInputBar = ({ cityId }) => {
                         name="pointAddress"
                         id="pointAddress"
                         reset={reset}
-                        // label="city"
                     />
                 </div>
                 <div className={styles.inputContainer}>
@@ -107,7 +85,6 @@ const PointInputBar = ({ cityId }) => {
                         name="pointName"
                         id="pointName"
                         reset={reset}
-                        // label="city"
                     />
                 </div>
                 <div className={styles.formButtonContainer}>
@@ -116,15 +93,8 @@ const PointInputBar = ({ cityId }) => {
                         type="submit"
                         onClick={handleSubmit(handlePostPoint)}
                         className={styles.formButton}
-                        // disabled={apiFilters.status === "idle"}
                     />
-                    <Button
-                        name="Сбросить"
-                        type="button"
-                        onClick={handleReset}
-                        className={styles.formButtonRed}
-                        // disabled={apiFilters.status === "idle"}
-                    />
+                    <Button name="Сбросить" type="button" onClick={handleReset} className={styles.formButtonRed} />
                     <Button type="submit" onClick={handleSubmit(handlePostPoint)} className={buttonImageClassName}>
                         <img src={approveButton} />
                     </Button>

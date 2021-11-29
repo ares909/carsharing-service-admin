@@ -18,6 +18,9 @@ import {
     postCity,
     postPoint,
     deletePoint,
+    deleteCity,
+    postRate,
+    deleteRate,
 } from "../../api/api";
 
 const initialState = {
@@ -79,6 +82,13 @@ const initialState = {
     },
 
     point: {
+        data: [],
+        status: "idle",
+        postStatus: "idle",
+        statusCode: "",
+    },
+
+    rate: {
         data: [],
         status: "idle",
         postStatus: "idle",
@@ -191,6 +201,30 @@ export const createPoint = createAsyncThunk("api/createPoint", ({ point, cityId 
 export const removePoint = createAsyncThunk("api/deletePoint", ({ pointId }, rejectWithValue) => {
     try {
         return deletePoint({ pointId });
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
+
+export const removeCity = createAsyncThunk("api/removeCity", ({ cityId }, rejectWithValue) => {
+    try {
+        return deleteCity({ cityId });
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
+
+export const createRate = createAsyncThunk("api/createRate", ({ rate }, rejectWithValue) => {
+    try {
+        return postRate({ rate });
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
+
+export const removeRate = createAsyncThunk("api/removeRate", ({ rateId }, rejectWithValue) => {
+    try {
+        return deleteRate({ rateId });
     } catch (error) {
         return rejectWithValue(error.message);
     }
@@ -324,6 +358,12 @@ export const apiSlice = createSlice({
                     postStatus: initialState.point.postStatus,
                     statusCode: initialState.point.statusCode,
                 },
+
+                rate: {
+                    ...state.rate,
+                    postStatus: initialState.rate.postStatus,
+                    statusCode: initialState.rate.statusCode,
+                },
             };
         },
     },
@@ -334,7 +374,7 @@ export const apiSlice = createSlice({
         },
 
         [fetchRates.fulfilled]: (state, action) => {
-            state.rates.data = action.payload.data.slice(0, 4);
+            state.rates.data = action.payload.data;
             // // eslint-disable-next-line prefer-destructuring
             // state.formRate = {
             //     name: action.payload.data[0].rateTypeId.name,
@@ -404,6 +444,14 @@ export const apiSlice = createSlice({
             state.point.postStatus = "deleted";
         },
 
+        [removeCity.fulfilled]: (state, action) => {
+            state.city.postStatus = "deleted";
+        },
+
+        [removeRate.fulfilled]: (state, action) => {
+            state.rate.postStatus = "deleted";
+        },
+
         [fetchCategories.fulfilled]: (state, action) => {
             state.categories.data = [...initialState.categories.data, ...action.payload.data];
             state.categories.status = "succeeded";
@@ -446,6 +494,13 @@ export const apiSlice = createSlice({
             state.point.postStatus = "posted";
         },
 
+        [createRate.fulfilled]: (state, action) => {
+            state.rate.data = action.payload.data.data;
+            state.rate.statusCode = action.payload.status;
+            state.rate.status = "succeeded";
+            state.rate.postStatus = "posted";
+        },
+
         [fetchCities.rejected]: setError,
         [fetchPoints.rejected]: setError,
         [createCity.rejected]: setError,
@@ -463,6 +518,10 @@ export const apiSlice = createSlice({
         [fetchOrder.rejected]: setError,
         [removeOrder.rejected]: setError,
         [postOrder.rejected]: setError,
+        [removeCity.rejected]: setError,
+        [removePoint.rejected]: setError,
+        [createRate.rejected]: setError,
+        [removeRate.rejected]: setError,
 
         [fetchCities.pending]: (state) => {
             state.points.status = "loading";

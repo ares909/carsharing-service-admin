@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
 import Checkbox from "../../../Common/UI/Checkbox/Checkbox.jsx";
 import Button from "../../../Common/UI/Button.jsx";
-import { resetAuthState } from "../../../../store/slices/authSlice";
 import plusButton from "../../../../images/admin/plusButton.svg";
 import styles from "./CarColorInput.module.scss";
 

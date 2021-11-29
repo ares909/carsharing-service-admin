@@ -6,31 +6,15 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import {
-    fetchOrder,
-    fetchCities,
-    fetchStatuses,
-    fetchCars,
-    fetchRates,
-    postOrder,
-    resetPopupMessage,
-    fetchAllOrders,
-    fetchCar,
-    fetchCategories,
-    changeCar,
-    createCar,
-} from "../../../store/slices/apiSlice";
+import { resetPopupMessage, fetchCategories, createCar } from "../../../store/slices/apiSlice";
 import { apiData } from "../../../store/selectors/selectors";
 import Button from "../../Common/UI/Button.jsx";
 import SuccessPopup from "../../Common/UI/SuccessPopup/SuccessPopup.jsx";
 import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
-import Checkbox from "../../Common/UI/Checkbox/Checkbox.jsx";
 import CarInputControlled from "./CarInputControlled/CarInputControlled.jsx";
 import CarInput from "./CarInput/CarInput.jsx";
-import Input from "../../Common/UI/Input/Input.jsx";
 import CarFileInput from "./CarFileInput/CarFileInput.jsx";
 import CarColorInput from "./CarColorInput/CarColorInput.jsx";
-// import OrderInput from "./OrderInput/OrderInput.jsx";
 import useModal from "../../../hooks/useModal";
 import { imageUrl, messages, pageSize, supprotedFormats } from "../../../constants/constants";
 import useDateFormat from "../../../hooks/useDateFormat";
@@ -100,8 +84,11 @@ const NewCarPage = () => {
         mode: "onSubmit",
     });
 
-    const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays] =
-        useDateFormat();
+    useEffect(() => {
+        if (!token) {
+            push("/");
+        }
+    }, [token]);
 
     useEffect(() => {
         if (categories.status === "idle") {
@@ -199,7 +186,6 @@ const NewCarPage = () => {
         },
     ];
 
-    //   { name: "image", placeholder: "Картинка", label: "Картинка", id: "image", type: "file" }
     const inputArray = [
         { name: "name", placeholder: "Модель", label: "Модель", id: "name", type: "text" },
         { name: "number", placeholder: "Номер", label: "Номер", id: "number", type: "text" },
@@ -212,8 +198,6 @@ const NewCarPage = () => {
         <section className={styles.orderPage}>
             <SuccessPopup isPopupOpened={isPopupOpened} togglePopup={togglePopup} popupMessage={popupMessage} />
             {selectedCar.status === "loading" && status !== "rejected" && <Preloader />}
-
-            {/* {points.status === "loading" && status !== "rejected" && <Preloader />} */}
 
             <form className={styles.orderBox}>
                 {selectedCar.postStatus === "posted" && (
@@ -249,7 +233,7 @@ const NewCarPage = () => {
                     </div>
                 )}
                 <div className={styles.filterBox}>
-                    <h2 className={styles.orderTitle}>Настройки автомобиля</h2>
+                    <h2 className={styles.orderTitle}>Создать авто</h2>
                     <div className={styles.inputContainer}>
                         {inputArray.map((item) => (
                             <CarInput
@@ -279,7 +263,6 @@ const NewCarPage = () => {
                         <Controller
                             name="category"
                             control={control}
-                            // defaultValue={{ value: 10, label: 10, id: 10 }}
                             render={({ field }) => (
                                 <CarInputControlled
                                     label="Категория"
@@ -291,8 +274,6 @@ const NewCarPage = () => {
                                     options={categoryOptions}
                                     reset={reset}
                                     getValues={getValues}
-
-                                    // valueState={iniialValue.value ? iniialValue.value : ""}
                                 />
                             )}
                         />

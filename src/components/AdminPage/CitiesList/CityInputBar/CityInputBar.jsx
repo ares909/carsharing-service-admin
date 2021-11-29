@@ -1,21 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
-import Select, { createFilter } from "react-select";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import classNames from "classnames";
-import { authState, apiData } from "../../../../store/selectors/selectors";
+import { apiData } from "../../../../store/selectors/selectors";
 import Button from "../../../Common/UI/Button.jsx";
 import CityInput from "../CityInput/CityInput.jsx";
-import {
-    apiAction,
-    createCity,
-    fetchAllOrders,
-    resetApiFilters,
-    resetFilteredCars,
-    fetchCities,
-} from "../../../../store/slices/apiSlice";
+import { createCity, fetchCities } from "../../../../store/slices/apiSlice";
 
 import styles from "./CityInputBar.module.scss";
 
@@ -34,7 +25,6 @@ const CityInputBar = () => {
     });
     const {
         register,
-        getValues,
         handleSubmit,
         formState: { errors },
         reset,
@@ -67,7 +57,6 @@ const CityInputBar = () => {
                         name="сityName"
                         id="сityName"
                         reset={reset}
-                        // label="city"
                     />
                 </div>
                 <div className={styles.formButtonContainer}>
@@ -76,15 +65,8 @@ const CityInputBar = () => {
                         type="submit"
                         onClick={handleSubmit(handlePostCity)}
                         className={styles.formButton}
-                        // disabled={apiFilters.status === "idle"}
                     />
-                    <Button
-                        name="Сбросить"
-                        type="button"
-                        onClick={handleReset}
-                        className={styles.formButtonRed}
-                        // disabled={apiFilters.status === "idle"}
-                    />
+                    <Button name="Сбросить" type="button" onClick={handleReset} className={styles.formButtonRed} />
                 </div>
             </form>
         </div>

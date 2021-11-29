@@ -44,22 +44,22 @@ export const navButtonsAdmin = [
         ),
     },
     {
-        title: "Карточка автомобиля",
-        route: "/admin/carcard",
+        title: "Тарифы",
+        route: "/admin/ratelist",
         image: (
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     fillRule="evenodd"
                     clipRule="evenodd"
-                    d="M13.3213 4.10853C13.5596 4.34683 13.5596 4.73177 13.3213 4.97007L12.2031 6.08825L9.91174 3.7969L11.0299 2.67873C11.2682 2.44042 11.6532 2.44042 11.8915 2.67873L13.3213 4.10853ZM2.5 13.5V11.2086L9.25795 4.4507L11.5493 6.74205L4.79135 13.5H2.5Z"
+                    d="M2.5 3.5V4.85714H7.83333V3.5H2.5ZM7.83333 7.57142H2.5V6.21428H7.83333V7.57142ZM2.5 10.2857H7.83333V8.92857H2.5V10.2857ZM2.5 13H7.83333V11.6429H2.5V13ZM14.5 3.5H9.16663V13H14.5V3.5Z"
                     fill="#CACEDB"
                 />
             </svg>
         ),
     },
     {
-        title: "Карточка города",
-        route: "/admin/citycard",
+        title: "Карточка автомобиля",
+        route: "/admin/carcard",
         image: (
             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path

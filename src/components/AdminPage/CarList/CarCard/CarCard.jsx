@@ -3,15 +3,13 @@ import classNames from "classnames";
 import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { imageUrl } from "../../../../constants/constants";
-import Checkbox from "../../../Common/UI/Checkbox/Checkbox.jsx";
 import Button from "../../../Common/UI/Button.jsx";
-// import ButtonBar from "./ButtonBar/ButtonBar.jsx";
 import useDateFormat from "../../../../hooks/useDateFormat";
 import useNumberFormat from "../../../../hooks/useNumberFormat";
 import editButton from "../../../../images/admin/editIcon.svg";
 import styles from "./CarCard.module.scss";
 
-const CarCard = ({ car, onClick, token, statuses }) => {
+const CarCard = ({ car, onClick }) => {
     const dispatch = useDispatch();
     const { push } = useHistory();
     const [convertNumber, convertCarNumber] = useNumberFormat();
@@ -25,24 +23,10 @@ const CarCard = ({ car, onClick, token, statuses }) => {
 
     const handleChange = () => {
         push(`/admin/carlist/${car.id}`);
-        // if (isCardOpened) {
-        //     openCard();
-        // }
     };
 
     return (
         <div className={styles.order} onClick={handleOpenCard}>
-            {/* <div className={styles.orderTitle}>
-                <p className={styles.orderText}>
-                    Модель <span className={styles.orderTextBold}>{car.name}</span>
-                </p>
-                <p className={styles.orderText}>
-                    Статус:{" "}
-                    <span className={styles.orderTextBold}>
-                        {order.orderStatusId ? order.orderStatusId.name : "нет данных"}
-                    </span>
-                </p>
-            </div> */}
             <div className={styles.orderContainer}>
                 <div className={styles.orderImageBlock}>
                     <img
@@ -77,7 +61,7 @@ const CarCard = ({ car, onClick, token, statuses }) => {
                     <div className={styles.orderTextBlock}>
                         <p className={styles.orderText}>Цена до:</p>
                         <span className={styles.orderTextBold}>
-                            {car.priceMax ? `${convertNumber(car.priceMin)} ₽` : "нет данных"}
+                            {car.priceMax ? `${convertNumber(car.priceMax)} ₽` : "нет данных"}
                         </span>
                     </div>
                 </div>
@@ -97,22 +81,7 @@ const CarCard = ({ car, onClick, token, statuses }) => {
                         </span>
                     </div>
                 </div>
-                {/* <div className={styles.orderTextBlock}>
-                    <div className={styles.orderTextBlock}>
-                        <p className={styles.orderText}>Цвета:</p>
-                        <div className={styles.colorBox}>
-                            {car.colors.length > 0 ? (
-                                car.colors.map((color, index) => (
-                                    <span key={index} className={styles.orderTextBold}>
-                                        {color}
-                                    </span>
-                                ))
-                            ) : (
-                                <span className={styles.orderTextBold}>нет данных</span>
-                            )}
-                        </div>
-                    </div>
-                </div> */}
+
                 <div className={styles.orderDescriptionBlock}>
                     <div className={styles.orderTextBlock}>
                         <p className={styles.orderText}>Описание:</p>
@@ -125,7 +94,6 @@ const CarCard = ({ car, onClick, token, statuses }) => {
                     <img src={editButton} className={styles.orderButtonImage} />
                     <p className={styles.orderButtonText}>Изменить</p>
                 </Button>
-                {/* <ButtonBar order={order} token={token} className={styles.buttonContainer} /> */}
             </div>
         </div>
     );

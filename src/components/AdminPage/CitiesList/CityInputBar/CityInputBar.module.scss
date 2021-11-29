@@ -51,9 +51,10 @@
     min-width: 500px;
     @media screen and (min-width: 0px) and (max-width: 549px) {
         justify-content: center;
-        // min-width: 99%;
+        align-self: flex-start;
         margin: 0 auto 0;
         min-width: 150px;
+        max-width: 150px;
         // justify-content: space-between;
     }
     @media screen and (min-width: 550px) and (max-width: 767px) {
@@ -123,6 +124,7 @@
         border: none;
         cursor: pointer;
         margin-right: 5px;
+        max-height: 34px;
         
     }
     

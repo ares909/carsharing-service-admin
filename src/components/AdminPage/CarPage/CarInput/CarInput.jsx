@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
-import { resetAuthState } from "../../../../store/slices/authSlice";
 import styles from "./CarInput.module.scss";
 
 const Input = ({ name, label, placeholder, register, errors, isValid, type, onFocus, ...rest }) => {
@@ -26,7 +25,6 @@ const Input = ({ name, label, placeholder, register, errors, isValid, type, onFo
                 type={type}
                 {...inputProps}
                 onFocus={onFocus}
-                // onChange={onChange}
             />
             {errors[name] && <span className={styles.inputErrorMessage}>{errors[name].message}</span>}
         </div>

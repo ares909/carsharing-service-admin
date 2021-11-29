@@ -1,41 +1,84 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import classNames from "classnames";
-import { apiData } from "../../../store/selectors/selectors";
+import { authState, apiData } from "../../../store/selectors/selectors";
 import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
-import CityCard from "./CityCard/CityCard.jsx";
-import Pagination from "../Common/Pagination/Pagination.jsx";
-import CityInputBar from "./CityInputBar/CityInputBar.jsx";
-import SuccessPopup from "../../Common/UI/SuccessPopup/SuccessPopup.jsx";
-import { fetchCities, resetPopupMessage, fetchCategories } from "../../../store/slices/apiSlice";
-import { messages, pageSize } from "../../../constants/constants";
-import useModal from "../../../hooks/useModal";
-import styles from "./CitiesList.module.scss";
+import RateCard from "./RateCard/RateCard.jsx";
 
-const CitiesList = () => {
+import Pagination from "../Common/Pagination/Pagination.jsx";
+import FilterBar from "../Common/FilterBar/FilterBar.jsx";
+import CarFilter from "../Common/FilterBar/CarFilter.jsx";
+import RateInputBar from "./RateInputBar/RateInputBar.jsx";
+// import OrderCardMobile from "./CarCa/OrderCardMobile.jsx";
+import SuccessPopup from "../../Common/UI/SuccessPopup/SuccessPopup.jsx";
+import {
+    fetchAllOrders,
+    resetSingleOrder,
+    fetchCars,
+    fetchCities,
+    fetchStatuses,
+    resetOrder,
+    resetError,
+    fetchRates,
+    resetPopupMessage,
+    fetchCategories,
+    resetFilteredCars,
+    fetchPoints,
+    createCity,
+    createPoint,
+} from "../../../store/slices/apiSlice";
+import { messages, pageSize } from "../../../constants/constants";
+import { handleRefresh } from "../../../store/slices/authSlice";
+import useModal from "../../../hooks/useModal";
+import styles from "./RateList.module.scss";
+
+const RateList = () => {
     const dispatch = useDispatch();
+    const { cityId } = useParams();
     const { push } = useHistory();
     const token = JSON.parse(localStorage.getItem("access_token"));
-    const { cars, cities, status, error, city } = useSelector(apiData);
+    const refreshToken = JSON.parse(localStorage.getItem("token"));
+    const {
+        cars,
+        cities,
+        status,
+        deletedOrder,
+        error,
+        apiFilters,
+        singleOrder,
+        statuses,
+        categories,
+        filteredCars,
+        city,
+        points,
+        point,
+        rates,
+        rate,
+    } = useSelector(apiData);
     const [currentPage, setCurrentPage] = useState(1);
     const [isCardOpened, openCard] = useModal();
     const [isPopupOpened, togglePopup] = useModal();
     const [selectedCard, setSelectedCard] = useState();
     const [popupMessage, setPopupMessage] = useState("");
 
+    const wrapperClassName = classNames({
+        [`${styles.formWrapper}`]: true,
+        [`${styles.formWrapperActive}`]: isCardOpened,
+    });
+
     useEffect(() => {
         if (!token) {
             push("/");
-        } else if (token && cities.status === "idle") {
-            dispatch(fetchCities());
-            dispatch(fetchCategories());
+        } else if (token && rates.status === "idle") {
+            dispatch(fetchRates());
         }
-    }, [token, cars.status]);
+    }, [token, rates.status]);
 
     useEffect(() => {
         if (error) {
             push("/admin/error");
+            // dispatch(resetOrder());
         }
     }, [error]);
 
@@ -47,8 +90,8 @@ const CitiesList = () => {
         const firstPageIndex = (currentPage - 1) * pageSize;
         const lastPageIndex = firstPageIndex + pageSize;
 
-        return cities.data.length > 0 && cities.data.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, cities.data]);
+        return rates.data.length > 0 && rates.data.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, rates.data]);
 
     const onClick = (card) => {
         if (!isCardOpened) {
@@ -64,24 +107,25 @@ const CitiesList = () => {
     };
 
     useEffect(() => {
-        if (city.statusCode === 200 && city.postStatus === "posted") {
+        if (rate.statusCode === 200 && rate.postStatus === "posted") {
             if (!isPopupOpened) {
-                setPopupMessage(messages.cityPosted);
+                setPopupMessage(messages.ratePosted);
                 togglePopup();
             }
-        } else if (city.postStatus === "deleted") {
+        } else if (rate.postStatus === "deleted") {
             if (!isPopupOpened) {
-                setPopupMessage(messages.cityRemoved);
+                setPopupMessage(messages.rateRemoved);
                 togglePopup();
             }
         }
-    }, [city.statusCode, city.postStatus]);
+    }, [rate.statusCode, rate.postStatus]);
 
     const outSideClick = (e) => {
         if (isPopupOpened && e.target.classList.length !== 0 && !e.target.className.includes("successPopup")) {
             togglePopup();
             dispatch(resetPopupMessage());
-            dispatch(fetchCities());
+            dispatch(fetchRates());
+            setCurrentPage(1);
         }
     };
     useEffect(() => {
@@ -99,21 +143,21 @@ const CitiesList = () => {
             <section className={styles.orderList}>
                 <SuccessPopup isPopupOpened={isPopupOpened} togglePopup={togglePopup} popupMessage={popupMessage} />
                 <div className={styles.orderBox}>
-                    <CityInputBar />
+                    <RateInputBar />
 
                     <div className={styles.orderContainer}>
                         {status === "rejected" && <div className={styles.textMessage}>Ошибка сервера</div>}
-                        {cities.status === "loading" && status !== "rejected" && <Preloader />}
+                        {rates.status === "loading" && status !== "rejected" && <Preloader />}
 
                         {currentTableData.length > 0 &&
                             currentTableData.map((item) => (
-                                <CityCard key={item.id} city={item} onClick={onClick} token={token} />
+                                <RateCard key={item.id} rate={item} onClick={onClick} token={token} />
                             ))}
                     </div>
                     <Pagination
                         className={styles.paginationBar}
                         currentPage={currentPage}
-                        totalCount={cities.data.length}
+                        totalCount={rates.data.length}
                         pageSize={pageSize}
                         onPageChange={changePage}
                     />
@@ -123,4 +167,4 @@ const CitiesList = () => {
     );
 };
 
-export default CitiesList;
+export default RateList;

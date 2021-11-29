@@ -6,19 +6,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import {
-    fetchOrder,
-    fetchCities,
-    fetchStatuses,
-    fetchCars,
-    fetchRates,
-    postOrder,
-    resetPopupMessage,
-    fetchAllOrders,
-    fetchCar,
-    fetchCategories,
-    changeCar,
-} from "../../../store/slices/apiSlice";
+import { resetPopupMessage, fetchCar, fetchCategories, changeCar } from "../../../store/slices/apiSlice";
 import { apiData } from "../../../store/selectors/selectors";
 import Button from "../../Common/UI/Button.jsx";
 import SuccessPopup from "../../Common/UI/SuccessPopup/SuccessPopup.jsx";
@@ -26,12 +14,11 @@ import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
 import Checkbox from "../../Common/UI/Checkbox/Checkbox.jsx";
 import CarInputControlled from "./CarInputControlled/CarInputControlled.jsx";
 import CarInput from "./CarInput/CarInput.jsx";
-import Input from "../../Common/UI/Input/Input.jsx";
 import CarFileInput from "./CarFileInput/CarFileInput.jsx";
 import CarColorInput from "./CarColorInput/CarColorInput.jsx";
-// import OrderInput from "./OrderInput/OrderInput.jsx";
+
 import useModal from "../../../hooks/useModal";
-import { imageUrl, messages, pageSize, supprotedFormats } from "../../../constants/constants";
+import { imageUrl, messages, supprotedFormats } from "../../../constants/constants";
 import useDateFormat from "../../../hooks/useDateFormat";
 import useNumberFormat from "../../../hooks/useNumberFormat";
 import useConbertToBase64 from "../../../hooks/useConvertBase64";
@@ -44,12 +31,10 @@ const CarPage = () => {
     const [convertNumber, convertCarNumber] = useNumberFormat();
     const dispatch = useDispatch();
     const { push, goBack } = useHistory();
-    const { statuses, selectedCar, status, cars, rates, cities, order, points, orderPrice, apiFilters, categories } =
-        useSelector(apiData);
+    const { selectedCar, status, categories } = useSelector(apiData);
     const [defaultValues, setDefaultValues] = useState({
         name: "",
         number: "",
-        // category: {},
         priceMin: "",
         priceMax: "",
         colors: [],
@@ -61,7 +46,6 @@ const CarPage = () => {
         name: yup.string().required("Поле не должно быть пустым"),
         number: yup.string().required("Поле не должно быть пустым"),
         category: yup.object().nullable().required("Поле не должно быть пустым"),
-        // colors: yup.object().nullable().required("Поле не должно быть пустым"),
         priceMin: yup.number().typeError("Пожалуйста введите число").required("Поле не должно быть пустым"),
         priceMax: yup
             .number()
@@ -95,9 +79,6 @@ const CarPage = () => {
         resolver: yupResolver(validationSchema),
         mode: "onSubmit",
     });
-
-    const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays] =
-        useDateFormat();
 
     useEffect(() => {
         if (carId) {
@@ -220,7 +201,6 @@ const CarPage = () => {
         },
     ];
 
-    //   { name: "image", placeholder: "Картинка", label: "Картинка", id: "image", type: "file" }
     const inputArray = [
         { name: "name", placeholder: "Модель", label: "Модель", id: "name", type: "text" },
         { name: "number", placeholder: "Номер", label: "Номер", id: "number", type: "text" },
@@ -233,8 +213,6 @@ const CarPage = () => {
         <section className={styles.orderPage}>
             <SuccessPopup isPopupOpened={isPopupOpened} togglePopup={togglePopup} popupMessage={popupMessage} />
             {selectedCar.status === "loading" && status !== "rejected" && <Preloader />}
-
-            {/* {points.status === "loading" && status !== "rejected" && <Preloader />} */}
             {selectedCar.status === "succeeded" && (
                 <form className={styles.orderBox}>
                     <div className={styles.orderDataBox}>
@@ -298,7 +276,6 @@ const CarPage = () => {
                             <Controller
                                 name="category"
                                 control={control}
-                                // defaultValue={{ value: 10, label: 10, id: 10 }}
                                 render={({ field }) => (
                                     <CarInputControlled
                                         label="Категория"
@@ -310,8 +287,6 @@ const CarPage = () => {
                                         options={categoryOptions}
                                         reset={reset}
                                         getValues={getValues}
-
-                                        // valueState={iniialValue.value ? iniialValue.value : ""}
                                     />
                                 )}
                             />

@@ -1,35 +1,30 @@
-import React, { useEffect } from "react";
-import classNames from "classnames";
+import React from "react";
 import { useHistory } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import { imageUrl } from "../../../../constants/constants";
-import Checkbox from "../../../Common/UI/Checkbox/Checkbox.jsx";
+import { useDispatch } from "react-redux";
 import Button from "../../../Common/UI/Button.jsx";
-// import ButtonBar from "./ButtonBar/ButtonBar.jsx";
+
 import useDateFormat from "../../../../hooks/useDateFormat";
 import useNumberFormat from "../../../../hooks/useNumberFormat";
 import editButton from "../../../../images/admin/editIcon.svg";
+import cancelButton from "../../../../images/admin/cancelButton.svg";
 import styles from "./CityCard.module.scss";
+import { removeCity } from "../../../../store/slices/apiSlice";
 
-const CityCard = ({ city, onClick, token, statuses }) => {
+const CityCard = ({ city, onClick }) => {
     const dispatch = useDispatch();
     const { push } = useHistory();
-    const [convertNumber, convertCarNumber] = useNumberFormat();
-
-    const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays] =
-        useDateFormat();
+    useDateFormat();
 
     const handleOpenCard = () => {
         onClick(city);
     };
 
-    // useEffect(() => {})
-
     const handleChange = () => {
         push(`/admin/citylist/${city.id}`);
-        // if (isCardOpened) {
-        //     openCard();
-        // }
+    };
+
+    const handleDeleteCity = () => {
+        dispatch(removeCity({ cityId: city.id }));
     };
 
     return (
@@ -46,11 +41,16 @@ const CityCard = ({ city, onClick, token, statuses }) => {
                         </span>
                     </div>
                 </div>
-                <Button className={styles.orderButtonDesk} onClick={handleChange}>
-                    <img src={editButton} className={styles.orderButtonImage} />
-                    <p className={styles.orderButtonText}>Изменить</p>
-                </Button>
-                {/* <ButtonBar order={order} token={token} className={styles.buttonContainer} /> */}
+                <div className={styles.buttonContainer}>
+                    <Button className={styles.orderButtonDesk} onClick={handleChange}>
+                        <img src={editButton} className={styles.orderButtonImage} />
+                        <p className={styles.orderButtonText}>Изменить</p>
+                    </Button>
+                    <Button className={styles.orderButtonDesk} onClick={handleDeleteCity}>
+                        <img src={cancelButton} className={styles.orderButtonImage} />
+                        <p className={styles.orderButtonText}>Удалить</p>
+                    </Button>
+                </div>
             </div>
         </div>
     );
