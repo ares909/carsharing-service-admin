@@ -46,13 +46,13 @@ const FilterBar = ({ token, limit, setCurrentPage }) => {
     const handleFilter = () => {
         setCurrentPage(1);
         dispatch(fetchAllOrders({ token, filters: { page: 1, limit, ...apiFilters.filters } }));
-        dispatch(apiAction({ apiFilters: { ...apiFilters, status: "succeeded" } }));
+        dispatch(apiAction({ apiFilters: { ...apiFilters, status: "ordersFiltered" } }));
     };
 
     const handleResetFilter = () => {
         if (apiFilters.status === "filtered") {
             dispatch(resetApiFilters());
-        } else if (apiFilters.status === "succeeded") {
+        } else if (apiFilters.status === "ordersFiltered") {
             dispatch(resetApiFilters());
             setCurrentPage(1);
             dispatch(fetchAllOrders({ token, filters: { page: 1, limit } }));

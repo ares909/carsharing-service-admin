@@ -14,9 +14,6 @@ import styles from "./FilterBar.module.scss";
 const CarFilter = ({ token, limit, setCurrentPage }) => {
     const dispatch = useDispatch();
     const { ordersData, cities, cars, statuses, apiFilters, categories } = useSelector(apiData);
-    // const [filteredCars, setFilteredCars] = useState([]);
-
-    // useEffect(() => {}, [apiFilters.filters]);
 
     const modelOptions =
         cars.data.length > 0 ? cars.data.map((item) => ({ value: item.name, label: item.name, id: item.id })) : [];
@@ -54,14 +51,14 @@ const CarFilter = ({ token, limit, setCurrentPage }) => {
     };
     const handleFilter = () => {
         setCurrentPage(1);
-        dispatch(apiAction({ apiFilters: { ...apiFilters, status: "succeeded" } }));
+        dispatch(apiAction({ apiFilters: { ...apiFilters, status: "carsFiltered" } }));
         dispatch(apiAction({ filteredCars: filterArray() }));
     };
 
     const handleResetFilter = () => {
         if (apiFilters.status === "filtered") {
             dispatch(resetApiFilters());
-        } else if (apiFilters.status === "succeeded") {
+        } else if (apiFilters.status === "carsFiltered") {
             dispatch(resetApiFilters());
             dispatch(resetFilteredCars());
             setCurrentPage(1);

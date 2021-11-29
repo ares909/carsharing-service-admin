@@ -16,9 +16,10 @@ import {
     fetchCities,
     fetchStatuses,
     resetOrder,
-    resetError,
+    apiAction,
     fetchRates,
     resetPopupMessage,
+    resetApiFilters,
 } from "../../../store/slices/apiSlice";
 import { messages, pageSize } from "../../../constants/constants";
 import { handleRefresh } from "../../../store/slices/authSlice";
@@ -30,7 +31,8 @@ const OrderList = () => {
     const { push } = useHistory();
     const token = JSON.parse(localStorage.getItem("access_token"));
     const refreshToken = JSON.parse(localStorage.getItem("token"));
-    const { cars, ordersData, status, deletedOrder, error, apiFilters, singleOrder, statuses } = useSelector(apiData);
+    const { cars, ordersData, status, deletedOrder, error, apiFilters, singleOrder, filteredCars } =
+        useSelector(apiData);
     const [currentPage, setCurrentPage] = useState(1);
     const [isCardOpened, openCard] = useModal();
     const [isPopupOpened, togglePopup] = useModal();
@@ -41,6 +43,15 @@ const OrderList = () => {
         [`${styles.formWrapper}`]: true,
         [`${styles.formWrapperActive}`]: isCardOpened,
     });
+
+    useEffect(() => {
+        if (apiFilters.status === "carsFiltered") {
+            dispatch(resetApiFilters());
+            setCurrentPage(1);
+            dispatch(fetchAllOrders({ token, filters: { page: 1, limit: pageSize } }));
+            dispatch(apiAction({ filteredCars: [] }));
+        }
+    }, [apiFilters.status, filteredCars.length]);
 
     useEffect(() => {
         if (!token) {

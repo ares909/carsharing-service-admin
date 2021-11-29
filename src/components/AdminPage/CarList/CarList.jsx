@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import classNames from "classnames";
 import { authState, apiData } from "../../../store/selectors/selectors";
 import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
@@ -10,7 +10,13 @@ import Pagination from "../Common/Pagination/Pagination.jsx";
 import FilterBar from "../Common/FilterBar/FilterBar.jsx";
 import CarFilter from "../Common/FilterBar/CarFilter.jsx";
 import SuccessPopup from "../../Common/UI/SuccessPopup/SuccessPopup.jsx";
-import { fetchCars, resetPopupMessage, fetchCategories } from "../../../store/slices/apiSlice";
+import {
+    fetchCars,
+    resetPopupMessage,
+    fetchCategories,
+    resetApiFilters,
+    fetchAllOrders,
+} from "../../../store/slices/apiSlice";
 import { messages, pageSize } from "../../../constants/constants";
 import useModal from "../../../hooks/useModal";
 import styles from "./CarList.module.scss";
@@ -18,6 +24,7 @@ import styles from "./CarList.module.scss";
 const CarList = () => {
     const dispatch = useDispatch();
     const { push } = useHistory();
+    const { pathname } = useLocation();
     const token = JSON.parse(localStorage.getItem("access_token"));
     const { cars, status, error, apiFilters, filteredCars } = useSelector(apiData);
     const [currentPage, setCurrentPage] = useState(1);
@@ -29,6 +36,13 @@ const CarList = () => {
         [`${styles.formWrapper}`]: true,
         [`${styles.formWrapperActive}`]: isCardOpened,
     });
+
+    useEffect(() => {
+        if (apiFilters.status === "ordersFiltered") {
+            dispatch(resetApiFilters());
+            dispatch(fetchAllOrders({ token, filters: { page: 1, limit: pageSize } }));
+        }
+    }, [apiFilters.status]);
 
     useEffect(() => {
         if (!token) {
@@ -46,11 +60,11 @@ const CarList = () => {
     const currentTableData = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * pageSize;
         const lastPageIndex = firstPageIndex + pageSize;
-        if (apiFilters.status === "succeeded") {
+        if (apiFilters.status === "ordersFiltered") {
             return filteredCars.slice(firstPageIndex, lastPageIndex);
         }
         return cars.data.length > 0 && cars.data.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, cars.data, filteredCars]);
+    }, [currentPage, cars.data, filteredCars, apiFilters.status]);
 
     useEffect(() => {
         if (error) {
