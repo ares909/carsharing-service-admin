@@ -9,7 +9,7 @@ import editButton from "../../../../images/admin/editIcon.svg";
 import cancelButton from "../../../../images/admin/cancelButton.svg";
 import styles from "./CityCard.module.scss";
 
-const CityCard = ({ city, onClick }) => {
+const CityCard = ({ city, onClick, token }) => {
     const dispatch = useDispatch();
     const { push } = useHistory();
 
@@ -22,7 +22,7 @@ const CityCard = ({ city, onClick }) => {
     };
 
     const handleDeleteCity = () => {
-        dispatch(removeCity({ cityId: city.id }));
+        dispatch(removeCity({ cityId: city.id, token }));
     };
 
     return (

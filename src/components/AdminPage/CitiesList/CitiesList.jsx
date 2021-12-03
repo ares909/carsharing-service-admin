@@ -92,7 +92,7 @@ const CitiesList = () => {
                     innerRef={popupMessageRef}
                 />
                 <div className={styles.orderBox}>
-                    <CityInputBar />
+                    <CityInputBar token={token} />
 
                     <div className={styles.orderContainer}>
                         {status === "rejected" && <div className={styles.textMessage}>Ошибка сервера</div>}

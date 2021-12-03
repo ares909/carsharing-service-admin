@@ -7,13 +7,13 @@ import { removePoint } from "../../../../store/actions/apiActions";
 import cancelButton from "../../../../images/admin/cancelButton.svg";
 import styles from "./PointCard.module.scss";
 
-const PointCard = ({ point, onClick }) => {
+const PointCard = ({ point, onClick, token }) => {
     const dispatch = useDispatch();
     const handleOpenCard = () => {
         onClick(point);
     };
     const handleDelete = () => {
-        dispatch(removePoint({ pointId: point.id }));
+        dispatch(removePoint({ pointId: point.id, token }));
     };
 
     return (

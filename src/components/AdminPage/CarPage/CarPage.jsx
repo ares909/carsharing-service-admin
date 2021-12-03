@@ -9,6 +9,7 @@ import useConbertToBase64 from "../../../hooks/useConvertBase64";
 
 const CarPage = () => {
     const { carId } = useParams();
+    const token = JSON.parse(localStorage.getItem("access_token"));
     const convertToBase64 = useConbertToBase64();
     const dispatch = useDispatch();
     const { selectedCar } = useSelector(apiData);
@@ -69,6 +70,7 @@ const CarPage = () => {
                 car: {
                     ...values,
                 },
+                token,
             }),
         );
     };

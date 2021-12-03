@@ -64,6 +64,7 @@ const NewCarPage = () => {
                 car: {
                     ...values,
                 },
+                token,
             }),
         );
     };

@@ -11,7 +11,7 @@ import cityValidationSchema from "../../../../validation/cityValidation";
 
 import styles from "./CityInputBar.module.scss";
 
-const CityInputBar = () => {
+const CityInputBar = ({ token }) => {
     const dispatch = useDispatch();
     const { cities } = useSelector(apiData);
     const {
@@ -26,7 +26,7 @@ const CityInputBar = () => {
     });
 
     const handlePostCity = (data) => {
-        dispatch(createCity({ city: { name: data.сityName } }));
+        dispatch(createCity({ city: { name: data.сityName }, token }));
         dispatch(fetchCities());
         reset();
     };

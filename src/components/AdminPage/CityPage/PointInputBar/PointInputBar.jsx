@@ -13,7 +13,7 @@ import cancelButton from "../../../../images/admin/cancelButton.svg";
 import pointValidationSchema from "../../../../validation/pointValidation";
 import styles from "./PointInputBar.module.scss";
 
-const PointInputBar = ({ cityId }) => {
+const PointInputBar = ({ cityId, token }) => {
     const dispatch = useDispatch();
     const { points } = useSelector(apiData);
     const {
@@ -35,6 +35,7 @@ const PointInputBar = ({ cityId }) => {
                     address: data.pointAddress,
                 },
                 cityId,
+                token,
             }),
         );
         dispatch(fetchPoints(cityId));

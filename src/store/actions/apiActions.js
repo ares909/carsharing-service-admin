@@ -86,65 +86,65 @@ export const fetchCar = createAsyncThunk("api/fetchCar", (carId, { rejectWithVal
     }
 });
 
-export const changeCar = createAsyncThunk("api/changeCar", ({ carId, car }, rejectWithValue) => {
+export const changeCar = createAsyncThunk("api/changeCar", ({ carId, car, token }, rejectWithValue) => {
     try {
-        return putCar({ carId, car });
+        return putCar({ carId, car, token });
     } catch (error) {
         return rejectWithValue(error.message);
     }
 });
 
-export const createCar = createAsyncThunk("api/createCar", ({ car }, rejectWithValue) => {
+export const createCar = createAsyncThunk("api/createCar", ({ car, token }, rejectWithValue) => {
     try {
-        return postCar({ car });
+        return postCar({ car, token });
     } catch (error) {
         return rejectWithValue(error.message);
     }
 });
 
-export const createCity = createAsyncThunk("api/createCity", ({ city }, rejectWithValue) => {
+export const createCity = createAsyncThunk("api/createCity", ({ city, token }, rejectWithValue) => {
     try {
-        return postCity({ city });
+        return postCity({ city, token });
     } catch (error) {
         return rejectWithValue(error.message);
     }
 });
 
-export const createPoint = createAsyncThunk("api/createPoint", ({ point, cityId }, rejectWithValue) => {
+export const createPoint = createAsyncThunk("api/createPoint", ({ point, cityId, token }, rejectWithValue) => {
     try {
-        return postPoint({ point, cityId });
+        return postPoint({ point, cityId, token });
     } catch (error) {
         return rejectWithValue(error.message);
     }
 });
 
-export const removePoint = createAsyncThunk("api/deletePoint", ({ pointId }, rejectWithValue) => {
+export const removePoint = createAsyncThunk("api/deletePoint", ({ pointId, token }, rejectWithValue) => {
     try {
-        return deletePoint({ pointId });
+        return deletePoint({ pointId, token });
     } catch (error) {
         return rejectWithValue(error.message);
     }
 });
 
-export const removeCity = createAsyncThunk("api/removeCity", ({ cityId }, rejectWithValue) => {
+export const removeCity = createAsyncThunk("api/removeCity", ({ cityId, token }, rejectWithValue) => {
     try {
-        return deleteCity({ cityId });
+        return deleteCity({ cityId, token });
     } catch (error) {
         return rejectWithValue(error.message);
     }
 });
 
-export const createRate = createAsyncThunk("api/createRate", ({ rate }, rejectWithValue) => {
+export const createRate = createAsyncThunk("api/createRate", ({ rate, token }, rejectWithValue) => {
     try {
-        return postRate({ rate });
+        return postRate({ rate, token });
     } catch (error) {
         return rejectWithValue(error.message);
     }
 });
 
-export const removeRate = createAsyncThunk("api/removeRate", ({ rateId }, rejectWithValue) => {
+export const removeRate = createAsyncThunk("api/removeRate", ({ rateId, token }, rejectWithValue) => {
     try {
-        return deleteRate({ rateId });
+        return deleteRate({ rateId, token });
     } catch (error) {
         return rejectWithValue(error.message);
     }

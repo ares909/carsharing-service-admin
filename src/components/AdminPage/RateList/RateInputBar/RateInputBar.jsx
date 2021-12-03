@@ -14,7 +14,7 @@ import approveButton from "../../../../images/admin/approveButton.svg";
 import cancelButton from "../../../../images/admin/cancelButton.svg";
 import styles from "./RateInputBar.module.scss";
 
-const PointInputBar = () => {
+const PointInputBar = ({ token }) => {
     const dispatch = useDispatch();
     const { rates } = useSelector(apiData);
     const mapObject = useMapper();
@@ -38,6 +38,7 @@ const PointInputBar = () => {
                 rate: {
                     ...values,
                 },
+                token,
             }),
         );
 

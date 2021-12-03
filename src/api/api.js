@@ -94,7 +94,7 @@ export const putOrder = async ({ orderId, statusId }) => {
     return response;
 };
 
-export const putCar = async ({ carId, car }) => {
+export const putCar = async ({ carId, car, token }) => {
     const response = await axios.put(
         `${baseUrl}/db/car/${carId}`,
         {
@@ -114,13 +114,17 @@ export const putCar = async ({ carId, car }) => {
             categoryId: car.categoryId,
         },
         {
-            headers: headersInfo,
+            headers: {
+                "X-Api-Factory-Application-Id": appId,
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         },
     );
     return response;
 };
 
-export const postCar = async ({ car }) => {
+export const postCar = async ({ car, token }) => {
     const response = await axios.post(
         `${baseUrl}/db/car`,
         {
@@ -140,26 +144,34 @@ export const postCar = async ({ car }) => {
             categoryId: car.categoryId,
         },
         {
-            headers: headersInfo,
+            headers: {
+                "X-Api-Factory-Application-Id": appId,
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         },
     );
     return response;
 };
 
-export const postCity = async ({ city }) => {
+export const postCity = async ({ city, token }) => {
     const response = await axios.post(
         `${baseUrl}/db/city`,
         {
             name: city.name,
         },
         {
-            headers: headersInfo,
+            headers: {
+                "X-Api-Factory-Application-Id": appId,
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         },
     );
     return response;
 };
 
-export const postPoint = async ({ point, cityId }) => {
+export const postPoint = async ({ point, cityId, token }) => {
     const response = await axios.post(
         `${baseUrl}/db/point`,
         {
@@ -168,13 +180,17 @@ export const postPoint = async ({ point, cityId }) => {
             cityId,
         },
         {
-            headers: headersInfo,
+            headers: {
+                "X-Api-Factory-Application-Id": appId,
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         },
     );
     return response;
 };
 
-export const postRate = async ({ rate }) => {
+export const postRate = async ({ rate, token }) => {
     const res = await axios.post(
         `${baseUrl}/db/rateType`,
         {
@@ -192,40 +208,56 @@ export const postRate = async ({ rate }) => {
             price: rate.price,
         },
         {
-            headers: headersInfo,
+            headers: {
+                "X-Api-Factory-Application-Id": appId,
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         },
     );
 
     return response;
 };
-export const deleteRate = async ({ rateId }) => {
+export const deleteRate = async ({ rateId, token }) => {
     const response = await axios.delete(
         `${baseUrl}/db/rate/${rateId}`,
 
         {
-            headers: headersInfo,
+            headers: {
+                "X-Api-Factory-Application-Id": appId,
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         },
     );
     return response;
 };
 
-export const deleteCity = async ({ cityId }) => {
+export const deleteCity = async ({ cityId, token }) => {
     const response = await axios.delete(
         `${baseUrl}/db/city/${cityId}`,
 
         {
-            headers: headersInfo,
+            headers: {
+                "X-Api-Factory-Application-Id": appId,
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         },
     );
     return response;
 };
 
-export const deletePoint = async ({ pointId }) => {
+export const deletePoint = async ({ pointId, token }) => {
     const response = await axios.delete(
         `${baseUrl}/db/point/${pointId}`,
 
         {
-            headers: headersInfo,
+            headers: {
+                "X-Api-Factory-Application-Id": appId,
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         },
     );
     return response;

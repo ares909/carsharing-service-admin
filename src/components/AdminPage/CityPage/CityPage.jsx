@@ -97,7 +97,7 @@ const CityPage = () => {
                     innerRef={popupMessageRef}
                 />
                 <div className={styles.orderBox}>
-                    <PointInputBar cityId={cityId} />
+                    <PointInputBar cityId={cityId} token={token} />
 
                     <div className={styles.orderContainer}>
                         {status === "rejected" && <div className={styles.textMessage}>Ошибка сервера</div>}

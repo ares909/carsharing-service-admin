@@ -7,7 +7,7 @@ import cancelButton from "../../../../images/admin/cancelButton.svg";
 import styles from "./RateCard.module.scss";
 import { ratesBlockArray } from "../../../../constants/rateConstants";
 
-const RateCard = ({ rate, onClick }) => {
+const RateCard = ({ rate, onClick, token }) => {
     const dispatch = useDispatch();
 
     const handleOpenCard = () => {
@@ -15,7 +15,7 @@ const RateCard = ({ rate, onClick }) => {
     };
 
     const handleDelete = () => {
-        dispatch(removeRate({ rateId: rate.id }));
+        dispatch(removeRate({ rateId: rate.id, token }));
     };
 
     return (
