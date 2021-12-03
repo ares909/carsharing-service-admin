@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/carsharing-service-admin/static/css/main.bd4913bb.chunk.css",
-    "main.js": "/carsharing-service-admin/static/js/main.880a34e2.chunk.js",
-    "main.js.map": "/carsharing-service-admin/static/js/main.880a34e2.chunk.js.map",
+    "main.js": "/carsharing-service-admin/static/js/main.13342f14.chunk.js",
+    "main.js.map": "/carsharing-service-admin/static/js/main.13342f14.chunk.js.map",
     "runtime-main.js": "/carsharing-service-admin/static/js/runtime-main.e96612f4.js",
     "runtime-main.js.map": "/carsharing-service-admin/static/js/runtime-main.e96612f4.js.map",
-    "static/js/2.80fb253b.chunk.js": "/carsharing-service-admin/static/js/2.80fb253b.chunk.js",
-    "static/js/2.80fb253b.chunk.js.map": "/carsharing-service-admin/static/js/2.80fb253b.chunk.js.map",
+    "static/js/2.5f80a017.chunk.js": "/carsharing-service-admin/static/js/2.5f80a017.chunk.js",
+    "static/js/2.5f80a017.chunk.js.map": "/carsharing-service-admin/static/js/2.5f80a017.chunk.js.map",
     "index.html": "/carsharing-service-admin/index.html",
     "static/css/main.bd4913bb.chunk.css.map": "/carsharing-service-admin/static/css/main.bd4913bb.chunk.css.map",
-    "static/js/2.80fb253b.chunk.js.LICENSE.txt": "/carsharing-service-admin/static/js/2.80fb253b.chunk.js.LICENSE.txt",
+    "static/js/2.5f80a017.chunk.js.LICENSE.txt": "/carsharing-service-admin/static/js/2.5f80a017.chunk.js.LICENSE.txt",
     "static/media/index.scss": "/carsharing-service-admin/static/media/Roboto-Regular.a8d6ac03.ttf",
     "static/media/adminLogo.830257bf.svg": "/carsharing-service-admin/static/media/adminLogo.830257bf.svg",
     "static/media/approveButton.a5dad055.svg": "/carsharing-service-admin/static/media/approveButton.a5dad055.svg",
@@ -23,8 +23,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.e96612f4.js",
-    "static/js/2.80fb253b.chunk.js",
+    "static/js/2.5f80a017.chunk.js",
     "static/css/main.bd4913bb.chunk.css",
-    "static/js/main.880a34e2.chunk.js"
+    "static/js/main.13342f14.chunk.js"
   ]
 }
