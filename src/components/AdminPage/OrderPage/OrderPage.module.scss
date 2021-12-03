@@ -146,7 +146,7 @@
     flex-direction: row;
     align-self: center;
     color: #121212;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 16px;
     line-height: 18px;
     margin: 0 5px 20px 0;
@@ -184,7 +184,7 @@
 .orderTitleTextBold {
     margin-left: 10px;
     color: #121212;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 16px;
     line-height: 18px;
     white-space: nowrap;
@@ -206,7 +206,7 @@
 
 .orderTextBold {
     color: #121212;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 14px;
     line-height: 16px;
     white-space: nowrap;
@@ -243,7 +243,7 @@
 .formButton {
     @include white-text;
     @include hover-with-opacity;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 14px;
     line-height: 16px;
     margin: 0 10px 0 0;

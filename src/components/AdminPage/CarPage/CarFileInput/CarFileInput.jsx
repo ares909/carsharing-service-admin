@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import classNames from "classnames";
 import Button from "../../../Common/UI/Button.jsx";
@@ -6,6 +6,7 @@ import styles from "./CarFileInput.module.scss";
 
 const CarFileInput = ({ id, name, label, placeholder, register, errors, isValid, type, onFocus, ...rest }) => {
     const { ref, ...inputProps } = register(name);
+    const inputRef = useRef();
 
     const inputClassName = classNames({
         [`${styles.input}`]: true,
@@ -14,7 +15,7 @@ const CarFileInput = ({ id, name, label, placeholder, register, errors, isValid,
 
     const handleClick = (e) => {
         e.preventDefault();
-        document.getElementById(id).click();
+        inputRef.current.click();
     };
     return (
         <div className={styles.inputContainer}>
@@ -26,7 +27,10 @@ const CarFileInput = ({ id, name, label, placeholder, register, errors, isValid,
                 className={inputClassName}
                 name={name}
                 placeholder={placeholder}
-                ref={ref}
+                ref={(e) => {
+                    ref(e);
+                    inputRef.current = e;
+                }}
                 autoComplete="off"
                 type={type}
                 {...inputProps}

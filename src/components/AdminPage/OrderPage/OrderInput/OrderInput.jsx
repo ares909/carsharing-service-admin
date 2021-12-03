@@ -4,7 +4,8 @@ import classNames from "classnames";
 import Select, { createFilter } from "react-select";
 import { apiData } from "../../../../store/selectors/selectors";
 import { resetAuthState } from "../../../../store/slices/authSlice";
-import { fetchPoints, apiAction } from "../../../../store/slices/apiSlice";
+import { apiAction } from "../../../../store/slices/apiSlice";
+import { fetchPoints } from "../../../../store/actions/apiActions";
 import useDateFormat from "../../../../hooks/useDateFormat";
 import styles from "./OrderInput.module.scss";
 

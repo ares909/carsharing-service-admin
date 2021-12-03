@@ -5,7 +5,7 @@ import Button from "../../../Common/UI/Button.jsx";
 import plusButton from "../../../../images/admin/plusButton.svg";
 import styles from "./CarColorInput.module.scss";
 
-const CarColorInput = ({ onChange, onClick, colors, colorOption }) => {
+const CarColorInput = ({ onChange, onClick, colors, colorOption, handleDeleteColor }) => {
     const [disabledState, setDisabledState] = useState(false);
     useEffect(() => {
         if (!colorOption) {
@@ -44,7 +44,7 @@ const CarColorInput = ({ onChange, onClick, colors, colorOption }) => {
             </div>
             {colors.length > 0 &&
                 colors.map((color, index) => (
-                    <Checkbox key={index} name={color} value={color} checked={true} onChange={() => {}} />
+                    <Checkbox key={index} name={color} value={color} checked={true} onChange={handleDeleteColor} />
                 ))}
         </div>
     );

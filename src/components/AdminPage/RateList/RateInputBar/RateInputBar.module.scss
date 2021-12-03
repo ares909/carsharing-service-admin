@@ -26,15 +26,15 @@
     }
     @media screen and (min-width: 0px) and (max-width: 424px) {
         // flex-wrap: wrap;
-        min-width: 100%;
-        max-width: 100%;
+        min-width: 95%;
+        max-width: 95%;
         margin: 0 auto 7px;
     }
     @media screen and (min-width: 424px) and (max-width: 549px) {
         // flex-wrap: wrap;
         justify-content: center;
-        min-width: 100%;
-        max-width: 100%;
+        min-width: 95%;
+        max-width: 95%;
         margin: 0 auto 7px;
     }
     @media screen and (min-width: 550px) and (max-width: 767px) {
@@ -65,13 +65,13 @@
     flex-direction: row;
     margin-left: auto;
     @media screen and (min-width: 0) and (max-width: 549px) {
-        margin: 0 auto 0;
+        margin-left: auto;
     }
 }
 .formButton {
     @include white-text;
     @include hover-with-opacity;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 14px;
     line-height: 16px;
     margin: 0 10px 0 0;
@@ -141,29 +141,37 @@
     @media screen and (min-width: 1024px) and (max-width: 1280px) {
         min-width: 150px;
         max-width: 150px;
-        margin: 0 auto 0;
+        // margin: 0 auto 0;
     }
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         min-width: 150px;
         max-width: 150px;
-        margin: 0 auto 0;
+        // margin: 0 auto 0;
     }
     @media screen and (min-width: 0px) and (max-width: 424px) {
         // flex-wrap: wrap;
         min-width: 75px;
         max-width: 75px;
-        margin: 0 auto 0;
+        margin-right: 5px;
     }
     @media screen and (min-width: 424px) and (max-width: 549px) {
         // flex-wrap: wrap;
         justify-content: center;
         min-width: 100px;
         max-width: 100px;
-        margin: 0 auto 0;
+        // margin: 0 auto 0;
+        margin-right: 10px;
     }
     @media screen and (min-width: 550px) and (max-width: 767px) {
         min-width: 150px;
         max-width: 150px;
-        margin: 0 auto 0;
+        // margin: 0 auto 0;
+        margin-right: 10px;
     }
+}
+
+.inputBox {
+    display: flex;
+    flex-direction: row;
+    max-width: fit-content;
 }

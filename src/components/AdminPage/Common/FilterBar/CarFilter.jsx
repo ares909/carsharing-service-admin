@@ -1,27 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
-import Select, { createFilter } from "react-select";
 import { useSelector, useDispatch } from "react-redux";
 import classNames from "classnames";
-import { authState, apiData } from "../../../../store/selectors/selectors";
 import Button from "../../../Common/UI/Button.jsx";
 import Filter from "./FilterElement/Filter.jsx";
-import { apiAction, fetchAllOrders, resetApiFilters, resetFilteredCars } from "../../../../store/slices/apiSlice";
+import { apiAction, resetApiFilters, resetFilteredCars } from "../../../../store/slices/apiSlice";
+import { authState, apiData } from "../../../../store/selectors/selectors";
 import useFilterList from "../../../../hooks/useFilterList";
+import { categoryOptions, modelOptions } from "../../../../constants/carConstants";
 import approveButton from "../../../../images/admin/approveButton.svg";
 import cancelButton from "../../../../images/admin/cancelButton.svg";
 import styles from "./FilterBar.module.scss";
 
-const CarFilter = ({ token, limit, setCurrentPage }) => {
+const CarFilter = ({ setCurrentPage }) => {
     const dispatch = useDispatch();
-    const { ordersData, cities, cars, statuses, apiFilters, categories } = useSelector(apiData);
-
-    const modelOptions =
-        cars.data.length > 0 ? cars.data.map((item) => ({ value: item.name, label: item.name, id: item.id })) : [];
-
-    const categoryOptions =
-        categories.data.length > 0
-            ? categories.data.map((item) => ({ value: item.name, label: item.name, id: item.id }))
-            : [];
+    const { cars, apiFilters, categories } = useSelector(apiData);
 
     const approveButtonClassName = classNames({
         [`${styles.formButton}`]: true,
@@ -71,14 +63,14 @@ const CarFilter = ({ token, limit, setCurrentPage }) => {
                 <Filter
                     name="model"
                     placeholder="Модель"
-                    options={modelOptions}
+                    options={modelOptions(cars)}
                     onChange={onModelChange}
                     valueState={apiFilters.labels ? apiFilters.labels.model : ""}
                 />
                 <Filter
                     name="category"
                     placeholder="Категория"
-                    options={categoryOptions}
+                    options={categoryOptions(categories)}
                     onChange={onCategoryChage}
                     valueState={apiFilters.labels ? apiFilters.labels.category : ""}
                 />

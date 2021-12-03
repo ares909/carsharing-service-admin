@@ -7,7 +7,9 @@ import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import Input from "../../Common/UI/Input/Input.jsx";
 import Button from "../../Common/UI/Button.jsx";
-import { handleAuth, handleRegister, resetAuthState, handleRefresh } from "../../../store/slices/authSlice";
+import loginValidationSchema from "../../../validation/loginValidation";
+import { resetAuthState } from "../../../store/slices/authSlice";
+import { handleAuth, handleRegister, handleRefresh } from "../../../store/actions/authActions";
 import { authState } from "../../../store/selectors/selectors";
 import logo from "../../../images/admin/adminLogo.svg";
 import styles from "./Login.module.scss";
@@ -18,26 +20,13 @@ const Login = () => {
     const { push } = useHistory();
     const { status, error, user } = useSelector(authState);
 
-    const validationSchema = yup.object().shape({
-        username: yup
-            .string()
-            .required("Поле не должно быть пустым")
-            .matches(/[a-zA-Z]/, "Логин должен использовать латинские буквы."),
-
-        password: yup
-            .string()
-            .required("Поле не должно быть пустым")
-            .min(8, "Пароль должен содержать не менее 8 символов.")
-            .matches(/[a-zA-Z]/, "Пароль должен использовать латинские буквы."),
-    });
-
     const {
         register,
         handleSubmit,
         formState: { errors, isValid },
         reset,
     } = useForm({
-        resolver: yupResolver(validationSchema),
+        resolver: yupResolver(loginValidationSchema),
         mode: "onSubmit",
     });
 

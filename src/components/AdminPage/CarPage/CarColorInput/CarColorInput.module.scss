@@ -108,13 +108,22 @@
     background: inherit;
     border: none;
     cursor: pointer;
-    min-width: 30px;
-    max-width: 30px;
+    min-width: 34.5px;
+    max-width: 34.5px;
     height: inherit;
     padding: 0;
     border: 0.5px solid #becad6;
     border-radius: 3px;
     margin: 0;
+
+    @media screen and (min-width: 768px) and (max-width: 1280px) {
+        min-width: 32.5px;
+        max-width: 32.5px;;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        min-width: 30.5px;
+        max-width: 30.5px;;
+    }
 }
 
 .buttonDisabled {

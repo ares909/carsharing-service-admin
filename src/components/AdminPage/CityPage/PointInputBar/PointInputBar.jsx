@@ -7,33 +7,23 @@ import classNames from "classnames";
 import { apiData } from "../../../../store/selectors/selectors";
 import Button from "../../../Common/UI/Button.jsx";
 import PointInput from "../../CitiesList/CityInput/CityInput.jsx";
-import { createPoint, fetchPoints } from "../../../../store/slices/apiSlice";
+import { createPoint, fetchPoints } from "../../../../store/actions/apiActions";
 import approveButton from "../../../../images/admin/approveButton.svg";
 import cancelButton from "../../../../images/admin/cancelButton.svg";
-
+import pointValidationSchema from "../../../../validation/pointValidation";
 import styles from "./PointInputBar.module.scss";
 
 const PointInputBar = ({ cityId }) => {
     const dispatch = useDispatch();
     const { points } = useSelector(apiData);
-    const validationSchema = yup.object().shape({
-        pointAddress: yup
-            .string()
-            .required("Поле не должно быть пустым")
-            .test(
-                "pointAddress",
-                "Данный адрес уже существует",
-                (value) => value && !points.data.map((item) => item.address).includes(value),
-            ),
-        pointName: yup.string().required("Поле не должно быть пустым"),
-    });
     const {
         register,
         handleSubmit,
         formState: { errors },
         reset,
     } = useForm({
-        resolver: yupResolver(validationSchema),
+        resolver: yupResolver(pointValidationSchema),
+        context: { points },
         mode: "onSubmit",
     });
 
@@ -63,29 +53,31 @@ const PointInputBar = ({ cityId }) => {
     return (
         <div>
             <form className={styles.filterBar}>
-                <div className={styles.inputContainer}>
-                    <PointInput
-                        defaulValue=""
-                        type="text"
-                        placeholder="Введите адрес"
-                        register={register}
-                        errors={errors}
-                        name="pointAddress"
-                        id="pointAddress"
-                        reset={reset}
-                    />
-                </div>
-                <div className={styles.inputContainer}>
-                    <PointInput
-                        defaulValue=""
-                        type="text"
-                        placeholder="Введите ориентир"
-                        register={register}
-                        errors={errors}
-                        name="pointName"
-                        id="pointName"
-                        reset={reset}
-                    />
+                <div className={styles.inputBox}>
+                    <div className={styles.inputContainer}>
+                        <PointInput
+                            defaulValue=""
+                            type="text"
+                            placeholder="Введите адрес"
+                            register={register}
+                            errors={errors}
+                            name="pointAddress"
+                            id="pointAddress"
+                            reset={reset}
+                        />
+                    </div>
+                    <div className={styles.inputContainer}>
+                        <PointInput
+                            defaulValue=""
+                            type="text"
+                            placeholder="Введите ориентир"
+                            register={register}
+                            errors={errors}
+                            name="pointName"
+                            id="pointName"
+                            reset={reset}
+                        />
+                    </div>
                 </div>
                 <div className={styles.formButtonContainer}>
                     <Button

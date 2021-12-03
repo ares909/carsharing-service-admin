@@ -10,7 +10,7 @@ import avatarImage from "../../../../images/admin/avatarImage.jpg";
 import dropdown from "../../../../images/admin/dropdownIcon.svg";
 import styles from "./AdminHeader.module.scss";
 
-const AdminHeader = ({ onClick, isOpened, toggle }) => {
+const AdminHeader = ({ onClick, isOpened, toggle, innerRef }) => {
     const { push, goBack } = useHistory();
 
     const dropDownClassName = classNames({
@@ -73,17 +73,11 @@ const AdminHeader = ({ onClick, isOpened, toggle }) => {
                         <Button className={styles.dropdownButton} onClick={toggle}>
                             <img src={dropdown} className={styles.profileButtonImage} />
                         </Button>
-                        <div className={dropDownClassName}>
+                        <div className={dropDownClassName} ref={innerRef}>
                             <Button name="Профиль" className={styles.profileButton} onClick={toggle} />
                             <Button name="Выйти" className={styles.profileButton} onClick={logout} />
                         </div>
                     </div>
-
-                    {/* <select>
-                        <option >
-                            Выйти
-                        </option>
-                    </select> */}
                 </div>
             </header>
         )

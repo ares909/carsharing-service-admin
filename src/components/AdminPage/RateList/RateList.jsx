@@ -1,70 +1,40 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import classNames from "classnames";
 import { authState, apiData } from "../../../store/selectors/selectors";
 import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
 import RateCard from "./RateCard/RateCard.jsx";
 
 import Pagination from "../Common/Pagination/Pagination.jsx";
-import FilterBar from "../Common/FilterBar/FilterBar.jsx";
-import CarFilter from "../Common/FilterBar/CarFilter.jsx";
 import RateInputBar from "./RateInputBar/RateInputBar.jsx";
-// import OrderCardMobile from "./CarCa/OrderCardMobile.jsx";
 import SuccessPopup from "../../Common/UI/SuccessPopup/SuccessPopup.jsx";
-import {
-    fetchAllOrders,
-    resetSingleOrder,
-    fetchCars,
-    fetchCities,
-    fetchStatuses,
-    resetOrder,
-    resetError,
-    fetchRates,
-    resetPopupMessage,
-    fetchCategories,
-    resetFilteredCars,
-    fetchPoints,
-    createCity,
-    createPoint,
-} from "../../../store/slices/apiSlice";
-import { messages, pageSize } from "../../../constants/constants";
-import { handleRefresh } from "../../../store/slices/authSlice";
+import { resetPopupMessage } from "../../../store/slices/apiSlice";
+import { fetchRates } from "../../../store/actions/apiActions";
+import { pageSize } from "../../../constants/constants";
+import { messages } from "../../../constants/messages";
 import useModal from "../../../hooks/useModal";
+import useOnClickOutside from "../../../hooks/useOnClickOutside";
 import styles from "./RateList.module.scss";
 
 const RateList = () => {
     const dispatch = useDispatch();
-    const { cityId } = useParams();
+    const popupMessageRef = useRef(null);
     const { push } = useHistory();
     const token = JSON.parse(localStorage.getItem("access_token"));
-    const refreshToken = JSON.parse(localStorage.getItem("token"));
-    const {
-        cars,
-        cities,
-        status,
-        deletedOrder,
-        error,
-        apiFilters,
-        singleOrder,
-        statuses,
-        categories,
-        filteredCars,
-        city,
-        points,
-        point,
-        rates,
-        rate,
-    } = useSelector(apiData);
+    const { status, error, rates, rate } = useSelector(apiData);
     const [currentPage, setCurrentPage] = useState(1);
     const [isCardOpened, openCard] = useModal();
     const [isPopupOpened, togglePopup] = useModal();
     const [selectedCard, setSelectedCard] = useState();
     const [popupMessage, setPopupMessage] = useState("");
 
-    const wrapperClassName = classNames({
-        [`${styles.formWrapper}`]: true,
-        [`${styles.formWrapperActive}`]: isCardOpened,
+    useOnClickOutside(popupMessageRef, () => {
+        if (isPopupOpened) {
+            togglePopup();
+            dispatch(resetPopupMessage());
+            dispatch(fetchRates());
+            setCurrentPage(1);
+        }
     });
 
     useEffect(() => {
@@ -78,7 +48,6 @@ const RateList = () => {
     useEffect(() => {
         if (error) {
             push("/admin/error");
-            // dispatch(resetOrder());
         }
     }, [error]);
 
@@ -100,12 +69,6 @@ const RateList = () => {
         }
     };
 
-    const handleClose = (e) => {
-        if (isCardOpened && e.target.classList.length !== 0 && e.target.className.includes("formWrapper")) {
-            openCard();
-        }
-    };
-
     useEffect(() => {
         if (rate.statusCode === 200 && rate.postStatus === "posted") {
             if (!isPopupOpened) {
@@ -120,28 +83,15 @@ const RateList = () => {
         }
     }, [rate.statusCode, rate.postStatus]);
 
-    const outSideClick = (e) => {
-        if (isPopupOpened && e.target.classList.length !== 0 && !e.target.className.includes("successPopup")) {
-            togglePopup();
-            dispatch(resetPopupMessage());
-            dispatch(fetchRates());
-            setCurrentPage(1);
-        }
-    };
-    useEffect(() => {
-        document.addEventListener("click", outSideClick);
-        document.addEventListener("click", handleClose);
-
-        return () => {
-            document.removeEventListener("click", outSideClick);
-            document.removeEventListener("click", handleClose);
-        };
-    });
-
     return (
         <>
             <section className={styles.orderList}>
-                <SuccessPopup isPopupOpened={isPopupOpened} togglePopup={togglePopup} popupMessage={popupMessage} />
+                <SuccessPopup
+                    isPopupOpened={isPopupOpened}
+                    togglePopup={togglePopup}
+                    popupMessage={popupMessage}
+                    innerRef={popupMessageRef}
+                />
                 <div className={styles.orderBox}>
                     <RateInputBar />
 

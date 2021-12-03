@@ -7,7 +7,7 @@ import { resetPopupMessage } from "../../../../store/slices/apiSlice";
 import approveButtonWhite from "../../../../images/admin/approveButtonWhite.svg";
 import styles from "./SuccessPopup.module.scss";
 
-const SuccessPopup = ({ isPopupOpened, togglePopup, popupMessage }) => {
+const SuccessPopup = ({ isPopupOpened, togglePopup, popupMessage, innerRef }) => {
     const dispatch = useDispatch();
     const popupClassName = classNames({
         [`${styles.successPopup}`]: true,
@@ -19,7 +19,7 @@ const SuccessPopup = ({ isPopupOpened, togglePopup, popupMessage }) => {
         togglePopup();
     };
     return (
-        <div className={popupClassName}>
+        <div className={popupClassName} ref={innerRef}>
             <div className={styles.messageBox}>
                 <img src={approveButtonWhite} className={styles.image} />
                 <p className={styles.text}>{popupMessage}</p>

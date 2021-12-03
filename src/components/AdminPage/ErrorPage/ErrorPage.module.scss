@@ -28,7 +28,7 @@
 }
 
 .code {
-    font-weight: 500;
+    font-weight: bold;
     font-size: 75px;
     line-height: 88px;
     letter-spacing: -5.76923px;
@@ -86,7 +86,7 @@
 .button {
     @include white-text;
     @include hover-with-opacity;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 14px;
     line-height: 16px;
     margin: 0 auto 0;

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { apiData } from "../../../store/selectors/selectors";
@@ -7,12 +7,16 @@ import PointCard from "./PointCard/PointCard.jsx";
 import Pagination from "../Common/Pagination/Pagination.jsx";
 import PointInputBar from "./PointInputBar/PointInputBar.jsx";
 import SuccessPopup from "../../Common/UI/SuccessPopup/SuccessPopup.jsx";
-import { resetPopupMessage, fetchPoints } from "../../../store/slices/apiSlice";
-import { messages, pageSize } from "../../../constants/constants";
+import { resetPopupMessage } from "../../../store/slices/apiSlice";
+import { fetchPoints } from "../../../store/actions/apiActions";
+import { pageSize } from "../../../constants/constants";
+import { messages } from "../../../constants/messages";
 import useModal from "../../../hooks/useModal";
+import useOnClickOutside from "../../../hooks/useOnClickOutside";
 import styles from "./CityPage.module.scss";
 
 const CityPage = () => {
+    const popupMessageRef = useRef(null);
     const dispatch = useDispatch();
     const { cityId } = useParams();
     const { push } = useHistory();
@@ -23,6 +27,14 @@ const CityPage = () => {
     const [isPopupOpened, togglePopup] = useModal();
     const [selectedCard, setSelectedCard] = useState();
     const [popupMessage, setPopupMessage] = useState("");
+
+    useOnClickOutside(popupMessageRef, () => {
+        if (isPopupOpened) {
+            togglePopup();
+            dispatch(resetPopupMessage());
+            setCurrentPage(1);
+        }
+    });
 
     useEffect(() => {
         if (!token) {
@@ -60,12 +72,6 @@ const CityPage = () => {
         }
     };
 
-    const handleClose = (e) => {
-        if (isCardOpened && e.target.classList.length !== 0 && e.target.className.includes("formWrapper")) {
-            openCard();
-        }
-    };
-
     useEffect(() => {
         if (point.statusCode === 200 && point.postStatus === "posted") {
             if (!isPopupOpened) {
@@ -81,27 +87,15 @@ const CityPage = () => {
         }
     }, [point.statusCode, point.postStatus]);
 
-    const outSideClick = (e) => {
-        if (isPopupOpened && e.target.classList.length !== 0 && !e.target.className.includes("successPopup")) {
-            togglePopup();
-            dispatch(resetPopupMessage());
-            setCurrentPage(1);
-        }
-    };
-    useEffect(() => {
-        document.addEventListener("click", outSideClick);
-        document.addEventListener("click", handleClose);
-
-        return () => {
-            document.removeEventListener("click", outSideClick);
-            document.removeEventListener("click", handleClose);
-        };
-    });
-
     return (
         <>
             <section className={styles.orderList}>
-                <SuccessPopup isPopupOpened={isPopupOpened} togglePopup={togglePopup} popupMessage={popupMessage} />
+                <SuccessPopup
+                    isPopupOpened={isPopupOpened}
+                    togglePopup={togglePopup}
+                    popupMessage={popupMessage}
+                    innerRef={popupMessageRef}
+                />
                 <div className={styles.orderBox}>
                     <PointInputBar cityId={cityId} />
 

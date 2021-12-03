@@ -1,27 +1,23 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import classNames from "classnames";
-import { authState, apiData } from "../../../store/selectors/selectors";
 import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
 import CarCard from "./CarCard/CarCard.jsx";
 import CarCardMobile from "./CarCard/CarCardMobile.jsx";
 import Pagination from "../Common/Pagination/Pagination.jsx";
-import FilterBar from "../Common/FilterBar/FilterBar.jsx";
 import CarFilter from "../Common/FilterBar/CarFilter.jsx";
-import SuccessPopup from "../../Common/UI/SuccessPopup/SuccessPopup.jsx";
-import {
-    fetchCars,
-    resetPopupMessage,
-    fetchCategories,
-    resetApiFilters,
-    fetchAllOrders,
-} from "../../../store/slices/apiSlice";
-import { messages, pageSize } from "../../../constants/constants";
+import { resetPopupMessage, resetApiFilters } from "../../../store/slices/apiSlice";
+import { fetchCars, fetchCategories, fetchAllOrders } from "../../../store/actions/apiActions";
+import { pageSize } from "../../../constants/constants";
+import { messages } from "../../../constants/messages";
 import useModal from "../../../hooks/useModal";
+import { authState, apiData } from "../../../store/selectors/selectors";
+import useOnClickOutside from "../../../hooks/useOnClickOutside";
 import styles from "./CarList.module.scss";
 
 const CarList = () => {
+    const cardRef = useRef(null);
     const dispatch = useDispatch();
     const { push } = useHistory();
     const { pathname } = useLocation();
@@ -29,12 +25,17 @@ const CarList = () => {
     const { cars, status, error, apiFilters, filteredCars } = useSelector(apiData);
     const [currentPage, setCurrentPage] = useState(1);
     const [isCardOpened, openCard] = useModal();
-    const [isPopupOpened, togglePopup] = useModal();
     const [selectedCard, setSelectedCard] = useState();
 
     const wrapperClassName = classNames({
         [`${styles.formWrapper}`]: true,
         [`${styles.formWrapperActive}`]: isCardOpened,
+    });
+
+    useOnClickOutside(cardRef, () => {
+        if (isCardOpened) {
+            openCard();
+        }
     });
 
     useEffect(() => {
@@ -60,7 +61,7 @@ const CarList = () => {
     const currentTableData = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * pageSize;
         const lastPageIndex = firstPageIndex + pageSize;
-        if (apiFilters.status === "ordersFiltered") {
+        if (apiFilters.status === "carsFiltered") {
             return filteredCars.slice(firstPageIndex, lastPageIndex);
         }
         return cars.data.length > 0 && cars.data.slice(firstPageIndex, lastPageIndex);
@@ -79,28 +80,6 @@ const CarList = () => {
         }
     };
 
-    const handleClose = (e) => {
-        if (isCardOpened && e.target.classList.length !== 0 && e.target.className.includes("formWrapper")) {
-            openCard();
-        }
-    };
-
-    const outSideClick = (e) => {
-        if (isPopupOpened && e.target.classList.length !== 0 && !e.target.className.includes("successPopup")) {
-            togglePopup();
-            dispatch(resetPopupMessage());
-        }
-    };
-    useEffect(() => {
-        document.addEventListener("click", outSideClick);
-        document.addEventListener("click", handleClose);
-
-        return () => {
-            document.removeEventListener("click", outSideClick);
-            document.removeEventListener("click", handleClose);
-        };
-    });
-
     return (
         <>
             <section className={styles.orderList}>
@@ -110,7 +89,7 @@ const CarList = () => {
                     <div className={styles.orderContainer}>
                         {status === "rejected" && <div className={styles.textMessage}>Ошибка сервера</div>}
                         {cars.status === "loading" && status !== "rejected" && <Preloader />}
-                        {currentTableData.length === 0 && apiFilters.status === "succeeded" && (
+                        {currentTableData.length === 0 && apiFilters.status === "carsFiltered" && (
                             <div className={styles.textMessage}>Ничего не найдено</div>
                         )}
                         {currentTableData.length > 0 &&
@@ -127,8 +106,8 @@ const CarList = () => {
                     />
                 </div>
             </section>
-            <div className={wrapperClassName} onClick={handleClose}>
-                <CarCardMobile car={selectedCard} isCardOpened={isCardOpened} openCard={openCard} />
+            <div className={wrapperClassName}>
+                <CarCardMobile car={selectedCard} isCardOpened={isCardOpened} openCard={openCard} innerRef={cardRef} />
             </div>
         </>
     );

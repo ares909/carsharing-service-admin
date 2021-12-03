@@ -8,8 +8,8 @@
     position: relative;
     @media screen and (min-width: 0px) and (max-width: 424px) {
         margin-right: 0;
-        min-width: 135px;
-        max-width: 135px;
+        min-width: 137px;
+        max-width: 137px;
     }
     @media screen and (min-width: 425px) and (max-width: 767px) {
         max-width: 100%;
@@ -124,17 +124,18 @@
     display: none;
 }
 
-.input[type=file]::-ms-browse {
+.input[type="file"]::-ms-browse {
     display: none;
-    
 }
 
-input[type=file]::file-selector-button {
+.input[type="file"]::file-selector-button  {
     display: none;
+    visibility: hidden;
 }
 
 
 .button {
+    border-radius: 4px;
     position: absolute;
     width: 80px;
     right: 0;
@@ -147,24 +148,22 @@ input[type=file]::file-selector-button {
     color: inherit;
     font-size: 14px;
     line-height: 16px;
-    
+
     @media screen and (min-width: 0px) and (max-width: 424px) {
         font-size: 10px;
         line-height: 12px;
         width: 40px;
         top: 18px;
-        right: -2px;
+        right: -1.5px;
     }
 
     @media screen and (min-width: 425px) and (max-width: 767px) {
         font-size: 10px;
         line-height: 12px;
         width: 50px;
-
     }
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {
-
         font-size: 12px;
         line-height: 14px;
         width: 50px;

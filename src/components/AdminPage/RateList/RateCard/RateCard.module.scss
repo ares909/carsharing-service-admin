@@ -253,7 +253,7 @@
 
 .orderTextBold {
     color: #121212;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 14px;
     line-height: 16px;
     white-space: nowrap;
@@ -310,8 +310,8 @@
     @media screen and (min-width: 550px) and (max-width: 767px) {
         font-size: 10px;
         line-height: 12px;
-        min-width: 200px;
-        max-width: 200px;
+        min-width: 190px;
+        max-width: 190px;
     }
     @media screen and (min-width: 0) and (max-width: 549px) {
         font-size: 10px;

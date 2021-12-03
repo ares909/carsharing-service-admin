@@ -6,30 +6,22 @@ import * as yup from "yup";
 import { apiData } from "../../../../store/selectors/selectors";
 import Button from "../../../Common/UI/Button.jsx";
 import CityInput from "../CityInput/CityInput.jsx";
-import { createCity, fetchCities } from "../../../../store/slices/apiSlice";
+import { fetchCities, createCity } from "../../../../store/actions/apiActions";
+import cityValidationSchema from "../../../../validation/cityValidation";
 
 import styles from "./CityInputBar.module.scss";
 
 const CityInputBar = () => {
     const dispatch = useDispatch();
     const { cities } = useSelector(apiData);
-    const validationSchema = yup.object().shape({
-        сityName: yup
-            .string()
-            .required("Поле не должно быть пустым")
-            .test(
-                "сityName",
-                "Данный город уже существует",
-                (value) => value && !cities.data.map((item) => item.name).includes(value),
-            ),
-    });
     const {
         register,
         handleSubmit,
         formState: { errors },
         reset,
     } = useForm({
-        resolver: yupResolver(validationSchema),
+        resolver: yupResolver(cityValidationSchema),
+        context: { cities },
         mode: "onSubmit",
     });
 

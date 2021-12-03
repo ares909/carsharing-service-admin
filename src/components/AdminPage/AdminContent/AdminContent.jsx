@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Route, useRouteMatch, Switch, useParams, Redirect } from "react-router-dom";
 import classNames from "classnames";
@@ -17,26 +17,33 @@ import CitiesList from "../CitiesList/CitiesList.jsx";
 import CityPage from "../CityPage/CityPage.jsx";
 import RateList from "../RateList/RateList.jsx";
 import useModal from "../../../hooks/useModal";
+import useOnClickOutside from "../../../hooks/useOnClickOutside";
 import styles from "./AdminContent.module.scss";
 
 const AdminContent = () => {
+    const pageRef = useRef(null);
     const [isFormOpened, openForm] = useModal();
     const [isDropDownOpened, toggleDropDown] = useModal();
+    useOnClickOutside(pageRef, () => {
+        if (isDropDownOpened) {
+            toggleDropDown();
+        }
+    });
     const handleModalClick = () => {
         if (!isFormOpened) openForm();
     };
-    const outSideDropDownClick = (e) => {
-        if (isDropDownOpened && e.target.classList.length !== 0 && !e.target.className.includes("dropdown")) {
-            toggleDropDown();
-        }
-    };
-    useEffect(() => {
-        document.addEventListener("click", outSideDropDownClick, true);
+    // const outSideDropDownClick = (e) => {
+    //     if (isDropDownOpened && e.target.classList.length !== 0 && !e.target.className.includes("dropdown")) {
+    //         toggleDropDown();
+    //     }
+    // };
+    // useEffect(() => {
+    //     document.addEventListener("click", outSideDropDownClick, true);
 
-        return () => {
-            document.removeEventListener("click", outSideDropDownClick, true);
-        };
-    });
+    //     return () => {
+    //         document.removeEventListener("click", outSideDropDownClick, true);
+    //     };
+    // });
 
     const wrapperClassName = classNames({
         [`${styles.formWrapper}`]: true,
@@ -45,12 +52,17 @@ const AdminContent = () => {
 
     const match = useRouteMatch();
     return (
-        <div className={styles.adminContent} onClick={outSideDropDownClick}>
+        <div className={styles.adminContent}>
             <div className={wrapperClassName}>
                 <NavBar type="admin" data={navButtonsAdmin} isFormOpened={isFormOpened} openForm={openForm} />
             </div>
             <div className={styles.contentBox}>
-                <AdminHeader onClick={handleModalClick} isOpened={isDropDownOpened} toggle={toggleDropDown} />
+                <AdminHeader
+                    onClick={handleModalClick}
+                    isOpened={isDropDownOpened}
+                    toggle={toggleDropDown}
+                    innerRef={pageRef}
+                />
                 <Switch>
                     <Route exact path={`${match.url}`} component={Login} />
                     <Route exact path={`${match.url}/orderlist`} component={OrderList} />

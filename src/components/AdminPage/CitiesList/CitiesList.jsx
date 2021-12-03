@@ -1,20 +1,23 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import classNames from "classnames";
 import { apiData } from "../../../store/selectors/selectors";
 import Preloader from "../../Common/UI/Preloader/Preloader.jsx";
 import CityCard from "./CityCard/CityCard.jsx";
 import Pagination from "../Common/Pagination/Pagination.jsx";
 import CityInputBar from "./CityInputBar/CityInputBar.jsx";
 import SuccessPopup from "../../Common/UI/SuccessPopup/SuccessPopup.jsx";
-import { fetchCities, resetPopupMessage, fetchCategories } from "../../../store/slices/apiSlice";
-import { messages, pageSize } from "../../../constants/constants";
+import { resetPopupMessage } from "../../../store/slices/apiSlice";
+import { fetchCities, fetchCategories } from "../../../store/actions/apiActions";
+import { pageSize } from "../../../constants/constants";
+import { messages } from "../../../constants/messages";
+import useOnClickOutside from "../../../hooks/useOnClickOutside";
 import useModal from "../../../hooks/useModal";
 import styles from "./CitiesList.module.scss";
 
 const CitiesList = () => {
     const dispatch = useDispatch();
+    const popupMessageRef = useRef(null);
     const { push } = useHistory();
     const token = JSON.parse(localStorage.getItem("access_token"));
     const { cars, cities, status, error, city } = useSelector(apiData);
@@ -23,6 +26,14 @@ const CitiesList = () => {
     const [isPopupOpened, togglePopup] = useModal();
     const [selectedCard, setSelectedCard] = useState();
     const [popupMessage, setPopupMessage] = useState("");
+
+    useOnClickOutside(popupMessageRef, () => {
+        if (isPopupOpened) {
+            togglePopup();
+            dispatch(resetPopupMessage());
+            dispatch(fetchCities());
+        }
+    });
 
     useEffect(() => {
         if (!token) {
@@ -57,12 +68,6 @@ const CitiesList = () => {
         }
     };
 
-    const handleClose = (e) => {
-        if (isCardOpened && e.target.classList.length !== 0 && e.target.className.includes("formWrapper")) {
-            openCard();
-        }
-    };
-
     useEffect(() => {
         if (city.statusCode === 200 && city.postStatus === "posted") {
             if (!isPopupOpened) {
@@ -77,27 +82,15 @@ const CitiesList = () => {
         }
     }, [city.statusCode, city.postStatus]);
 
-    const outSideClick = (e) => {
-        if (isPopupOpened && e.target.classList.length !== 0 && !e.target.className.includes("successPopup")) {
-            togglePopup();
-            dispatch(resetPopupMessage());
-            dispatch(fetchCities());
-        }
-    };
-    useEffect(() => {
-        document.addEventListener("click", outSideClick);
-        document.addEventListener("click", handleClose);
-
-        return () => {
-            document.removeEventListener("click", outSideClick);
-            document.removeEventListener("click", handleClose);
-        };
-    });
-
     return (
         <>
             <section className={styles.orderList}>
-                <SuccessPopup isPopupOpened={isPopupOpened} togglePopup={togglePopup} popupMessage={popupMessage} />
+                <SuccessPopup
+                    isPopupOpened={isPopupOpened}
+                    togglePopup={togglePopup}
+                    popupMessage={popupMessage}
+                    innerRef={popupMessageRef}
+                />
                 <div className={styles.orderBox}>
                     <CityInputBar />
 

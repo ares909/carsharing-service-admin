@@ -254,7 +254,7 @@
 
 .orderTextBold {
     color: #121212;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 14px;
     line-height: 16px;
     white-space: nowrap;
@@ -393,13 +393,19 @@
     height: fit-content;
     align-self: center;
     margin-left: auto;
+    min-width: 200px;
+    max-width: 200px;
 
     @media screen and (min-width: 600px) and (max-width: 1279px) {
+        min-width: 150px;
+        max-width: 150px;
         // flex-direction: column;
         margin-left: auto;
     }
 
     @media screen and (min-width: 0) and (max-width: 649px) {
+        min-width: 50px;
+        max-width: 50px;
         // display: none;
     }
 }
