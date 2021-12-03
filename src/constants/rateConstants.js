@@ -1,10 +1,6 @@
-import useDateFormat from "../hooks/useDateFormat";
-import useNumberFormat from "../hooks/useNumberFormat";
+import convertNumberFormat from "../utils/convertNumberFormat";
 
-const [convertNumber, convertCarNumber] = useNumberFormat();
-
-const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays] =
-    useDateFormat();
+const [convertNumber, convertCarNumber] = convertNumberFormat();
 
 export const ratesBlockArray = (rate) => [
     {

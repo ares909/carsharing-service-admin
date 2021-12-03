@@ -1,10 +1,10 @@
-import useDateFormat from "../hooks/useDateFormat";
-import useNumberFormat from "../hooks/useNumberFormat";
+import convertDateFormat from "../utils/convertDateFormat";
+import convertNumberFormat from "../utils/convertNumberFormat";
 
-const [convertNumber, convertCarNumber] = useNumberFormat();
+const [convertNumber, convertCarNumber] = convertNumberFormat();
 
 const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays] =
-    useDateFormat();
+    convertDateFormat();
 
 export const orderFirstBlockArray = (order) => [
     {

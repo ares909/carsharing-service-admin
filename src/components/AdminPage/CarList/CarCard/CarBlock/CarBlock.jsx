@@ -41,8 +41,7 @@ const CarBlock = ({ data, className, imageClassName, textClassName, type, descri
             break;
 
         default:
-            render = <></>;
-            break;
+            return null;
     }
 
     return render;

@@ -41,8 +41,7 @@ const OrderBlock = ({ data, className, imageClassName, textClassName, type }) =>
             break;
 
         default:
-            render = <></>;
-            break;
+            return null;
     }
 
     return render;

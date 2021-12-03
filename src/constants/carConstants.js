@@ -1,7 +1,6 @@
-import useDateFormat from "../hooks/useDateFormat";
-import useNumberFormat from "../hooks/useNumberFormat";
+import convertNumberFormat from "../utils/convertNumberFormat";
 
-const [convertNumber, convertCarNumber] = useNumberFormat();
+const [convertNumber, convertCarNumber] = convertNumberFormat();
 
 export const carFirstBlockArray = (car) => [
     {

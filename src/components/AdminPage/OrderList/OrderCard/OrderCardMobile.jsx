@@ -5,14 +5,12 @@ import crossButtonBlack from "../../../Common/UI/CrossButton/CrossButtonBlack.js
 import ButtonBar from "./ButtonBar/ButtonBar.jsx";
 import Button from "../../../Common/UI/Button.jsx";
 import OrderBlock from "./OrderBlock/OrderBlock.jsx";
-import useNumberFormat from "../../../../hooks/useNumberFormat";
 import { imageUrl } from "../../../../constants/constants";
 import {
     orderFirstBlockArray,
     orderSecondBlockArray,
     orderThirdBlockArray,
 } from "../../../../constants/orderConstants";
-import useDateFormat from "../../../../hooks/useDateFormat";
 import styles from "./OrderCard.module.scss";
 
 const OrderCardMobile = ({ order, onClick, isCardOpened, openCard, token, innerRef }) => {

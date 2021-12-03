@@ -6,7 +6,7 @@ import { apiData } from "../../../../store/selectors/selectors";
 import { resetAuthState } from "../../../../store/slices/authSlice";
 import { apiAction } from "../../../../store/slices/apiSlice";
 import { fetchPoints } from "../../../../store/actions/apiActions";
-import useDateFormat from "../../../../hooks/useDateFormat";
+import convertDateFormat from "../../../../utils/convertDateFormat";
 import styles from "./OrderInput.module.scss";
 
 const OrderInput = ({
@@ -27,7 +27,7 @@ const OrderInput = ({
     const dispatch = useDispatch();
     const { order, orderPrice, isFullTank, isNeedChildChair, isRightWheel } = useSelector(apiData);
     const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays] =
-        useDateFormat();
+        convertDateFormat();
 
     useEffect(() => {
         if (name === "city" && field.value) {

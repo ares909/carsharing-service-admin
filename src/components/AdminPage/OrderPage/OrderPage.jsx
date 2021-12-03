@@ -100,7 +100,7 @@ const OrderPage = () => {
     }, [order.statusCode, order.postStatus]);
 
     const handlePostOrder = (data) => {
-        const values = mapObject({ dataType: "order", data });
+        const values = mapObject({ dataType: "order", data: { ...data, price: orderPrice } });
         dispatch(
             postOrder({
                 orderId,

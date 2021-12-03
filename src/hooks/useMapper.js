@@ -1,12 +1,7 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { apiData } from "../store/selectors/selectors";
-import useNumberFormat from "./useNumberFormat";
-import useConbertToBase64 from "./useConvertBase64";
+import convertNumberFormat from "../utils/convertNumberFormat";
 
 const useMapper = () => {
-    const { orderPrice } = useSelector(apiData);
-    const [convertNumber, convertCarNumber] = useNumberFormat();
+    const [convertNumber, convertCarNumber] = convertNumberFormat();
 
     const mapObject = ({ data, dataType }) => {
         let values;
@@ -89,7 +84,7 @@ const useMapper = () => {
                     carId: data.car.id,
                     color: data.color.value,
                     rateId: data.rate.id,
-                    price: orderPrice,
+                    price: data.price,
                     isFullTank: data.isFullTank.value,
                     isNeedChildChair: data.isNeedChildChair.value,
                     isRightWheel: data.isRightWheel.value,

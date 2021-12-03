@@ -32,18 +32,6 @@ const AdminContent = () => {
     const handleModalClick = () => {
         if (!isFormOpened) openForm();
     };
-    // const outSideDropDownClick = (e) => {
-    //     if (isDropDownOpened && e.target.classList.length !== 0 && !e.target.className.includes("dropdown")) {
-    //         toggleDropDown();
-    //     }
-    // };
-    // useEffect(() => {
-    //     document.addEventListener("click", outSideDropDownClick, true);
-
-    //     return () => {
-    //         document.removeEventListener("click", outSideDropDownClick, true);
-    //     };
-    // });
 
     const wrapperClassName = classNames({
         [`${styles.formWrapper}`]: true,

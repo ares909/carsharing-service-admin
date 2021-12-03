@@ -2,8 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
 import Select, { createFilter } from "react-select";
-import { apiData } from "../../../../store/selectors/selectors";
-import useDateFormat from "../../../../hooks/useDateFormat";
 import styles from "./CarInputControlled.module.scss";
 
 const CarInputControlled = ({
