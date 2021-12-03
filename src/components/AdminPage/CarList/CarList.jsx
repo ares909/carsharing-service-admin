@@ -64,8 +64,11 @@ const CarList = () => {
         if (apiFilters.status === "carsFiltered") {
             return filteredCars.slice(firstPageIndex, lastPageIndex);
         }
+        if (apiFilters.status === "filtered" && filteredCars.length !== 0) {
+            return filteredCars.slice(firstPageIndex, lastPageIndex);
+        }
         return cars.data.length > 0 && cars.data.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, cars.data, filteredCars, apiFilters.status]);
+    }, [currentPage, cars.data, apiFilters.status, filteredCars.length]);
 
     useEffect(() => {
         if (error) {
@@ -100,7 +103,7 @@ const CarList = () => {
                     <Pagination
                         className={styles.paginationBar}
                         currentPage={currentPage}
-                        totalCount={filteredCars.length > 0 ? filteredCars.length : cars.count}
+                        totalCount={apiFilters.status === "carsFiltered" ? filteredCars.length : cars.count}
                         pageSize={pageSize}
                         onPageChange={changePage}
                     />

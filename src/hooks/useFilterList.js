@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { apiAction, fetchAllOrders } from "../store/slices/apiSlice";
+import { apiAction, resetFilteredCars, resetApiFilters } from "../store/slices/apiSlice";
 import { authState, apiData } from "../store/selectors/selectors";
 
 const useFilterList = () => {
