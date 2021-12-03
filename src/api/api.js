@@ -198,7 +198,11 @@ export const postRate = async ({ rate, token }) => {
             unit: rate.unit,
         },
         {
-            headers: headersInfo,
+            headers: {
+                "X-Api-Factory-Application-Id": appId,
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         },
     );
     const response = await axios.post(
