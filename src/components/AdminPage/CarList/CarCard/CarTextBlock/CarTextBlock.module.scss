@@ -1,0 +1,36 @@
+.carText {
+    color: #121212;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 0 5px 0 0;
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
+}
+
+.carTextBold {
+    color: #121212;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+        white-space: pre-wrap;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+    }
+}

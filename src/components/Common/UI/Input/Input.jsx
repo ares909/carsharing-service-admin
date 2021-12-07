@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { resetAuthState } from "../../../../store/slices/authSlice";
 import styles from "./Input.module.scss";
 
-const Input = ({ name, label, placeholder, register, errors, isValid, type, ...rest }) => {
+const Input = ({ name, label, placeholder, register, errors, isValid, type, onFocus, ...rest }) => {
     const { ref, ...inputProps } = register(name);
     const dispatch = useDispatch();
 
@@ -25,7 +25,8 @@ const Input = ({ name, label, placeholder, register, errors, isValid, type, ...r
                 autoComplete="off"
                 type={type}
                 {...inputProps}
-                onFocus={(e) => dispatch(resetAuthState())}
+                onFocus={onFocus}
+                // onChange={onChange}
             />
             {errors[name] && <span className={styles.inputErrorMessage}>{errors[name].message}</span>}
         </div>

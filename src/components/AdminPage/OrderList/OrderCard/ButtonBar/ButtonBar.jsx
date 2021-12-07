@@ -2,14 +2,8 @@ import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import {
-    apiAction,
-    changeOrder,
-    removeOrder,
-    resetSingleOrder,
-    resetDeletedOrder,
-    resetPopupMessage,
-} from "../../../../../store/slices/apiSlice";
+import { resetPopupMessage } from "../../../../../store/slices/apiSlice";
+import { changeOrder, removeOrder } from "../../../../../store/actions/apiActions";
 import { apiData } from "../../../../../store/selectors/selectors";
 import Button from "../../../../Common/UI/Button.jsx";
 import approveButton from "../../../../../images/admin/approveButton.svg";
@@ -52,6 +46,11 @@ const ButtonBar = ({ order, token, className, isCardOpened, openCard }) => {
             !order.cityId || !order.pointId || order.orderStatusId.name === "Подтвержденные",
     });
 
+    const cancelButtonClassName = classNames({
+        [`${styles.orderButton}`]: true,
+        [`${styles.orderButtonDisabled}`]: !order.cityId || !order.pointId || order.orderStatusId.name === "Отмененые",
+    });
+
     useEffect(() => {
         if (statuses.data.length > 0) {
             setApprovedStatusId(statuses.data[1].id);
@@ -68,7 +67,11 @@ const ButtonBar = ({ order, token, className, isCardOpened, openCard }) => {
                 <img src={approveButton} className={styles.orderButtonImage} />
                 <p className={styles.orderButtonText}> Готово</p>
             </Button>
-            <Button className={styles.orderButton} onClick={handleDelete}>
+            <Button
+                className={cancelButtonClassName}
+                disabled={!order.cityId || !order.pointId || order.orderStatusId.name === "Отмененые"}
+                onClick={handleDelete}
+            >
                 <img src={cancelButton} className={styles.orderButtonImage} />
                 <p className={styles.orderButtonText}>Отмена</p>
             </Button>

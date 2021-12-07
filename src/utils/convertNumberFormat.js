@@ -1,4 +1,4 @@
-const useNumberFormat = () => {
+const convertNumberFormat = () => {
     const convertNumber = (number) => {
         return new Intl.NumberFormat("ru-RU").format(number);
     };
@@ -14,4 +14,4 @@ const useNumberFormat = () => {
     return [convertNumber, convertCarNumber];
 };
 
-export default useNumberFormat;
+export default convertNumberFormat;

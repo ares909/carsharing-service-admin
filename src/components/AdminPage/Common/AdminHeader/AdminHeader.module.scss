@@ -94,12 +94,12 @@
     // justify-content: space-between;
     padding: 14px 0 14px 26px;
     min-width: 169px;
-    @media screen and (min-width: 768px) and (max-width: 1023px) {
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
         font-weight: normal;
         font-size: 24px;
         line-height: 26px;
         margin: auto 0 auto;
-        padding: 10px 0 10px 25px;
+        padding: 10px 0 8px 25px;
         min-width: 140px;
     }
     @media screen and (min-width: 0px) and (max-width: 767px) {
@@ -183,14 +183,19 @@
 .profileButtonImage {
     align-self: center;
     margin: auto;
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
+        position: absolute;
+        top: 5px;
+    }
 }
 
 .listTitle {
     margin: 0;
-    padding: 14px 0 14px;
+    padding: 14px 0 12px;
     font-weight: normal;
     font-size: 29px;
     line-height: 33px;
+    display: flex;
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         font-weight: normal;
         font-size: 24px;
@@ -251,6 +256,7 @@
     align-self: center;
     margin-left: auto;
     padding-bottom: 3px;
+    position: relative;
     @media screen and (min-width: 0) and (max-width: 767px) {
         // margin:  0 auto auto;
     }
@@ -275,8 +281,6 @@
         left: -147px;
         top: 40px;
     }
-    
-
 }
 
 .dropdownСontentActive {
@@ -303,6 +307,7 @@
     padding: 5px;
     align-self: flex-start;
     color: inherit;
+    position: relative;
     @media screen and (min-width: 0) and (max-width: 767px) {
         display: flex;
         flex-direction: column;
@@ -310,6 +315,46 @@
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         display: flex;
         flex-direction: column;
+
+        top: 5px;
     }
     // width: 100px;
+}
+
+.titleGoBackButton {
+    @include hover-with-opacity;
+    margin: 0;
+    border: none;
+    outline: none;
+    background: inherit;
+    cursor: pointer;
+    color: inherit;
+    // padding: 14px 0 14px;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 17px;
+    align-self: center;
+    padding: 0;
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 14px;
+        margin: auto 0 auto;
+        padding: 10px 0 10px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 549px) {
+        font-weight: normal;
+        font-size: 10px;
+        line-height: 12px;
+        margin: auto 0 auto;
+        padding: 5px 0 5px;
+    }
+
+    @media screen and (min-width: 550px) and (max-width: 767px) {
+        font-weight: normal;
+        font-size: 10px;
+        line-height: 12px;
+        margin: auto 0 auto;
+        padding: 5px 0 5px;
+    }
 }

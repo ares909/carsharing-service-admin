@@ -1,4 +1,4 @@
-const useDateFormat = () => {
+const convertDateFormat = () => {
     const convertDateToSeconds = (date) => {
         return date.getTime();
     };
@@ -49,4 +49,4 @@ const useDateFormat = () => {
     return [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays];
 };
 
-export default useDateFormat;
+export default convertDateFormat;

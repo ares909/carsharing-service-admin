@@ -22,7 +22,7 @@
 
 .input {
     display: none;
-
+    
     &:checked + .point {
         & {
             color: $MainBlack;
@@ -42,10 +42,37 @@
     }
 }
 
+.carInput {
+    
+    &:checked + .point {
+        & {
+            color: inherit;
+        }
+        &::before {
+            border: 1px solid $BlueAdmin;
+            background: $BlueAdmin;
+        }
+        &::after {
+            content: "✔";
+            display: block;
+            position: absolute;
+            color: white;
+            width: 12px;
+            height: 12px;
+            left: 4px;
+            top: 0px;
+        }
+  
+    }
+ 
+}
+
+
+
 .label {
     cursor: pointer;
     align-self: center;
-    @media screen and (min-width: 768px) and (max-width: 1280px) {
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
         font-size: 12px;
         line-height: 14px;
     }
@@ -59,7 +86,7 @@
     color: $GrayDark;
     align-self: center;
     cursor: default;
-    @media screen and (min-width: 768px) and (max-width: 1280px) {
+    @media screen and (min-width: 768px) and (max-width: 1439px) {
         font-size: 12px;
         line-height: 14px;
     }
@@ -91,4 +118,9 @@
         line-height: 12px;
         align-self: center;
     }
+}
+
+.carPoint {
+    @extend .point;
+    cursor: pointer;
 }

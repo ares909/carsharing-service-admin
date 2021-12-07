@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useLocation, useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { apiData } from "../../../store/selectors/selectors";
-import { resetOrder, resetError, apiAction } from "../../../store/slices/apiSlice";
+import { resetError } from "../../../store/slices/apiSlice";
 import { resetAuthState } from "../../../store/slices/authSlice";
 import styles from "./ErrorPage.module.scss";
 import Button from "../../Common/UI/Button.jsx";

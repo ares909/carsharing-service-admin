@@ -1,0 +1,140 @@
+@import "../../../Common/Page/Page.scss";
+.carColorInput {
+    display: flex;
+    flex-direction: column;
+    min-width: fit-content;
+    max-width: fit-content;
+    @media screen and (min-width: 425px) and (max-width: 767px) {
+        min-width: 100%;
+        max-width: 100%;
+        align-self: center;
+    }
+}
+
+.inputContainer {
+    // @include black-text;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-self: center;
+    min-width: 250px;
+    max-width: 250px;
+    margin-bottom: 10px;
+
+    outline-style: none;
+    @media screen and (min-width: 0px) and (max-width: 424px) {
+        min-width: 135px;
+        max-width: 135px;
+
+        // margin: 0;
+    }
+
+    @media screen and (min-width: 425px) and (max-width: 767px) {
+        min-width: 100%;
+        max-width: 100%;
+        justify-content: space-between;
+        align-self: center;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        min-width: 165px;
+        max-width: 165px;
+    }
+    @media screen and (min-width: 1024px) and (max-width: 1280px) {
+        min-width: 175px;
+        max-width: 175px;
+    }
+}
+
+.inputLabel {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    @media screen and (min-width: 0px) and (max-width: 767px) {
+        font-size: 10px;
+        line-height: 12px;
+    }
+    color: inherit;
+}
+.input {
+    font-weight: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    border: 0.5px solid #becad6;
+    outline: none;
+    // box-sizing: border-box;
+    border-radius: 4px;
+    padding: 8px 5px 8.5px;
+    min-width: calc(100% - 50px);
+    max-width: calc(100% - 50px);
+    @media screen and (min-width: 0px) and (max-width: 424px) {
+        font-size: 10px;
+        line-height: 12px;
+        padding: 8px 2px 8.5px;
+        margin: 0;
+    }
+
+    @media screen and (min-width: 425px) and (max-width: 767px) {
+        min-width: calc(100% - 50px);
+        max-width: calc(100% - 50px);
+        font-size: 10px;
+        line-height: 12px;
+        align-self: center;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-size: 12px;
+        line-height: 14px;
+        min-width: calc(100% - 50px);
+        max-width: calc(100% - 50px);
+    }
+    @media screen and (min-width: 1024px) and (max-width: 1280px) {
+        font-size: 12px;
+        line-height: 14px;
+    }
+}
+
+.button {
+    display: flex;
+    background: inherit;
+    border: none;
+    cursor: pointer;
+    min-width: 34.5px;
+    max-width: 34.5px;
+    height: inherit;
+    padding: 0;
+    border: 0.5px solid #becad6;
+    border-radius: 3px;
+    margin: 0;
+
+    @media screen and (min-width: 768px) and (max-width: 1280px) {
+        min-width: 32.5px;
+        max-width: 32.5px;;
+    }
+    @media screen and (min-width: 0) and (max-width: 767px) {
+        min-width: 30.5px;
+        max-width: 30.5px;;
+    }
+}
+
+.buttonDisabled {
+    @extend .button;
+    background: $GrayDark;
+    cursor: default;
+}
+.image {
+    width: 15px;
+    height: 15px;
+    padding: 0;
+    margin: auto;
+    align-self: center;
+}

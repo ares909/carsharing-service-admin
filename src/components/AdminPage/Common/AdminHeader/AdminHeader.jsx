@@ -10,8 +10,8 @@ import avatarImage from "../../../../images/admin/avatarImage.jpg";
 import dropdown from "../../../../images/admin/dropdownIcon.svg";
 import styles from "./AdminHeader.module.scss";
 
-const AdminHeader = ({ onClick, isOpened, toggle }) => {
-    const { push } = useHistory();
+const AdminHeader = ({ onClick, isOpened, toggle, innerRef }) => {
+    const { push, goBack } = useHistory();
 
     const dropDownClassName = classNames({
         [`${styles.dropdownСontent}`]: true,
@@ -34,9 +34,22 @@ const AdminHeader = ({ onClick, isOpened, toggle }) => {
         case "/admin/carlist":
             title = "Автомобили";
             break;
+        case "/admin/citylist":
+            title = "Города";
+            break;
+        case "/admin/ratelist":
+            title = "Тарифы";
+            break;
+        case "/admin/carcard":
+            title = "Автомобиль";
+            break;
 
         default:
-            title = "";
+            title = (
+                <button className={styles.titleGoBackButton} onClick={goBack}>
+                    назад
+                </button>
+            );
             break;
     }
 
@@ -60,17 +73,11 @@ const AdminHeader = ({ onClick, isOpened, toggle }) => {
                         <Button className={styles.dropdownButton} onClick={toggle}>
                             <img src={dropdown} className={styles.profileButtonImage} />
                         </Button>
-                        <div className={dropDownClassName}>
+                        <div className={dropDownClassName} ref={innerRef}>
                             <Button name="Профиль" className={styles.profileButton} onClick={toggle} />
                             <Button name="Выйти" className={styles.profileButton} onClick={logout} />
                         </div>
                     </div>
-
-                    {/* <select>
-                        <option >
-                            Выйти
-                        </option>
-                    </select> */}
                 </div>
             </header>
         )

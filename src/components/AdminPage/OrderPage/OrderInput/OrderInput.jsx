@@ -4,8 +4,9 @@ import classNames from "classnames";
 import Select, { createFilter } from "react-select";
 import { apiData } from "../../../../store/selectors/selectors";
 import { resetAuthState } from "../../../../store/slices/authSlice";
-import { fetchPoints, apiAction } from "../../../../store/slices/apiSlice";
-import useDateFormat from "../../../../hooks/useDateFormat";
+import { apiAction } from "../../../../store/slices/apiSlice";
+import { fetchPoints } from "../../../../store/actions/apiActions";
+import convertDateFormat from "../../../../utils/convertDateFormat";
 import styles from "./OrderInput.module.scss";
 
 const OrderInput = ({
@@ -26,7 +27,7 @@ const OrderInput = ({
     const dispatch = useDispatch();
     const { order, orderPrice, isFullTank, isNeedChildChair, isRightWheel } = useSelector(apiData);
     const [convertDateToSeconds, secondsToDhms, secondsToMinutes, secondsToHours, stringToLocale, secondsToDays] =
-        useDateFormat();
+        convertDateFormat();
 
     useEffect(() => {
         if (name === "city" && field.value) {

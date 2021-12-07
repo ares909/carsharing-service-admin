@@ -9,8 +9,4 @@ export const yandexUrl = process.env.REACT_APP_YMAPS_URL;
 export const secondKey = process.env.REACT_APP_SEC_KEY;
 export const imageUrl = process.env.REACT_APP_BASE_URL_IMAGES;
 export const pageSize = 5;
-export const messages = {
-    orderConfirmed: "Успех! Заказ подтвержден",
-    orderRemoved: "Успех! Заказ удален",
-    orderSaved: "Успех! Заказ сохранен",
-};
+export const supprotedFormats = ["image/jpg", "image/jpeg", "image/gif", "image/png", ""];
