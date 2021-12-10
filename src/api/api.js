@@ -1,7 +1,7 @@
 import axios from "axios";
 import { url, baseUrl, appId, username, password, appSecret, yandexApiKey, yandexUrl } from "../constants/constants";
 
-const bearerToken = JSON.parse(localStorage.getItem("access_token"));
+const bearerToken = localStorage.getItem("access_token") ? JSON.parse(localStorage.getItem("access_token")) : undefined;
 
 const headersInfo = {
     "X-Api-Factory-Application-Id": appId,

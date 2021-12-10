@@ -16,7 +16,7 @@ import styles from "./Login.module.scss";
 
 const Login = () => {
     const dispatch = useDispatch();
-    const refreshToken = JSON.parse(localStorage.getItem("token"));
+    const refreshToken = localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : undefined;
     const { push } = useHistory();
     const { status, error, user } = useSelector(authState);
 
@@ -44,7 +44,6 @@ const Login = () => {
         if (status === "authorized" && refreshToken) {
             push("/admin/orderlist");
         } else if (status === "idle" && refreshToken && !error) {
-            dispatch(handleRefresh(refreshToken));
             push("/admin/orderlist");
         }
     }, [status, refreshToken, error]);
