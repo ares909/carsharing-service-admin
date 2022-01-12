@@ -1,5 +1,6 @@
 # админка приложения по бронированию авто Carsharing service 
-https://ares909.github.io/carsharing-service
+https://ares909.github.io/carsharing-service-admin
+
 
 # Доступные страницы 
 * Страница авторизации (логин: intern/пароль: intern-S!)
